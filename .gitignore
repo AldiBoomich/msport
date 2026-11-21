@@ -1,0 +1,13 @@
+# Dependencies (restore with npm install / composer install)
+node_modules/
+vendor/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+
+# Local Claude Code settings
+.claude/settings.local.json

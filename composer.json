@@ -1,0 +1,23 @@
+{
+    "name": "msport/m6-e63-redline",
+    "type": "wordpress-theme",
+    "description": "M6 E63 Redline: one-page WordPress theme, a scroll-driven 3D film around the BMW M6 E63.",
+    "license": "GPL-2.0-or-later",
+    "require": {
+        "php": ">=8.2"
+    },
+    "require-dev": {
+        "wp-coding-standards/wpcs": "^3.1",
+        "phpcompatibility/phpcompatibility-wp": "^2.1",
+        "dealerdirect/phpcodesniffer-composer-installer": "^1.0"
+    },
+    "scripts": {
+        "lint:wpcs": "phpcs",
+        "fix:wpcs": "phpcbf"
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
+    }
+}

@@ -1,0 +1,14 @@
+{
+  "name": "msport",
+  "version": "0.1.0",
+  "private": true,
+  "description": "M6 E63 Redline: one-page WordPress theme, a scroll-driven 3D film around the BMW M6 E63.",
+  "license": "GPL-2.0-or-later",
+  "scripts": {
+    "lint:js": "wp-scripts lint-js assets/js",
+    "lint:css": "wp-scripts lint-style \"assets/css/**/*.css\""
+  },
+  "devDependencies": {
+    "@wordpress/scripts": "^30.0.0"
+  }
+}

@@ -1,0 +1,37 @@
+<!doctype html>
+<!-- Renders one frame of the site scene (film-scene.js) the way shot.mjs renders the viewer, so the two can be
+     compared pixel for pixel: node shot.mjs out.png "page=site-test.html&p=0&ft=0.5&w=1280&h=720"
+     Extra knobs: sound=1 (haze while the V10 plays), paint=%23502a18 gloss=0.08 speed=1.5 (the admin's look fields) -->
+<html><head><meta charset="utf-8"><style>html,body{margin:0;background:#14171B;overflow:hidden}canvas{display:block;width:100vw;height:100vh}</style>
+<script type="importmap">{"imports":{"three":"/node_modules/three/build/three.module.js","three/addons/":"/node_modules/three/examples/jsm/"}}</script>
+</head><body><canvas id="c"></canvas>
+<script type="module">
+import { createFilm } from './film-scene.js';
+const q = new URLSearchParams(location.search);
+const W = +(q.get('w') || 1600), H = +(q.get('h') || 900), DPR = +(q.get('dpr') || 1);
+const t0 = performance.now();
+const film = await createFilm({ canvas: document.getElementById('c'), width: W, height: H, dpr: DPR,
+  samples: +(q.get('samples') ?? 4), quality: { bloom: q.get('bloom') !== '0', wet: q.get('wet') !== '0', fxLights: q.get('fxl') !== '0', blurWheels: q.get('wb') !== '0', grain: q.get('grain') !== '0' },
+  look: { paint: q.get('paint') || undefined, gloss: q.get('gloss') !== null ? +q.get('gloss') : undefined, speed: q.get('speed') !== null ? +q.get('speed') : undefined },
+  urls: { model: '/theme3d/m6-e63-v3.glb', sky: q.get('sky') || '/sky/shanghai-bund-4k', shadow: '/tex/car-shadow.png',
+    asphalt: { diff: '/tex/asphalt_track_diff_1k.jpg', nor: '/tex/asphalt_track_nor_gl_1k.jpg', rough: '/tex/asphalt_track_rough_1k.jpg' } } });
+const ready = Math.round(performance.now() - t0);
+window.__film = film;
+// seq=1: video.mjs drives the frames itself
+if (q.get('seq')) { document.title = 'READY'; window.__done = true; } else {
+// same warm-up as the viewer's still capture: 48 frames at the start of the hold, then play it to ft
+const p = +(q.get('p') || 0), ft = q.get('ft'), fr = Math.round(+(q.get('hold') || 3) * 24), sound = q.get('sound') === '1';
+for (let k = 0; k < 48; k++) film.frame({ p, ft: ft !== null ? 0 : null, dt: 1 / 24, draw: false, sound });
+if (ft !== null) for (let k = 1; k <= Math.round(+ft * fr); k++) film.frame({ p, ft: k / fr, dt: 1 / 24, draw: false, sound });
+film.frame({ p, ft: ft !== null ? +ft : null, dt: 1 / 24, sound });
+// bench=N: render N frames on rAF (scrubbing a hold) and report the mean / p95 frame time
+if (q.get('bench')) {
+  const N = +q.get('bench'), times = []; let last = performance.now();
+  await new Promise(res => { let k = 0; const f = now => { times.push(now - last); last = now; film.frame({ p, ft: (k % 120) / 120, dt: 1 / 60 }); if (++k < N) requestAnimationFrame(f); else res(); }; requestAnimationFrame(f); });
+  times.splice(0, 10); times.sort((a, b) => a - b);
+  window.__bench = { mean: +(times.reduce((a, b) => a + b, 0) / times.length).toFixed(1), p95: +times[Math.floor(times.length * 0.95)].toFixed(1) };
+}
+document.title = 'READY ' + JSON.stringify({ ready, bench: window.__bench, gpu: (() => { const g = film.renderer.getContext(), d = g.getExtension('WEBGL_debug_renderer_info'); return d ? g.getParameter(d.UNMASKED_RENDERER_WEBGL).slice(0, 40) : '?'; })() });
+window.__done = true;
+}
+</script></body></html>

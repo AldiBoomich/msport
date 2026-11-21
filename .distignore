@@ -1,0 +1,21 @@
+# Files left out of the theme zip / deploy (wp dist-archive and deploy scripts read this).
+/.git
+/.github
+/node_modules
+/vendor
+/tools
+/src
+/docs
+/assets/3d/previews
+/assets/3d/m6-e63.glb
+/assets/3d/m6-e63-v2.glb
+.distignore
+.eslintrc
+CLAUDE.md
+DESIGN.md
+README.md
+composer.json
+composer.lock
+package.json
+package-lock.json
+phpcs.xml.dist

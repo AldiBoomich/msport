@@ -137,8 +137,9 @@ Last updated: 2026-11-21 (session 6: 3D film part 2: overlays, look fields, entr
   - **Round 3 — the real complaint: "shadows from leaves"** (user, 2026-11-21). The panorama (Shanghai Bund) has lit trees in front of the gold facades, left and right; the clear coat mirrored their crowns as leaf-shaped dark patches on the doors, wings and the wheel / gills close-ups. Fix: `skyMaterial / skyMesh({ soften })` in `city-sky.js` blurs given azimuth ranges and an elevation band (17×13 Gaussian taps, once at load, in the 1024 cube) and gives that band the facades' warm gold (the blurred trees were olive); `nightEnvironment({ soften })` in `car-env.js` passes it; `film-scene.js` softens u −0.02…0.345 and 0.80…1.02, v 0.42…0.78. Reflections only: the backdrop city (trees visible behind the car in Tail and sound) is unchanged. Checked on all 10 chapters. Video and stills re-rendered again with it.
   - Backups of the old files: session scratchpad `backup-video-pre-smooth/`, `backup-stills-pre-smooth/`, `backup-tools3d/*.pre-soften.js`. Comparison sheets: scratchpad `video-check/`, `film/d3/real.jpg`, `film/d4/sheet*.jpg`, `stills-new/sheet-*.jpg`.
 
+- **Git (2026-11-21):** the theme is a git repo (`.gitignore`: node_modules, vendor), private GitHub repo https://github.com/AldiBoomich/msport, branch `main`. Paint fix accepted by the user.
+
 ## Next step
-0. User checks the paint on the site (Ctrl+F5): live, video (phone) and stills.
 1. User reviews part 2 on http://msport.local/ (V10 chapter: scroll slowly through the tachometer; SMG III; play the sound in the tail chapter; a phone).
 2. ROADMAP §7 checks to finish (PHPCS needs Composer; `motion.mjs --mode nogpu`), then §8 portfolio case. Open: mobile LOD only for tablets with live 3D.
 

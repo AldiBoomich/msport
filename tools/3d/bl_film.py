@@ -278,6 +278,10 @@ def cam_state(s):
     if a.orient == 'portrait' and W / H < PORTRAIT_REF:
         fov = math.degrees(2 * math.atan(math.tan(math.radians(fov) / 2) * PORTRAIT_REF / (W / H)))
     pos = t2b(c['pos']); q = (t2b(c['target']) - pos).to_track_quat('-Z', 'Y')
+    # Blender's lens shift is in units of the side the sensor fits (the height here, sensor_fit VERTICAL), so
+    # dividing by the larger side shifts a landscape frame by H / W of the site's offset: the car sits ~6% of
+    # the width further left than on the site. Kept on purpose (the user: small framing differences are fine)
+    # so every render matches the 2026-11-22 film; the site's exact framing is `W / 2 / H` and `/ 2`.
     big = max(W, H)
     sx = -c['shift'][0] * W / 2 / big; sy = -c['shift'][1] * H / 2 / big
     lens = cam.data.sensor_height / 2 / math.tan(math.radians(fov) / 2)

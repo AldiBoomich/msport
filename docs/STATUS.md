@@ -1,6 +1,6 @@
 # STATUS — where we stopped
 
-Last updated: 2026-11-21 (session 6: 3D film part 2: overlays, look fields, entrance, reduced-motion fix)
+Last updated: 2026-11-23 (photoreal pass: v5 model, live reflections, driving dynamics, 1080p 50 fps — stage 0 under review)
 
 ## Done
 - Project documents: `DESIGN.md` (dark "Redline"), `docs/CONTENT-MODEL.md` (ACF fields), `docs/ROADMAP.md`, `CREDITS.md`, `README.md`, `CLAUDE.md`.
@@ -182,10 +182,21 @@ Last updated: 2026-11-21 (session 6: 3D film part 2: overlays, look fields, entr
   - Output (outside the theme): `3d-source/cycles/stills/` (`d01–d10.png` 2560×1440, `p01–p10.png` 1200×2600), `film-desktop/`, `film-portrait/`, `loops-*` (JPEG frames), `video/` (mp4), scene `m6-film-scene.blend`. First tries kept as `stills-try1/`, `film-desktop-try1/`, `m6-film-scene-try1.blend`.
   - The site is unchanged (still Mona's v3 and the WebGL video): replacing files waits for the user's OK.
   - The kit is in the `photoreal-3d` skill: `references/cycles-film.md`, `scripts/cycles-film/`.
+- **Cycles film, review 1 → v5 (2026-11-22/23).** Two render bugs found while the film ran, then the user's review of the desktop film.
+  - Wheel blur: the wheel parts had their origins at the car's origin, so inside the shutter a fast wheel swung off its axle (see-through ghost tyres at 40 m/s, a doubled hub at 12 m/s). `bl_film.py` puts each wheel part's origin on its axle (commit b7b531f); the film was rendered again (frames that differ: only the wheels and their reflections).
+  - Framing: Blender's lens shift is in units of the fitted sensor side, so landscape frames sit ~6 % left of the site's framing. The user: small framing differences are fine → kept as rendered (comment in `cam_state`).
+  - The user's review of the film (2026-11-22): headlights and tail lamps look like stickers; the M6 boot badge is poor; the rims look small ("like a moped"); near houses and bushes reflect as if the car were parked while the lamps move; wants lane changes with the suspension working; render everything at 1080p, 50 fps; work in stages with a stop after each.
+  - Speed (1080p, RTX 4050 laptop): 128 spp / threshold 0.01 / CPU compositor / cubic HDRI 8.1 s a frame → 96 spp / 0.015 / GPU compositor / linear HDRI 5.2 s, within 1 dB PSNR of the old settings against a 512-spp reference and the same by eye. Now the defaults in `bl_film.py`.
+  - Model **v5** (`3d-source/models/m6-e63-v5.blend`, v4 kept): `bl_build_m6.py --rim-inch 21` (tyre reseated on a 21" bead, brakes scale with the rim); M6 badges modelled (`tools/3d/badge_shapes.py`: three stripes, italic M, squared 6; extruded 1.5 mm, chrome letters, enamel stripes; boot laid onto the lid, gills as rigid plates); headlights: the angel-eye ring's back plate (the white "sticker") is housing now, rings dimmer, bowl smooth chrome, the projector lens glows by view angle (bright within ~20° of the axis); tail lamps: brighter light guides, red-metal honeycomb lit faintly from inside (no golden facades in it); exhaust tips brushed; csmx back-facing hull cut at z 0.635.
+  - Live reflections (`bl_film.py`): for non-camera rays the near half of the panorama (Bund facades and trees) gives way to a dark haze; a moving street takes its place in reflections: floodlit facades with lit windows (left), solid tree crowns, lamp posts along the railing (right), parented to the road, camera-invisible, not sampled as lights (`--street full|lite|none`; full costs ~10 %, alpha-cut tree cards cost 80 % and were replaced).
+  - Driving dynamics (`rail-export.mjs`): lane changes in wide shots (4.5 s, at 32.7 s out and 42.7 s back), a slow weave, road bumps; body roll ≤ 1.2°, pitch ≤ 0.8° (the site's speed steps clamped to 0.9 g), heave ±8 mm, front steer ≤ 2.8°; the camera as a tracking car with a lag. In Blender: road + panorama shift/turn about the car, the car root keeps the rest, an empty `body` carries everything but wheels and brakes, `steer_LF/RF` turn the front wheels.
+  - 50 fps: `rail-export.mjs --fps 50` → `3d-source/models/m6-e63-rail-50.json` (2400 film frames, loops 100 + 25); `cycles-pack.mjs --fps 50` (keyframe every 13 frames). The site's timeline and player stay at 30 until the videos are replaced.
+  - Stage 0 output (`3d-source/cycles/`): `stage0-lamps.jpg`, `stage0-badge-wheel.jpg` (v4 | v5), `test-lane/` (3 s lane change at 1080p 50 fps), `video/test-lane.mp4`. Old renders kept: `film-desktop-try2/`, `stills-try2/`, `video-try2/`, `film-portrait-try1/`, `test-lane-try1/`.
+  - Still open: a few dark teeth at the rear bumper seams (left arch top, under the boot lid; old 6 Series edges in the gap); two tries (cutting the body, a dark gap strip) looked worse and were reverted.
 
 ## Next step
-1. User reviews the Cycles stills and film (`3d-source/cycles/`, side-by-side `video/*-vs-site.mp4`) and says: stills + video on the site from Cycles? live WebGL with the new model? both?
-2. Then (ROADMAP §2b last item): replace the site's stills / video (backups first); for the live scene a web version of v4 (decimate + gltf-transform), checked against the Cycles frames.
+1. User reviews stage 0 (lamps, badges, 21" rims, lane-change clip with live reflections). On OK: stage 1 = desktop film 1920×1080 50 fps (2400 frames, ~4–5 h) + side-by-side; stage 2 = chapter stills; stage 3 = phone film 720×1560 50 fps; stage 4 = idle loops. Stop after each stage for the user's check.
+2. Then (ROADMAP §2b last item): replace the site's stills / video (backups first; switch `video-timeline.js` / `src/film/video.js` to 50 fps with the new files); for the live scene a web version of v5, checked against the Cycles frames.
 3. User reviews part 2 on http://msport.local/; §8 portfolio case.
 
 ## Open questions for the user

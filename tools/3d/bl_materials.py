@@ -90,6 +90,54 @@ def emissive(name, base, emit, strength, rough=0.2, transmission=0.0):
     return m
 
 
+def _facing(nt, axis, lo, hi):
+    """0…1: how straight the view looks down the lamp's axis (Geometry → Incoming points back to the viewer),
+    smoothstep between the cosines lo and hi."""
+    geo = nt.nodes.new('ShaderNodeNewGeometry')
+    dot = nt.nodes.new('ShaderNodeVectorMath'); dot.operation = 'DOT_PRODUCT'; dot.inputs[1].default_value = axis
+    nt.links.new(geo.outputs['Incoming'], dot.inputs[0])
+    mr = nt.nodes.new('ShaderNodeMapRange'); mr.interpolation_type = 'SMOOTHSTEP'
+    mr.inputs['From Min'].default_value = lo; mr.inputs['From Max'].default_value = hi
+    nt.links.new(dot.outputs['Value'], mr.inputs['Value'])
+    return mr.outputs[0]
+
+
+def projector(name='bulb', strength=160.0):
+    """Bi-xenon projector lens: clear glass whose light is a beam. Straight into the lamp it burns white; a few
+    degrees off it falls to a dim glow, from the side only the glass's reflections remain (a flat emitter
+    glowing alike from every side read as a sticker)."""
+    m = thin_glass(name, (0.9, 0.93, 1.0))
+    nt = m.node_tree; out = nt.nodes['Material Output']; last = out.inputs['Surface'].links[0].from_node
+    core = _facing(nt, (0.0, -1.0, 0.0), 0.80, 0.985)                    # within ~10–35° of the axis
+    halo = _facing(nt, (0.0, -1.0, 0.0), 0.0, 0.85)
+    sq = nt.nodes.new('ShaderNodeMath'); sq.operation = 'POWER'; sq.inputs[1].default_value = 2.0
+    nt.links.new(core, sq.inputs[0])
+    k = nt.nodes.new('ShaderNodeMath'); k.operation = 'MULTIPLY_ADD'; k.inputs[1].default_value = 0.012; k.inputs[2].default_value = 0.002
+    nt.links.new(halo, k.inputs[0])
+    tot = nt.nodes.new('ShaderNodeMath'); tot.operation = 'ADD'
+    nt.links.new(sq.outputs[0], tot.inputs[0]); nt.links.new(k.outputs[0], tot.inputs[1])
+    em = nt.nodes.new('ShaderNodeEmission'); em.inputs['Color'].default_value = (0.86, 0.92, 1.0, 1)
+    lv = nt.nodes.new('ShaderNodeValue'); lv.label = lv.name = 'level'; lv.outputs[0].default_value = 0.0
+    mul = nt.nodes.new('ShaderNodeMath'); mul.operation = 'MULTIPLY'; nt.links.new(lv.outputs[0], mul.inputs[0])
+    nt.links.new(tot.outputs[0], mul.inputs[1])
+    mul2 = nt.nodes.new('ShaderNodeMath'); mul2.operation = 'MULTIPLY'; mul2.inputs[1].default_value = strength
+    nt.links.new(mul.outputs[0], mul2.inputs[0]); nt.links.new(mul2.outputs[0], em.inputs['Strength'])
+    add = nt.nodes.new('ShaderNodeAddShader')
+    nt.links.new(last.outputs[0], add.inputs[0]); nt.links.new(em.outputs[0], add.inputs[1])
+    nt.links.new(add.outputs[0], out.inputs['Surface'])
+    return m
+
+
+def tail_reflector(name='tail_reflector'):
+    """The tail lamp's honeycomb behind the red cover: red-anodised metal (not mirror chrome, which showed the
+    golden facades), lit faintly from inside by the light guides ('level')."""
+    m, nt, p, out = _new(name)
+    _set(p, Base_Color=(0.32, 0.025, 0.018), Metallic=1.0, Roughness=0.24, Emission_Color=(1.0, 0.05, 0.02))
+    _level(nt, p.inputs['Emission Strength'], 2.0)
+    m.cycles.emission_sampling = 'NONE'            # a glow to look at, not a light to sample
+    return m
+
+
 def carbon(name='carbon', tow=0.004):
     """Twill carbon under a clear coat: anisotropic fibres whose direction flips every tow (checker in the
     roof's own top-down UV 'carbon'), a slight brightness step between the two directions."""
@@ -118,16 +166,17 @@ def carbon(name='carbon', tow=0.004):
 
 
 def exhaust(name='exhaust'):
-    """Polished stainless tips, sooty inside: ambient occlusion darkens and roughens the inner pipe."""
+    """Brushed stainless tips, sooty inside: ambient occlusion darkens and roughens the inner pipe (polished,
+    the lips mirrored the red tail lamps as glowing pink rings)."""
     m, nt, p, out = _new(name)
-    _set(p, Base_Color=(0.62, 0.6, 0.58), Metallic=1.0, Roughness=0.12)
+    _set(p, Base_Color=(0.5, 0.49, 0.47), Metallic=1.0, Roughness=0.22)
     ao = nt.nodes.new('ShaderNodeAmbientOcclusion'); ao.inputs['Distance'].default_value = 0.06
     ramp = nt.nodes.new('ShaderNodeMapRange'); ramp.inputs['From Min'].default_value = 0.35; ramp.inputs['From Max'].default_value = 0.9
     nt.links.new(ao.outputs['AO'], ramp.inputs['Value'])
     col = nt.nodes.new('ShaderNodeMix'); col.data_type = 'RGBA'
-    col.inputs['A'].default_value = (0.02, 0.018, 0.016, 1); col.inputs['B'].default_value = (0.62, 0.6, 0.58, 1)
+    col.inputs['A'].default_value = (0.02, 0.018, 0.016, 1); col.inputs['B'].default_value = (0.5, 0.49, 0.47, 1)
     nt.links.new(ramp.outputs[0], col.inputs['Factor']); nt.links.new(col.outputs['Result'], p.inputs['Base Color'])
-    rr = nt.nodes.new('ShaderNodeMapRange'); rr.inputs['To Min'].default_value = 0.7; rr.inputs['To Max'].default_value = 0.12
+    rr = nt.nodes.new('ShaderNodeMapRange'); rr.inputs['To Min'].default_value = 0.7; rr.inputs['To Max'].default_value = 0.22
     nt.links.new(ramp.outputs[0], rr.inputs['Value']); nt.links.new(rr.outputs[0], p.inputs['Roughness'])
     return m
 
@@ -154,15 +203,17 @@ def build(badge_image=None):
         'chrome': principled('chrome', (0.62, 0.62, 0.63), 1.0, 0.035),
         'reflector': principled('reflector', (0.7, 0.7, 0.72), 1.0, 0.06),
         'mirror': principled('mirror', (0.75, 0.75, 0.76), 1.0, 0.0),
-        'housing': principled('housing', (0.55, 0.56, 0.58), 1.0, 0.22),
+        # headlight bowl: smooth enough to mirror the rings as rings (rough, it spread them into a white sheet)
+        'housing': principled('housing', (0.45, 0.46, 0.48), 1.0, 0.08),
         'glass': thin_glass('glass', (0.55, 0.6, 0.59)),
         'lamp_glass': thin_glass('lamp_glass', (0.96, 0.96, 0.96)),
         'lamp_inner': thin_glass('lamp_inner', (0.9, 0.9, 0.9), rough=0.08),
         'lamp_red': thin_glass('lamp_red', (0.62, 0.025, 0.02)),
         'amber': principled('amber', lin('#d06a10'), 0.0, 0.25, Transmission_Weight=0.4),
-        'angel': emissive('angel', (0.8, 0.8, 0.82), (0.85, 0.9, 1.0), 40.0, rough=0.15, transmission=0.6),
-        'bulb': thin_glass('bulb', (0.95, 0.95, 0.95), emit=(0.9, 0.93, 1.0), strength=120.0),
-        'tail_glow': emissive('tail_glow', (0.35, 0.02, 0.02), (1.0, 0.04, 0.02), 25.0, rough=0.2, transmission=0.5),
+        'angel': emissive('angel', (0.8, 0.8, 0.82), (0.82, 0.9, 1.0), 14.0, rough=0.15, transmission=0.6),
+        'bulb': projector(),
+        'tail_glow': emissive('tail_glow', (0.35, 0.02, 0.02), (1.0, 0.035, 0.015), 55.0, rough=0.35, transmission=0.3),
+        'tail_reflector': tail_reflector(),
         'plastic': principled('plastic', lin('#121315'), 0.0, 0.55),
         'grille': principled('grille', lin('#0d0e0f'), 0.0, 0.3),
         'trim_gloss': principled('trim_gloss', lin('#0b0c0d'), 0.0, 0.08, Coat_Weight=0.5),
@@ -177,6 +228,10 @@ def build(badge_image=None):
         'badge_black': principled('badge_black', lin('#0c0c0c'), 0.0, 0.15, Coat_Weight=1.0),
         'badge_white': principled('badge_white', lin('#e4e4e4'), 0.0, 0.2, Coat_Weight=1.0),
         'badge_blue': principled('badge_blue', lin('#1c69d4'), 0.0, 0.2, Coat_Weight=1.0),
+        # M stripes: enamel under a clear coat
+        'badge_m_light': principled('badge_m_light', lin('#0a96d6'), 0.0, 0.25, Coat_Weight=1.0, Coat_Roughness=0.02),
+        'badge_m_dark': principled('badge_m_dark', lin('#283087'), 0.0, 0.25, Coat_Weight=1.0, Coat_Roughness=0.02),
+        'badge_m_red': principled('badge_m_red', lin('#e1261c'), 0.0, 0.25, Coat_Weight=1.0, Coat_Roughness=0.02),
     }
     M['disc'].node_tree.nodes['Principled BSDF'].inputs['Metallic'].default_value = 1.0
     if badge_image:

@@ -7,7 +7,7 @@ Build the M6 (E63) hero model for the Cycles stills and film from three Sketchfa
   mona    m6-e63-v3-raw.glb (the site's model)   M6 wheels (Style 167 M double spoke)
 
   blender -b --factory-startup --python-exit-code 1 --python bl_build_m6.py -- \
-      --elremo <scene.gltf> --csmx <scene.gltf> --mona <m6-e63-v3-raw.glb> --out <m6-e63-v4.blend> [--drop 0.03]
+      --elremo <scene.gltf> --csmx <scene.gltf> --mona <m6-e63-v3-raw.glb> --out <m6-e63-v5.blend> [--drop 0.03]       [--rim-inch 21]
 
 World: Blender z up, front = -y, car's left = +x, real scale (metres), wheels on z = 0, front axle at
 y = -1.485, rear at y = +1.315 (the site's camera keys: three.js (x, y, z) = Blender (x, z, -y)).
@@ -24,6 +24,7 @@ ap = argparse.ArgumentParser()
 ap.add_argument('--elremo', required=True); ap.add_argument('--csmx', required=True); ap.add_argument('--mona', required=True)
 ap.add_argument('--out', required=True)
 ap.add_argument('--drop', type=float, default=0.03, help='lowering: the body comes down this far, the wheels stay')
+ap.add_argument('--rim-inch', type=float, default=21.0, help='M6 rim size: the tyre is reseated on it (19 = stock)')
 ap.add_argument('--stage', type=int, default=99, help='debug: stop after this stage and save')
 a = ap.parse_args(argv)
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -258,6 +259,13 @@ cut_strips([front_skin] + by_name(C, 'bumperf_a_SUB4', 'fenders_a_SUB3'), old_fr
 # above the old bumper's top line nothing of the donor belongs (strips along the bonnet shut line)
 cut_strips([front_skin] + by_name(C, 'bumperf_a_SUB4', 'fenders_a_SUB3'), old_front, [], zmin=0.60, far_old=0.008, near_kept=None)
 cut_strips([rear_skin], old_rear, [body] + lamps, zmin=0.5)
+# the donor's back-facing hull (a game-mesh gap filler) rose above the bumper's top line and showed through the
+# body seam as a row of dark teeth: only its lower part stays (it still closes the reflector slots)
+for o in [o for o in by_name(C, 'bumperr_a_SUB2') if alive(o)]:
+    bm = bmesh.new(); bm.from_mesh(o.data)
+    bmesh.ops.bisect_plane(bm, geom=bm.verts[:] + bm.edges[:] + bm.faces[:], plane_co=(0, 0, 0.635), plane_no=(0, 0, 1),
+                           clear_outer=True)
+    bm.to_mesh(o.data); bm.free(); log('back-facing hull cut at z 0.635', o.name)
 
 
 def drop_crumbs(objs, max_faces=40, zmin=0.5):
@@ -279,10 +287,12 @@ if a.stage < 4:
 # (a real modelled roundel) move onto the M6 hub.
 caps = [o for o in E if mat0(o).startswith(('Material_683', 'Material_684', 'Material_707', 'Material_720'))
         and abs(bbox([o])[0].x) > 0.7]
-# The elremo tyres sit on ~22" rims (sidewall 6 cm); the M6 runs 19" (255/40, 285/35: ~9-10 cm). The tyre
-# keeps its tread and outer radius, the sidewall is stretched down to a 19" bead (lettering included). The
-# brakes, sized for the big rim, shrink about the axle so the caliper clears the 19" barrel.
-R_IN, BRAKE_K = 0.2445, 0.82
+# The elremo tyres sit on ~22" rims (sidewall 6 cm); the stock M6 runs 19" (255/40, 285/35: ~9-10 cm), which
+# the user found looked small ("like a moped"): 21" by default. The tyre keeps its tread and outer radius, the
+# sidewall is reseated on the chosen bead (lettering included). The brakes, sized for the 22" rim, scale with
+# the rim about the axle (0.82 at 19") so the caliper clears the barrel.
+R_IN = a.rim_inch * 0.0254 / 2 + 0.0032
+BRAKE_K = 0.82 * R_IN / 0.2445
 brakes = [o for o in E if mat0(o).startswith(('Material_756', 'Material_646'))]
 for q, W in WHEEL.items():
     for o in tyres:
@@ -297,7 +307,7 @@ for q, W in WHEEL.items():
         for v in o.data.vertices:
             if quad(v.co) == q:
                 d = Vector((0, v.co.y, v.co.z)) - W['c']; v.co = Vector((v.co.x, 0, 0)) + W['c'] + d * BRAKE_K
-log('tyres stretched to a 19" bead, brakes scaled', BRAKE_K)
+log('tyres reseated on a %g" bead (r %.4f), brakes scaled %.3f' % (a.rim_inch, R_IN, BRAKE_K))
 rims = []
 for o in M:
     n = o.name.split('.')[0]
@@ -338,14 +348,79 @@ def onto(o, surf, lift=0.0006):
             v.co = loc + nrm * lift
 
 
+# Modelled, not printed: the csmx badges were a low-res texture on flat quads. Outlines from badge_shapes.py
+# (three stripes, italic M, squared 6), extruded 1.5 mm with a rounded edge and laid onto the panel's own
+# curvature where the csmx badge sat: chrome letters, enamel stripes. Boot: M6; gills: the M logo.
+import badge_shapes
 body_t = bvh([body])
+bcoll = coll('badges')
+
+
+def badge_part(shapes, name, size, role):
+    cu = bpy.data.curves.new(name, 'CURVE'); cu.dimensions = '2D'; cu.fill_mode = 'BOTH'
+    cu.extrude = 0.0005; cu.bevel_depth = 0.00025; cu.bevel_resolution = 2
+    for shape in shapes:
+        for poly in shape:
+            sp = cu.splines.new('POLY'); sp.points.add(len(poly) - 1)
+            for i, (x, y) in enumerate(poly):
+                sp.points[i].co = (x * size, y * size, 0, 1)
+            sp.use_cyclic_u = True
+    cob = bpy.data.objects.new(name + '_cu', cu); bcoll.objects.link(cob)
+    bpy.context.view_layer.update()
+    me = bpy.data.meshes.new_from_object(cob.evaluated_get(bpy.context.evaluated_depsgraph_get()))
+    bpy.data.objects.remove(cob); bpy.data.curves.remove(cu)
+    me.transform(Matrix.Translation((0, 0, 0.00075)))            # back face on z = 0
+    o = bpy.data.objects.new(name, me); bcoll.objects.link(o); o['role'] = role
+    return o
+
+
+def lay_badge(parts, centre, width, height, surf, lift=0.0002, flat=False):
+    """Badge parts built flat (x along the text, y up, z out, origin at the outline's lower left) laid onto the
+    body: centred on `centre`, the text reading left to right for someone facing the panel. flat: a rigid plate
+    (on the gill's narrow rounded strake, bending it onto the surface tore the letters apart), pushed out just
+    enough that no corner sinks in."""
+    loc, n, idx, d = surf.find_nearest(centre)
+    up = Vector((0, 0, 1)); v = (up - up.dot(n) * n).normalized(); u = v.cross(n)
+    if flat:
+        out = 0.0
+        for o in parts:
+            for vert in o.data.vertices:
+                p0 = loc + u * (vert.co.x - width / 2) + v * (vert.co.y - height / 2)
+                hit = surf.ray_cast(p0 + n * 0.03, -n, 0.06)[0]
+                if hit is not None:
+                    out = max(out, (hit - loc).dot(n))
+        for o in parts:
+            for vert in o.data.vertices:
+                x, y, z = vert.co
+                vert.co = loc + u * (x - width / 2) + v * (y - height / 2) + n * (out + lift + z)
+            o.data.update()
+        return
+    for o in parts:
+        for vert in o.data.vertices:
+            x, y, z = vert.co
+            p0 = loc + u * (x - width / 2) + v * (y - height / 2)
+            hit, hn, hi, hd = surf.ray_cast(p0 + n * 0.03, -n, 0.08)
+            if hit is None:
+                hit, hn = p0, n
+            vert.co = hit + hn * (lift + z)
+        o.data.update()
+
+
+shapes, bw = badge_shapes.badge()
 for o in [o for o in C if alive(o) and mat0(o).startswith('Badges')]:
     lo, hi = bbox([o]); c = (lo + hi) / 2
-    if c.y > 2.0:                                  # boot lid, right-hand side
-        onto(o, body_t); o.name = 'badge_m6_boot'
-    else:                                           # on the gill: just behind the elremo indicator blade
-        onto(o, body_t); o.name = 'badge_m_gill_' + ('L' if c.x > 0 else 'R')
-    log('badge', o.name, tuple(round(x, 3) for x in c))
+    boot = c.y > 2.0                                 # boot lid, right-hand side; else the gill behind the blade
+    size = 0.024 if boot else 0.016                  # letter height
+    bpy.data.objects.remove(o)
+    tag = 'boot' if boot else 'gill_' + ('L' if c.x > 0 else 'R')
+    cols = ('badge_m_light', 'badge_m_dark', 'badge_m_red')
+    parts = [badge_part([[st]], 'badge_%s_stripe%d' % (tag, i), size, cols[i]) for i, st in enumerate(shapes['stripes'])]
+    parts.append(badge_part([shapes['M']] + ([shapes['6']] if boot else []), 'badge_%s_letters' % tag, size, 'chrome'))
+    width = (bw if boot else (max(x for x, y in shapes['M'][0]))) * size
+    # on the gill the csmx insert covers the body: the badge goes on whichever surface is outermost
+    lay_badge(parts, c, width, size, body_t if boot else bvh([body] + by_name([g for g in C if alive(g)], 'fenders_a_SUB3')),
+              flat=not boot)
+    log('badge', tag, tuple(round(x, 3) for x in c), 'height', size, 'width %.3f' % width)
 
 if a.stage < 6:
     bpy.ops.wm.save_as_mainfile(filepath=os.path.abspath(a.out)); sys.exit(0)
@@ -363,8 +438,12 @@ E_TABLE = {'Material_604': 'paint', 'reflector': 'reflector', 'sidewall': 'tyre'
 
 def role_e(o):
     n, m = o.name, mat0(o).split('.')[0]
+    if n.startswith('e63_angeleyes_interior'):    # the ring's back plate: glowing whole, it was the 'sticker'
+        return 'housing'
     if n.startswith('e63_angeleyes'):
         return 'angel'
+    if n.startswith('e63_brakelights_interior'):  # tail lamp honeycomb: red metal, not mirror chrome
+        return 'tail_reflector'
     if n.startswith(('e63_lightstrip_glass', 'e63_brakestripinterior')):
         return 'tail_glow'
     if n.startswith(('e63_side_mirrors_reflector', 'e63_mirror_')):
@@ -411,7 +490,7 @@ for o in list(bpy.data.objects):
     if o.type != 'MESH':
         continue
     cn = o.users_collection[0].name
-    r = role_e(o) if cn == 'elremo' else role_c(o) if cn == 'csmx' else ('rim' if o.name.startswith('rim_') else None)
+    r = o.get('role') or (role_e(o) if cn == 'elremo' else role_c(o) if cn == 'csmx' else ('rim' if o.name.startswith('rim_') else None))
     if o.name.startswith('ref_') or r is None:
         bpy.data.objects.remove(o); continue
     ROLE[o.name] = r

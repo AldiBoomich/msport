@@ -51,7 +51,12 @@
 - [x] Details: real panel gaps, M6 intakes with lower mesh, black kidney slats, M6 / M badges, parking sensors, wipers, glass, silver headlight housings, quad tips, carbon roof (v4)
 - [x] Paint, glass, chrome, rubber in Cycles (`tools/3d/bl_materials.py`), checked against the photos (`bl_compare.py`)
 - [x] Background: Shanghai Bund 16K EXR in the Cycles renders
-- [ ] Chapter stills and the film rendered in Cycles (`tools/3d/bl_film.py`); video vs live 3D shown to the user (renders done, user review pending)
+- [x] First Cycles film + stills shown to the user (review 1, 2026-11-22: lamps, M6 badge, rims, static near reflections, lane changes, 1080p 50 fps)
+- [x] Model v5 + live reflections + driving dynamics + 50 fps rail + faster render settings (stage 0, under review)
+- [ ] Stage 1: desktop film 1080p 50 fps + side-by-side → user check
+- [ ] Stage 2: chapter stills (desktop + phone) → user check
+- [ ] Stage 3: phone film 720×1560 50 fps → user check
+- [ ] Stage 4: idle loops (desktop + phone) → user check
 - [ ] Site updated after the user's OK (old files backed up)
 
 ## 3. Theme skeleton

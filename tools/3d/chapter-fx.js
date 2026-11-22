@@ -24,7 +24,7 @@ const ease = t => t * t * t * (t * (t * 6 - 15) + 10);
 // State inside each chapter's hold zone, t = 0…1. Anything not returned keeps the default.
 // On a leg between two chapters the continuous values blend from the end of one hold to the start of
 // the next, so nothing ever jumps.
-const DEFAULT = { lights: 1, dim: 1, haze: 0, glow: 0, speed: CRUISE, bar: -1, roof: -1, rpm: 0, gear: 0 };
+const DEFAULT = { lights: 1, dim: 1, bloom: 1, haze: 0, glow: 0, speed: CRUISE, bar: -1, roof: -1, rpm: 0, gear: 0 };
 export const HOLDS = [
   /* 1 top    */ () => ({ lights: 0 }),
   /* 2 front  */ t => ({ lights: ss(0.12, 0.3, t) }),                          // headlights and angel eyes come on
@@ -37,10 +37,10 @@ export const HOLDS = [
   /* 7 sound  */ t => ({ haze: 0.45 + 0.55 * ss(0.15, 0.35, t) }),             // heat haze, stronger with the sound
   /* 8 smg    */ t => ({ gear: gearAt(t), speed: GEAR_V[gearAt(t) - 1] }),
   /* 9 specs  */ () => ({ dim: 0.45 }),
-  /* 10 outro */ () => ({ dim: 0.6 }),
+  /* 10 outro */ () => ({ dim: 0.6, bloom: 0.43 }),                         // headlights into the lens: a tight glow, no milky veil over the bonnet
 ];
 const holdState = (i, t) => ({ ...DEFAULT, ...HOLDS[i](t) });
-const BLEND = ['lights', 'dim', 'haze', 'glow'];
+const BLEND = ['lights', 'dim', 'bloom', 'haze', 'glow'];
 
 // ------------------------------------------------------------------ GLSL: moving lights in reflections
 // One infinite row of street lamps (a single ray-plane test covers all of them: the hit point is
@@ -384,7 +384,7 @@ void main() {
     const shake = [Math.sin(t * 13.1) * 0.6 + Math.sin(t * 29.7 + 1.3) * 0.4, Math.sin(t * 11.3 + 2.1) * 0.5 + Math.sin(t * 23.9) * 0.5];
     const rot = [sim.spring.x.x + shake[0] * sh * 0.5 + sim.dip.x * 0.12, sim.spring.x.y, sim.spring.x.z + shake[1] * sh * 0.5];
 
-    return { lights: st.lights, dim: st.dim, flash: sim.flash, rot, dip: sim.dip.x, haze: st.haze,
+    return { lights: st.lights, dim: st.dim, bloom: st.bloom, flash: sim.flash, rot, dip: sim.dip.x, haze: st.haze,
       rpm: i === 2 && ft !== null ? st.rpm : null, gear: i === 7 && ft !== null ? st.gear : null, speed: sim.v };
   }
 

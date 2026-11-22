@@ -313,7 +313,8 @@ if (vWl.z > 1.5) {
     vertexShader: 'varying vec2 vUv; void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }',
     fragmentShader: 'uniform sampler2D tDiffuse; uniform float uCap; varying vec2 vUv; void main(){ vec4 c = texture2D(tDiffuse, vUv); gl_FragColor = vec4(min(c.rgb, vec3(uCap)), c.a); }',
   }));
-  const bloom = new UnrealBloomPass(new THREE.Vector2(W, H), 0.35, 0.3, 6);
+  const BLOOM = 0.35;   // strength; each chapter scales it (st.bloom)
+  const bloom = new UnrealBloomPass(new THREE.Vector2(W, H), BLOOM, 0.3, 6);
   bloom.enabled = Q.bloom;
   composer.addPass(bloom);
   composer.addPass(new OutputPass());
@@ -362,6 +363,7 @@ void main() {
     backdrop.material.uniforms.uK.value = base.sky * st.dim;
     g.material.envMapIntensity = base.road * st.dim;
     paintLine.envMapIntensity = base.line * st.dim;
+    bloom.strength = BLOOM * st.bloom;
     // the heat haze grows over ~1 s while the V10 recording plays and settles back when it stops
     soundK += ((sound ? 1 : 0) - soundK) * (1 - Math.exp(-dt / (sound ? 0.8 : 1.2)));
     haze.enabled = st.haze > 0.001;

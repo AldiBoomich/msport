@@ -10,7 +10,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import puppeteer from 'puppeteer-core';
 
-const TOOLS = path.dirname(new URL(import.meta.url).pathname.replace(/^\/([A-Z]:)/, '$1'));
+const TOOLS = path.dirname(decodeURIComponent(new URL(import.meta.url).pathname).replace(/^\/([A-Z]:)/, '$1'));
 const THEME3D = 'C:/Users/aaldi/Local Sites/msport/app/public/wp-content/themes/msport/assets/3d';
 const HDRI = 'C:/Users/aaldi/Local Sites/msport/3d-source/hdri'; // 4K night HDRIs (too big for the theme)
 const mounts = { '/hdri/': HDRI + '/', '/env/': THEME3D + '/env/', '/tex/': THEME3D + '/textures/', '/theme3d/': THEME3D + '/', '/node_modules/': TOOLS + '/node_modules/', '/': TOOLS + '/' };const types = { '.html': 'text/html', '.js': 'text/javascript', '.mjs': 'text/javascript', '.glb': 'model/gltf-binary', '.jpg': 'image/jpeg', '.png': 'image/png', '.json': 'application/json' };

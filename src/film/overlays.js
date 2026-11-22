@@ -75,6 +75,9 @@ function rev() {
 		return { live, final, at: +stat.dataset.atRpm || redline, decimals, shown: '' };
 	} ).filter( Boolean );
 	const fmt = ( n, d ) => n.toLocaleString( 'en-US', { minimumFractionDigits: d, maximumFractionDigits: d } );
+	// phones and tablets: the dial sits below the text, out of view while the figures would count, so the
+	// figures show their final values and only the dial plays (same breakpoint as main.css)
+	const stacked = window.matchMedia( '(max-width: 63.99em)' );
 
 	svg.classList.add( 'is-driven' );
 	let last = { rpm: -1, red: null, limit: null, ft: null };
@@ -110,7 +113,7 @@ function rev() {
 
 		const peak = Math.round( scale( rpmPeak( t ) ) / 10 ) * 10; // same steps as the readout
 		counters.forEach( ( c ) => {
-			const s = fmt( c.final * Math.min( 1, peak / c.at ), c.decimals );
+			const s = fmt( c.final * ( stacked.matches ? 1 : Math.min( 1, peak / c.at ) ), c.decimals );
 			if ( s !== c.shown ) {
 				c.live.textContent = s;
 				c.shown = s;

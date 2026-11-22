@@ -4,7 +4,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import puppeteer from 'puppeteer-core';
 
-const TOOLS = path.dirname(new URL(import.meta.url).pathname.replace(/^\/([A-Z]:)/, '$1'));
+const TOOLS = path.dirname(decodeURIComponent(new URL(import.meta.url).pathname).replace(/^\/([A-Z]:)/, '$1'));
 const THEME3D = 'C:/Users/aaldi/Local Sites/msport/app/public/wp-content/themes/msport/assets/3d';
 const HDRI = 'C:/Users/aaldi/Local Sites/msport/3d-source/hdri'; // 4K night HDRIs (too big for the theme)
 const SKY = process.env.SKY_DIR || THEME3D + '/env'; // packed panoramas (hdr-pack.mjs)

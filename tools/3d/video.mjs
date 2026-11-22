@@ -10,7 +10,7 @@ import path from 'node:path';
 import puppeteer from 'puppeteer-core';
 import { sequence, SIM_DT, LOOPS, LOOP_LEN, LOOP_FADE } from './video-timeline.js';
 
-const TOOLS = path.dirname(new URL(import.meta.url).pathname.replace(/^\/([A-Z]:)/, '$1'));
+const TOOLS = path.dirname(decodeURIComponent(new URL(import.meta.url).pathname).replace(/^\/([A-Z]:)/, '$1'));
 const THEME3D = 'C:/Users/aaldi/Local Sites/msport/app/public/wp-content/themes/msport/assets/3d';
 const mounts = { '/sky/': THEME3D + '/env/', '/tex/': THEME3D + '/textures/', '/theme3d/': THEME3D + '/', '/node_modules/': TOOLS + '/node_modules/', '/': TOOLS + '/' };
 const types = { '.html': 'text/html', '.js': 'text/javascript', '.mjs': 'text/javascript', '.glb': 'model/gltf-binary', '.jpg': 'image/jpeg', '.png': 'image/png', '.webp': 'image/webp', '.json': 'application/json' };
@@ -24,7 +24,7 @@ const server = http.createServer((req, res) => {
 const [outDir, w = 1920, h = 1080, dpr = 1, from = 0, to = 9] = process.argv.slice(2);
 const browser = await puppeteer.launch({
   executablePath: 'C:/Program Files/Google/Chrome/Application/chrome.exe',
-  headless: true, args: ['--use-angle=d3d11', '--enable-gpu', '--ignore-gpu-blocklist', '--force_high_performance_gpu'],
+  headless: true, protocolTimeout: 600000, args: ['--use-angle=d3d11', '--enable-gpu', '--ignore-gpu-blocklist', '--force_high_performance_gpu'],
 });
 const page = await browser.newPage();
 page.on('pageerror', e => console.log('pageerror:', e.message));

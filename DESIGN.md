@@ -104,7 +104,7 @@ Scale (base 17 px, ratio ≈ 1.25 for content, display jumps freely)
 - Container 1320 px; text column 680 px; gutters 32 px desktop, 20 px mobile.
 - 12-column grid, asymmetric splits (5/7, 4/8). Left content edge is the same in every section.
 - Spacing scale (px): 4 8 12 16 24 32 48 64 96 128 160. Nothing outside it.
-- Chapters 1–8 are full-viewport scroll zones over the fixed 3D canvas (length per chapter in Motion → Chapters). Spec sheet is a normal-height section on a `--c-surface` panel, padding 128 / 96 / 64 (desktop / tablet / mobile).
+- Chapters 1–8 are full-viewport scroll zones over the fixed 3D canvas (length per chapter in Motion → Chapters). Spec sheet is a normal-height section on a ground-coloured veil (70%) in film mode, so the car turning behind it shows through dimly (`--c-surface` panel without the film), padding 128 / 96 / 64 (desktop / tablet / mobile).
 - Chapter text column: 5 of 12 columns on the left; the camera frames the car detail in the right 7 columns. Mobile: the detail sits in the top 60% of the viewport, the text panel below.
 - Width as a tool: 3D canvas full-bleed, text narrow, spec table container width.
 - Radius by role: buttons 4 px (machined, not pill), inputs 4 px, media 0 px, cards none (there are no cards).
@@ -129,7 +129,7 @@ Scale (base 17 px, ratio ≈ 1.25 for content, display jumps freely)
 - Load entrance (once, built 2026-11-21): the hero headline, sentence and button settle in (900 ms, reveal easing, 120 ms apart), CSS only, so it never waits for a script; the hero still (LCP) does not move. Headlights stay off in the hero: switching them on is chapter 2's moment.
 - Lenis on the whole page; anchors from the nav scroll (Lenis, 1.6 s) to the top of a chapter, which is the start of its hold. Keyboard focus keeps `scroll-padding-top` for the header.
 - **Adaptive quality**: the scene measures its own frame time after load. Where it cannot hold ~50 fps (integrated graphics), it steps down, least visible first: device pixel ratio 1 → MSAA off (FXAA instead) → 0.75 resolution → 0.6 resolution without bloom. Full quality stays untouched where it runs smoothly (RTX 4050: 60 fps at DPR 1.5; Intel UHD: 25 → 54–60 fps).
-- Drawing stops while an opaque block (spec sheet panel, footer) fills the screen, and when the tab is hidden.
+- Drawing stops while the opaque footer fills the screen, and when the tab is hidden.
 - **Video version** (built 2026-11-19, user's decision): phones, and computers whose graphics cannot run the scene or hold it at ~50 fps in its first frames (median frame time of frames 6–17 above 22 ms, later of every 90 above 25 ms), get the same film pre-rendered at full quality as video, scrubbed by the scroll (`src/film/video.js`). It fades in over the stills, or over the live canvas, which is then freed.
   - Files in `assets/video/`: `film-900.mp4` (1600×900, for landscape screens) and `film-portrait.mp4` (720×1560, 9:19.5 like the portrait stills), each with `-loops.mp4`. H.264, CRF 26, a keyframe every 8 frames and no B-frames, so a seek takes ~5 ms (measured 3–10 ms on RTX 4050 and Intel UHD).
   - Timeline (`tools/3d/video-timeline.js`, shared by the renderer and the page): hold, leg, hold… 1440 frames at 30 per second of simulated driving; 90 frames per screen of scroll.
@@ -149,8 +149,8 @@ Scale (base 17 px, ratio ≈ 1.25 for content, display jumps freely)
 | 6 | Carbon roof (`roof`) | 120 vh | top-down, slow 30° yaw | a highlight runs along the roof weave | heading + text |
 | 7 | Tail and quad exhausts (`sound`) | 150 vh | low behind the car, close to the four tips | heat haze above the tips, stronger while the sound plays | heading, text, sound player |
 | 8 | SMG III (`smg`) | 250 vh | low side profile | gear readout 1 → 7; on each step a short camera jolt and the road speeds up | heading, intro, gear readout with one line per gear |
-| 9 | Spec sheet (`specs`) | content | pull back high and wide, car slowly turns | scene dims to ~40% | spec tables on a `--c-surface` panel |
-| 10 | Final shot (`outro`, anchor `contact`) | film | final front shot, headlights into the camera | – | heading, two lines about the project, "Get in touch" button to the developer |
+| 9 | Spec sheet (`specs`) | content | pull back high and wide, car slowly turns | scene dims to ~40% | spec tables on a see-through veil (70%) over the car |
+| 10 | Final shot (`outro`, anchor `contact`) | film | final front shot, headlights into the camera | bloom at 0.43× (headlights face the lens: a tight glow, no milky veil over the black bonnet) | heading, two lines about the project, "Get in touch" button to the developer |
 
 Effects are kept cheap: the light bar and the street lights are moving area / spot lights; the disc glow is an emissive ramp on `brake_disc`; the heat haze is one small screen-space distortion pass only active in chapter 7. While the V10 recording plays, the haze grows to 1.6× over ~1 s (live scene only; the video keeps its rendered haze).
 
@@ -204,7 +204,7 @@ Performance budget
   - text link: bronze, underlined (`text-underline-offset: .2em`, 1 px).
   - No arrows glued to button labels.
 - **Spec row:** label (muted) | value (ink, tabular) | unit (muted). Hairline between rows.
-- **Big number:** number-l (in a chapter panel, up to 4 in a grid) or number-xl (one number alone) + unit in `--c-muted` + one-line caption; optional footnote in small muted text.
+- **Big number:** number-l (in a chapter panel, up to 4 in a grid) or number-xl (one number alone) + unit in `--c-muted` + one-line caption; optional footnote in small muted text. V10 on phones and tablets: the three figures sit in one row under one hairline at h2 size (shrinks with the screen), final values only; the dial does the counting.
 - **Tachometer:** inline SVG, 270° dial 0 → redline rounded up to 1,000; minor ticks every 250 rpm, numerals every 1,000 (×1000); track `--c-line`, red zone `--c-redline` (red-zone start → redline), needle `--c-action` with a `--c-surface-2` hub, readout in the centre. Static state = needle at redline. Centred in its column.
 - **Gear readout (SMG):** ordered list, gear number in display width at h3 size, one line of copy each (static state). In the film: current gear at number-l + strip 1–7 (small numerals over 2 px hairlines, past and current in `--c-action`, current numeral `--c-ink`) + the current line.
 - **Sound player:** play/pause button with a visible label ("Play the V10", "Pause"), progress line, `aria-pressed`. Never autoplays.

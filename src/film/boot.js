@@ -67,8 +67,8 @@ function start() {
 		return { p: zones[ zones.length - 1 ].rail, ft: 1 };
 	};
 
-	// the canvas is fully hidden behind opaque blocks (spec sheet panel, footer): skip drawing
-	const covers = [ ...document.querySelectorAll( '.chapter--panel, .site-footer' ) ];
+	// the canvas is fully hidden behind the opaque footer: skip drawing (the spec sheet is a see-through veil)
+	const covers = [ ...document.querySelectorAll( '.site-footer' ) ];
 	const hidden = () => covers.some( ( el ) => {
 		const r = el.getBoundingClientRect();
 		return r.top <= 0 && r.bottom >= viewH;

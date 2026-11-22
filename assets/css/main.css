@@ -987,6 +987,34 @@ html.lenis body {
 	}
 }
 
+/* Phones and tablets: the V10 figures as one even row under one hairline, at h2 size (three number-l
+   figures do not fit a phone), scaled down with the screen so "8,250 rpm" still fits at 320 px. The dial
+   below is the only thing that counts here (overlays.js). */
+@media (max-width: 63.99em) {
+
+	.stats--rev {
+		display: grid;
+		grid-template-columns: repeat(3, auto);
+		justify-content: space-between;
+		gap: var(--s-4);
+		padding-top: var(--s-4);
+		border-top: 1px solid var(--c-line);
+	}
+
+	.stats--rev .stat {
+		padding-top: 0;
+		border-top: 0;
+	}
+
+	.stats--rev .stat__value {
+		font-size: min(var(--fs-h2), 7vw);
+	}
+
+	.stats--rev .stat__unit {
+		font-size: var(--fs-small);
+	}
+}
+
 /* Sound: play / pause button with a visible label, progress line. */
 .sound {
 	display: flex;
@@ -1162,7 +1190,13 @@ html.lenis body {
 	visibility: visible;
 }
 
-/* Spec sheet: real tables, label | value | unit, hairlines between rows. */
+/* Spec sheet: real tables, label | value | unit, hairlines between rows. In film mode the panel is a
+   ground-coloured veil instead of a solid band: the car turning behind it shows through, dimmed enough
+   that muted text keeps AA over the headlights. */
+html.film .chapter--spec {
+	background: rgb(20 23 27 / 0.7);
+}
+
 .chapter--spec .chapter__title {
 	margin-bottom: var(--s-7);
 }

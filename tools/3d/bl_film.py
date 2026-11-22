@@ -17,7 +17,7 @@ World: Blender z up, car front = -y (three.js (x, y, z) = Blender (x, -z, y)), t
 and the road moves under it (+y), so motion blur is real object motion.
 """
 import bpy, bmesh, sys, os, math, json, argparse
-from mathutils import Vector, Quaternion
+from mathutils import Vector, Quaternion, Matrix
 
 argv = sys.argv[sys.argv.index('--') + 1:] if '--' in sys.argv else []
 ap = argparse.ArgumentParser()
@@ -227,6 +227,26 @@ ct.links.new(mix2.outputs['Image'], comp.inputs['Image'])
 # ---------------------------------------------------------------- animation from the rail
 spins = [o for o in bpy.data.objects if o.name.startswith('spin_')]
 R_TYRE = 0.343
+
+# Cycles blurs an object's motion by interpolating its transform inside the shutter: translation in a straight
+# line, rotation by slerp. The wheel parts came in with their origins at the car's origin, 1.5 m from the axle,
+# so a fast wheel swung off its axle inside the shutter (at 40 m/s: see-through, ghosted tyres). With every
+# wheel part's origin on its own axle the motion is a pure rotation and the blur is exact.
+for e in spins:
+    e.rotation_euler = (0, 0, 0)
+bpy.context.view_layer.update()
+for e in spins:
+    axle = e.matrix_world.translation.copy()
+    for o in e.children:
+        if o.type != 'MESH':
+            continue
+        if o.data.users > 1:
+            o.data = o.data.copy()
+        mw = o.matrix_world.copy()
+        off = mw.inverted() @ axle
+        o.data.transform(Matrix.Translation(-off))
+        o.matrix_world = mw @ Matrix.Translation(off)
+bpy.context.view_layer.update()
 
 
 def level_node(mat_name):

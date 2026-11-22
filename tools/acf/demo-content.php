@@ -13,13 +13,30 @@ $options = array(
 	'opt_wordmark'          => 'M6 E63',
 	'opt_header_cta_label'  => 'Hear the V10',
 	'opt_header_cta_anchor' => 'sound',
-	'opt_dev_name'          => '',
-	'opt_dev_url'           => '',
-	'opt_social'            => array(),
+	'opt_menu_label'        => 'Menu',
+	'opt_menu_close_label'  => 'Close',
+	'opt_skip_label'        => 'Skip to content',
+	'opt_nav_label'         => 'Chapters',
+	'opt_dev_name'          => 'Aldi1988',
+	'opt_dev_url'           => 'https://www.upwork.com/freelancers/~017b6f99b455548c2c',
+	'opt_social'            => array(
+		array(
+			'label' => 'GitHub',
+			'url'   => 'https://github.com/AldiBoomich',
+		),
+		array(
+			'label' => 'Upwork',
+			'url'   => 'https://www.upwork.com/freelancers/~017b6f99b455548c2c',
+		),
+	),
+	'opt_footer_nav_label'  => 'Footer',
 	'opt_sound_credit'      => '',
 	'opt_effects_enabled'   => 1,
 	'opt_404_title'         => 'You hit the limiter.',
 	'opt_404_text'          => 'This page does not exist. The car is still running on the front page.',
+	'opt_404_button'        => 'Back to the car',
+	'opt_empty_title'       => 'Nothing here yet',
+	'opt_meta_description'  => 'The BMW M6 E63 and its 8,250 rpm V10, told as one scroll-driven 3D film. A hand-built WordPress theme, every word editable in the admin.',
 );
 foreach ( $options as $name => $value ) {
 	update_field( $k( $name ), $value, 'option' );
@@ -51,6 +68,9 @@ $fields = array(
 		array( 'value' => 8250, 'unit' => 'rpm', 'label' => 'Redline', 'at_rpm' => 8250 ),
 	),
 	'rev_sound_label'           => 'Play the V10',
+	'rev_tacho_scale'           => '×1000 rpm',
+	'rev_tacho_unit'            => 'rpm',
+	'rev_tacho_title'           => 'Tachometer: the needle at {redline} rpm, red zone from {redzone} rpm.',
 
 	'wheels_title'              => 'Wheels and brakes',
 	'wheels_text'               => '19-inch M double-spoke wheels, 255 tyres at the front and 285 at the rear. Behind them sit cross-drilled compound discs: 374 mm at the front, 370 mm at the rear.',

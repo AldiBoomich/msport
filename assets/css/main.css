@@ -1359,6 +1359,13 @@ html.film .chapter--spec {
 	flex-basis: 100%;
 }
 
+/* taller tap area for the small footer links, same layout */
+.site-footer a {
+	display: inline-block;
+	padding-block: var(--s-2);
+	margin-block: calc(-1 * var(--s-2));
+}
+
 /* 11. Accessibility helpers ------------------------------------------------- */
 
 .skip-link {

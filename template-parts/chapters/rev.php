@@ -31,7 +31,20 @@ $msport_pause   = msport_front( 'sound_pause_label', __( 'Pause', 'msport' ) );
 			<?php echo msport_sound_button( $msport_sound, $msport_pause ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped inside. ?>
 		</div>
 		<div class="split__aside">
-			<?php echo msport_tachometer( $msport_idle, $msport_redzone, $msport_redline ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped inside. ?>
+			<?php
+			echo msport_tachometer( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped inside.
+				$msport_idle,
+				$msport_redzone,
+				$msport_redline,
+				array_filter( // empty fields keep the defaults of msport_tachometer().
+					array(
+						'scale' => msport_front( 'rev_tacho_scale' ),
+						'unit'  => msport_front( 'rev_tacho_unit' ),
+						'title' => msport_front( 'rev_tacho_title' ),
+					)
+				)
+			);
+			?>
 		</div>
 	</div>
 </section>

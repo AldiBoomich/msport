@@ -99,12 +99,22 @@ function msport_stats( $rows, $extra_class = '' ) {
 /**
  * The tachometer (DESIGN.md → Components → Tachometer), drawn at its static state: needle at the redline.
  *
- * @param int $idle    Idle rpm.
- * @param int $redzone Red zone start, rpm.
- * @param int $redline Redline, rpm.
+ * @param int   $idle    Idle rpm.
+ * @param int   $redzone Red zone start, rpm.
+ * @param int   $redline Redline, rpm.
+ * @param array $texts   Texts (M6 front page fields): scale, unit, title ({redline} and {redzone} become the numbers).
  * @return string SVG.
  */
-function msport_tachometer( $idle, $redzone, $redline ) {
+function msport_tachometer( $idle, $redzone, $redline, $texts = array() ) {
+	$texts = wp_parse_args(
+		$texts,
+		array(
+			'scale' => __( '×1000 rpm', 'msport' ),
+			'unit'  => __( 'rpm', 'msport' ),
+			'title' => __( 'Tachometer: the needle at {redline} rpm, red zone from {redzone} rpm.', 'msport' ),
+		)
+	);
+
 	$redline = max( 1000, (int) $redline );
 	$redzone = min( max( 0, (int) $redzone ), $redline );
 	$idle    = min( max( 0, (int) $idle ), $redline );
@@ -154,11 +164,12 @@ function msport_tachometer( $idle, $redzone, $redline ) {
 		}
 	}
 
-	$title = sprintf(
-		/* translators: 1: rpm at the needle, 2: red zone start in rpm. */
-		__( 'Tachometer: the needle at %1$s rpm, red zone from %2$s rpm.', 'msport' ),
-		number_format_i18n( $redline ),
-		number_format_i18n( $redzone )
+	$title = strtr(
+		(string) $texts['title'],
+		array(
+			'{redline}' => number_format_i18n( $redline ),
+			'{redzone}' => number_format_i18n( $redzone ),
+		)
 	);
 
 	ob_start();
@@ -169,13 +180,13 @@ function msport_tachometer( $idle, $redzone, $redline ) {
 		<path class="tacho__red" d="<?php echo esc_attr( $arc( $redzone, $redline, $r ) ); ?>"/>
 		<g class="tacho__ticks"><?php echo $ticks; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- numbers only. ?></g>
 		<g class="tacho__nums" aria-hidden="true"><?php echo $labels; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- numbers only. ?></g>
-		<text class="tacho__scale" x="200" y="128" aria-hidden="true"><?php esc_html_e( '×1000 rpm', 'msport' ); ?></text>
+		<text class="tacho__scale" x="200" y="128" aria-hidden="true"><?php echo esc_html( $texts['scale'] ); ?></text>
 		<g class="tacho__needle" transform="rotate(<?php echo esc_attr( round( $angle( $redline ), 2 ) ); ?> 200 200)">
 			<line x1="200" y1="226" x2="200" y2="<?php echo esc_attr( 200 - $r + 18 ); ?>"/>
 		</g>
 		<circle class="tacho__hub" cx="200" cy="200" r="11"/>
 		<text class="tacho__readout" x="200" y="262" aria-hidden="true"><?php echo esc_html( number_format_i18n( $redline ) ); ?></text>
-		<text class="tacho__readout-unit" x="200" y="292" aria-hidden="true"><?php esc_html_e( 'rpm', 'msport' ); ?></text>
+		<text class="tacho__readout-unit" x="200" y="292" aria-hidden="true"><?php echo esc_html( $texts['unit'] ); ?></text>
 	</svg>
 	<?php
 	return (string) ob_get_clean();

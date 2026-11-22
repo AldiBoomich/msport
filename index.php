@@ -22,8 +22,8 @@ get_header();
 			<?php endwhile; ?>
 		</ul>
 	<?php else : ?>
-		<h1 class="plain-page__title"><?php esc_html_e( 'Nothing here yet', 'msport' ); ?></h1>
-		<p><a class="button button--secondary" href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php esc_html_e( 'Back to the car', 'msport' ); ?></a></p>
+		<h1 class="plain-page__title"><?php echo esc_html( msport_option( 'opt_empty_title', __( 'Nothing here yet', 'msport' ) ) ); ?></h1>
+		<p><a class="button button--secondary" href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php echo esc_html( msport_option( 'opt_404_button', __( 'Back to the car', 'msport' ) ) ); ?></a></p>
 	<?php endif; ?>
 </main>
 <?php

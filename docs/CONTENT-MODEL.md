@@ -21,15 +21,24 @@ Location: Options Page `msport-settings` (menu title "M6 Settings", icon `dashic
 | Wordmark | `opt_wordmark` | Text | Text shown in the header instead of a logo. Default "M6 E63". |
 | Header button label | `opt_header_cta_label` | Text | Default "Hear the V10". |
 | Header button target | `opt_header_cta_anchor` | Text | Anchor of the section the button scrolls to. Default `sound`. |
+| Menu button labels | `opt_menu_label`, `opt_menu_close_label` | Text | The phone / tablet menu button, closed and open. Defaults "Menu" / "Close". |
+| Skip link | `opt_skip_label` | Text | Keyboard skip link. Default "Skip to content". |
+| Menu name for screen readers | `opt_nav_label` | Text | `aria-label` of the header menu. Default "Chapters". |
 | Developer name | `opt_dev_name` | Text | Footer credit. |
 | Developer link | `opt_dev_url` | URL | Portfolio / Upwork profile. Also the default link of the chapter 10 button. |
 | Social links | `opt_social` | Repeater → `label` (Text), `url` (URL) | Optional. |
+| Footer menu name for screen readers | `opt_footer_nav_label` | Text | `aria-label` of the footer menu. Default "Footer". |
 | V10 sound file | `opt_sound_file` | File (return ID, mime: m4a, mp3, ogg, webm) | ≤ 400 KB, ≤ 15 s. |
 | Sound credit | `opt_sound_credit` | Text | Optional, shown next to the player. |
 | Effects | `opt_effects_enabled` | True/False | Turns WebGL and scroll scenes on/off for the whole site (for testing and weak hosting). Default on. |
 | 404 title / text | `opt_404_title`, `opt_404_text` | Text / Textarea | Defaults "You hit the limiter." / "This page does not exist. The car is still running on the front page." |
+| 404 button | `opt_404_button` | Text | Button back to the front page (404 and empty list pages). Default "Back to the car". |
+| Empty list title | `opt_empty_title` | Text | `index.php` with nothing to list (e.g. a search without results). Default "Nothing here yet". |
+| Page description | `opt_meta_description` | Textarea | `<meta name="description">` on every page. Empty: the site Tagline. |
 
-Menu: `menu-1` (Primary) holds the anchor links. The editor builds it in Appearance → Menus with Custom Links like `#rev`.
+Menus (Appearance → Menus): `menu-1` (Primary) holds the anchor links, built with Custom Links like `#rev`; `footer` holds the privacy page and other plain pages.
+
+Every visible text of the site comes from these fields, the front page fields or the menus. The `__()` strings in the templates are only fallbacks for empty fields.
 
 ---
 
@@ -91,6 +100,8 @@ Default anchor `front`.
 | Red zone starts at | `rev_redzone_start` | Number | Default 7500. |
 | Figures | `rev_figures` | Repeater (min 1, max 4) → `value` (Number), `unit` (Text), `label` (Text), `at_rpm` (Number) | E.g. 507 / PS / Power / 7750. `at_rpm` is where the counter finishes. |
 | Sound button label | `rev_sound_label` | Text | Default "Play the V10". Uses `opt_sound_file`. |
+| Dial scale label / readout unit | `rev_tacho_scale`, `rev_tacho_unit` | Text | Texts inside the tachometer. Defaults "×1000 rpm" / "rpm". |
+| Tachometer description | `rev_tacho_title` | Text | The SVG `<title>` for screen readers; `{redline}` and `{redzone}` become the numbers. |
 
 Default anchor `rev`.
 
@@ -159,7 +170,7 @@ Default anchor `contact`. No form on the site (user's decision, 2026-11-19).
 ---
 
 ## 3. Other templates
-- **404:** title and text from `opt_404_title` / `opt_404_text` (M6 Settings → Page not found). Default "You hit the limiter."
+- **404:** title, text and button from `opt_404_title` / `opt_404_text` / `opt_404_button` (M6 Settings → Page not found). Default "You hit the limiter."
 - **Default page / privacy:** standard editor content, theme typography.
 
 ## 4. Image sizes (`add_image_size`)

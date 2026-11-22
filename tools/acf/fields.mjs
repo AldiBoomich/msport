@@ -66,6 +66,10 @@ const settings = {
     f.text('opt_wordmark', 'Wordmark', 'Text shown in the top left corner instead of a logo.', 'M6 E63'),
     half(f.text('opt_header_cta_label', 'Header button label', 'The button in the top right corner. Name the action.', 'Hear the V10')),
     half(f.text('opt_header_cta_anchor', 'Header button target', 'Anchor ID of the chapter the button scrolls to (see Front page → each chapter → Anchor ID).', 'sound')),
+    half(f.text('opt_menu_label', 'Menu button label', 'The button that opens the menu on phones and tablets.', 'Menu')),
+    half(f.text('opt_menu_close_label', 'Menu button label when open', 'The same button while the menu is open.', 'Close')),
+    half(f.text('opt_skip_label', 'Skip link', 'Hidden link for keyboard users: it appears on the first Tab press and jumps over the header.', 'Skip to content')),
+    half(f.text('opt_nav_label', 'Menu name for screen readers', 'Not shown on screen. Screen readers announce the header menu by this name.', 'Chapters')),
 
     f.tab('opt_footer', 'Footer'),
     half(f.text('opt_dev_name', 'Developer name', 'Footer credit, for example your name or studio.')),
@@ -74,6 +78,7 @@ const settings = {
       f.text('label', 'Label', 'For example "Instagram".'),
       f.url('url', 'Link', 'Full address.'),
     ], { button: 'Add link' }),
+    f.text('opt_footer_nav_label', 'Footer menu name for screen readers', 'Not shown on screen. Screen readers announce the footer menu by this name.', 'Footer'),
 
     f.tab('opt_sound', 'Sound'),
     f.file('opt_sound_file', 'V10 sound file', 'The engine recording for the "Play the V10" buttons. MP3, M4A, OGG or WebM, up to 15 seconds and 400 KB. If empty, the recording that comes with the theme is used.', 'mp3,m4a,ogg,webm'),
@@ -85,6 +90,11 @@ const settings = {
     f.tab('opt_404', 'Page not found'),
     f.text('opt_404_title', 'Title', 'Shown when a page does not exist (404).', 'You hit the limiter.'),
     f.area('opt_404_text', 'Text', 'One sentence under the title.', 'This page does not exist. The car is still running on the front page.', 2),
+    half(f.text('opt_404_button', 'Button label', 'The button back to the front page. Also used on an empty list page.', 'Back to the car')),
+    half(f.text('opt_empty_title', 'Empty list title', 'Title of a list page that has nothing to show (for example a search with no results).', 'Nothing here yet')),
+
+    f.tab('opt_seo', 'Search engines'),
+    f.area('opt_meta_description', 'Page description', 'Shown by Google and in link previews under the page title. One or two sentences, up to 160 characters. If empty, the Tagline from Settings → General is used.', '', 3),
   ],
   location: [[{ param: 'options_page', operator: '==', value: 'msport-settings' }]],
   menu_order: 0,
@@ -134,6 +144,9 @@ const front = {
       f.num('at_rpm', 'At rpm', '', '', { min: 0, max: 12000, step: 50 }),
     ], { min: 1, max: 4, button: 'Add figure' }),
     f.text('rev_sound_label', 'Sound button label', 'Plays the V10 recording from M6 Settings → Sound.', 'Play the V10'),
+    half(f.text('rev_tacho_scale', 'Dial scale label', 'Small label inside the tachometer above the needle hub.', '×1000 rpm')),
+    half(f.text('rev_tacho_unit', 'Readout unit', 'Unit under the rpm readout of the tachometer.', 'rpm')),
+    f.text('rev_tacho_title', 'Tachometer description', 'Not shown on screen: screen readers read it instead of the drawing. {redline} and {redzone} are replaced with the numbers above.', 'Tachometer: the needle at {redline} rpm, red zone from {redzone} rpm.'),
 
     f.tab('wheels', '4 · Wheels and brakes'),
     ...common('wheels', 'wheels'),

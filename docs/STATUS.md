@@ -150,15 +150,22 @@ Last updated: 2026-11-21 (session 6: 3D film part 2: overlays, look fields, entr
   - `php -l` on all 26 PHP files: OK. `WP_DEBUG` (on, log only): the theme has never written to `debug.log`; the only notice is ACF's early text domain load (plugin side; ACF is not touched until the user says so).
   - `check.mjs`: front page 1440 / 768 / 390, reduced motion, privacy page, 404, empty search, front page as admin (`--cookie`): 0 FAIL (the 404 page's "HTTP 404" is expected). One 768 run showed CLS 0.392; two reruns and a shift trace (`layout-shift` sources while scrolling) gave 0, so it was a one-off of the local server. Old WARNs left: no meta description, no favicon.
   - Skill checklist gone through. Found and fixed: with the mobile menu open, a mouse wheel still scrolled the page behind it (Lenis scrolls by script, `overflow: hidden` does not stop it). `header.js` now sends `msport:menu` ({ open }) synchronously, `src/film/boot.js` stops / starts Lenis on it; JS rebuilt. Menu test (keyboard at 390 px, mouse at 800 px): opens, focus on the first link, Tab wraps, Esc closes and returns focus, the page stays put while open, scrolls after closing, a menu link closes the menu and lands on the chapter.
-  - Mobile LOD closed as not needed (user, 2026-11-22): only touch tablets with a short side ≥ 820 px (iPad Air / Pro) run the live scene, and they handle the full model (2.16 MB); everything smaller gets the video. Left for release: version `0.1.0` in `style.css` / `MSPORT_VERSION` (assets are versioned by file time already), PageSpeed on a live site, favicon and meta description.
+  - Mobile LOD closed as not needed (user, 2026-11-22): only touch tablets with a short side ≥ 820 px (iPad Air / Pro) run the live scene, and they handle the full model (2.16 MB); everything smaller gets the video. Left for release: version `0.1.0` in `style.css` / `MSPORT_VERSION` (assets are versioned by file time already), PageSpeed on a live site, favicon and meta description (meta description done the same day, see below).
+
+- **Every site text editable in ACF, developer links filled (2026-11-22).**
+  - New fields (`tools/acf/fields.mjs` → `acf-json/`, synced with `tools/acf/sync.php`): M6 Settings → Header: menu button labels (`opt_menu_label`, `opt_menu_close_label`), skip link (`opt_skip_label`), header menu name for screen readers (`opt_nav_label`); Footer: footer menu name (`opt_footer_nav_label`); Page not found: button (`opt_404_button`, also on empty list pages), empty list title (`opt_empty_title`); new tab Search engines: page description (`opt_meta_description` → `<meta name="description">` on every page, falls back to the Tagline). Front page → 3 · V10: tachometer scale label, readout unit and screen-reader description (`rev_tacho_scale`, `rev_tacho_unit`, `rev_tacho_title` with `{redline}` / `{redzone}`). `msport_tachometer()` takes a fourth `$texts` argument. The `__()` strings left in templates are only fallbacks for empty fields; menus stay in Appearance → Menus.
+  - Filled (only the new fields, the rest of the content untouched): developer "Aldi1988" → Upwork profile (also the chapter 10 "Get in touch" button, now shown), social links GitHub (`github.com/AldiBoomich`) and Upwork, meta description. `tools/acf/demo-content.php` and `docs/CONTENT-MODEL.md` updated to match.
+  - The footer menu location was empty, so the privacy page was linked nowhere: created the menu "Footer" with the Privacy Policy page and assigned it.
+  - Footer links had 15 px tall tap targets on phones: they now have 8 px padding above and below (negative margin keeps the layout), 31 px.
+  - ACF PRO update: not possible from WordPress (the stored licence key is masked, the update server answers "Forbidden"); the user decided to leave ACF as it is.
+  - Checks: every new field tested by setting a marker value and finding it on the front page / 404 / empty search, then restored. PHPCS 0 / 0, `scan-theme.mjs`: no hardcoded text outside the privacy demo copy, `check.mjs` front 1440 / 768 / 390 + reduced motion + 404 + privacy: 0 FAIL, only WARN left is the favicon (Appearance → Customize → Site Identity → Site Icon).
 
 ## Next step
 1. User reviews part 2 on http://msport.local/ (V10 chapter: scroll slowly through the tachometer; SMG III; play the sound in the tail chapter; a phone).
 2. §8 portfolio case.
 
 ## Open questions for the user
-- Update ACF PRO to a current version (removes the PHP notice in the log)? (Not now: the user will say when.)
-- Developer name, portfolio link (also the "Get in touch" button of chapter 10) and social links: fill them in M6 Settings, or tell me what to put there.
+- Site icon (favicon): an image from the user, or one made from the wordmark?
 
 ## Fixed decisions (do not change without the user)
 - Dark design "Redline", accent Sepang Bronze, red only for the red zone. Font Archivo.

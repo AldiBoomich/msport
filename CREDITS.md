@@ -17,6 +17,11 @@ Every third-party file in this theme is listed here before it is committed. If a
 |---|---|---|---|---|
 | | | | | |
 
+## Site icon
+| File | Subject | Source |
+|---|---|---|
+| `assets/images/site-icon.png` | BMW roundel, 512 px, transparent outside the circle (also set as the Site Icon in the media library) | file supplied by the user (2026-11-22) |
+
 ## Sound
 | File | Subject | Author | Licence | Source URL | Attribution required |
 |---|---|---|---|---|---|

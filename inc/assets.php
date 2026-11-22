@@ -52,3 +52,15 @@ function msport_head_early() {
 	echo '<meta name="theme-color" content="#14171B">' . "\n";
 }
 add_action( 'wp_head', 'msport_head_early', 1 );
+
+/**
+ * Browser tab icon shipped with the theme, used until a Site Icon is chosen (Appearance → Customize → Site Identity).
+ */
+function msport_fallback_icon() {
+	if ( has_site_icon() || ! file_exists( MSPORT_DIR . '/assets/images/site-icon.png' ) ) {
+		return;
+	}
+	$url = MSPORT_URI . '/assets/images/site-icon.png';
+	printf( '<link rel="icon" href="%1$s" sizes="512x512">' . "\n" . '<link rel="apple-touch-icon" href="%1$s">' . "\n", esc_url( $url ) );
+}
+add_action( 'wp_head', 'msport_fallback_icon', 99 );

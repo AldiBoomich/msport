@@ -159,13 +159,13 @@ Last updated: 2026-11-21 (session 6: 3D film part 2: overlays, look fields, entr
   - Footer links had 15 px tall tap targets on phones: they now have 8 px padding above and below (negative margin keeps the layout), 31 px.
   - ACF PRO update: not possible from WordPress (the stored licence key is masked, the update server answers "Forbidden"); the user decided to leave ACF as it is.
   - Checks: every new field tested by setting a marker value and finding it on the front page / 404 / empty search, then restored. PHPCS 0 / 0, `scan-theme.mjs`: no hardcoded text outside the privacy demo copy, `check.mjs` front 1440 / 768 / 390 + reduced motion + 404 + privacy: 0 FAIL, only WARN left is the favicon (Appearance → Customize → Site Identity → Site Icon).
+- **Site icon (2026-11-22).** BMW roundel from a file the user supplied: cut to 512 px with transparent corners (`assets/images/site-icon.png`), imported to the media library and set as the Site Icon (WordPress prints the 32 / 180 / 192 px links). `msport_fallback_icon()` (`inc/assets.php`) prints the theme's copy when no Site Icon is chosen. The favicon WARN of `check.mjs` is gone.
 
 ## Next step
 1. User reviews part 2 on http://msport.local/ (V10 chapter: scroll slowly through the tachometer; SMG III; play the sound in the tail chapter; a phone).
 2. §8 portfolio case.
 
 ## Open questions for the user
-- Site icon (favicon): an image from the user, or one made from the wordmark?
 
 ## Fixed decisions (do not change without the user)
 - Dark design "Redline", accent Sepang Bronze, red only for the red zone. Font Archivo.

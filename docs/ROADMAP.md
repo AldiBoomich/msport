@@ -93,7 +93,7 @@
 - [x] `motion.mjs --mode gpu,nogpu --shots 8` (≥ 55 fps with GPU while scrolling through all chapters) (gpu 2026-11-21: 60 fps everywhere; nogpu 2026-11-22: falls back to the video, 48–56 fps, 0 errors)
 - [x] `scan-theme.mjs --en` (2026-11-21: only dev tools; again 2026-11-22)
 - [x] PHPCS (WordPress standard), `WP_DEBUG` on, no notices (2026-11-22: 0 errors / 0 warnings; the theme writes nothing to the log, only ACF's own notice is left)
-- [x] Skill checklist (`references/checklist.md`) (2026-11-22: menu scroll lock fixed; left for release: version number, PageSpeed on the live site, favicon; meta description done 2026-11-22)
+- [x] Skill checklist (`references/checklist.md`) (2026-11-22: menu scroll lock fixed; left for release: version number, PageSpeed on the live site; meta description and favicon done 2026-11-22)
 
 ## 8. Portfolio case
 - [ ] 60–90 s screen recording: scroll through the page + 15–20 s of editing in ACF

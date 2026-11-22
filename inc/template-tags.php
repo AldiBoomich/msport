@@ -65,11 +65,11 @@ function msport_number( $value ) {
 /**
  * Big figures (value, unit, label, optional note or rpm) as a list.
  *
- * @param array  $rows  Repeater rows: value, unit, label, note (optional), at_rpm (optional).
- * @param string $class Extra class.
+ * @param array  $rows        Repeater rows: value, unit, label, note (optional), at_rpm (optional).
+ * @param string $extra_class Extra class.
  * @return string HTML.
  */
-function msport_stats( $rows, $class = '' ) {
+function msport_stats( $rows, $extra_class = '' ) {
 	if ( empty( $rows ) || ! is_array( $rows ) ) {
 		return '';
 	}
@@ -93,7 +93,7 @@ function msport_stats( $rows, $class = '' ) {
 			$note ? '<span class="stat__note">' . esc_html( $note ) . '</span>' : ''
 		);
 	}
-	return $items ? '<ul class="stats ' . esc_attr( $class ) . '">' . $items . '</ul>' : '';
+	return $items ? '<ul class="stats ' . esc_attr( $extra_class ) . '">' . $items . '</ul>' : '';
 }
 
 /**
@@ -121,9 +121,10 @@ function msport_tachometer( $idle, $redzone, $redline ) {
 		$a = deg2rad( $deg );
 		return array( round( $cx + $radius * sin( $a ), 2 ), round( $cy - $radius * cos( $a ), 2 ) );
 	};
-	$arc = static function ( $from, $to, $radius ) use ( $angle, $point ) {
+	$arc   = static function ( $from, $to, $radius ) use ( $angle, $point ) {
 		$a1 = $angle( $from );
 		$a2 = $angle( $to );
+
 		list( $x1, $y1 ) = $point( $a1, $radius );
 		list( $x2, $y2 ) = $point( $a2, $radius );
 		return sprintf( 'M%s %sA%s %s 0 %d 1 %s %s', $x1, $y1, $radius, $radius, ( $a2 - $a1 ) > 180 ? 1 : 0, $x2, $y2 );
@@ -134,8 +135,10 @@ function msport_tachometer( $idle, $redzone, $redline ) {
 	for ( $rpm = 0; $rpm <= $max; $rpm += 250 ) {
 		$major = 0 === $rpm % 1000;
 		$deg   = $angle( $rpm );
+
 		list( $x1, $y1 ) = $point( $deg, $r - 6 );
 		list( $x2, $y2 ) = $point( $deg, $r - ( $major ? 26 : 14 ) );
+
 		$ticks .= sprintf(
 			'<line class="tacho__tick%s%s" x1="%s" y1="%s" x2="%s" y2="%s"/>',
 			$major ? ' tacho__tick--major' : '',

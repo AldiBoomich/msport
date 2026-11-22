@@ -28,6 +28,9 @@ if ( root.classList.contains( 'film' ) ) {
 
 function start() {
 	const lenis = new Lenis( { autoRaf: false, anchors: false } );
+	// the mobile menu covers the page (header.js): no scrolling behind it; sent synchronously, so a menu
+	// link restarts the scroll before its anchor jump below
+	document.addEventListener( 'msport:menu', ( event ) => ( event.detail.open ? lenis.stop() : lenis.start() ) );
 
 	// ---- layout → scroll geometry
 	let zones = [];

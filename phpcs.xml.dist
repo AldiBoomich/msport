@@ -18,13 +18,17 @@
 
 	<rule ref="WordPress.WP.I18n">
 		<properties>
-			<property name="text_domain" type="array" value="msport"/>
+			<property name="text_domain" type="array">
+				<element value="msport"/>
+			</property>
 		</properties>
 	</rule>
 
 	<rule ref="WordPress.NamingConventions.PrefixAllGlobals">
 		<properties>
-			<property name="prefixes" type="array" value="msport"/>
+			<property name="prefixes" type="array">
+				<element value="msport"/>
+			</property>
 		</properties>
 	</rule>
 

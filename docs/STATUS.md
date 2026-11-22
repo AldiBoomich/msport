@@ -143,12 +143,21 @@ Last updated: 2026-11-21 (session 6: 3D film part 2: overlays, look fields, entr
 
 - **Matte bonnet in the final shot fixed (2026-11-22, user: "the bonnet looks like a bad respray, matte").** Cause: in chapter 10 the headlights face the lens and the bloom (strength 0.35, radius 0.3) spread a milky veil over the black bonnet and bumper. Ruled out by test renders: the reflection softening (trees), street-lamp reflections, paint roughness, flakes, lightformer edges. Fix: bloom strength per chapter (`bloom` in `chapter-fx.js` state, blended on legs; `film-scene.js` `bloom.strength = 0.35 × st.bloom`), outro 0.43× (≈ 0.15), every other chapter unchanged. Video re-rendered (`assets/video/*.mp4`), outro stills replaced in place (attachments 316 / 317, `wp media regenerate`; PNG masters `3d-source/stills/d10.png`, `m10.png`), JS rebuilt. Tool fix: `video.mjs`, `shot.mjs`, `film.mjs` decode their folder path (the space in "Local Sites" broke the `/node_modules/` mount, so the page never loaded); `video.mjs` protocolTimeout 10 min. Render deps: `npm i --no-save three@0.170.0 puppeteer-core@23` in the theme root + junction `tools/3d/node_modules` → `node_modules` (both git-ignored). Checks: `check.mjs` 1440 / 390: 0 FAIL; live site outro screenshot looked at. Backups: session scratchpad `backup-video/`, `backup-stills/`; before/after `hood/before-after-outro.jpg`.
 
+- **ROADMAP §7 checks done (2026-11-22).**
+  - ROADMAP cleaned up: old review items closed (model v3 is the one the site loads; v5 and the fly-through were reviewed), orange peel closed as "kept off". CREDITS.md: model v3 row added, `street_lamp_1k.hdr` marked as no longer in the theme, paint flakes noted as procedural.
+  - `motion.mjs --mode nogpu`: the site falls back to the video version (Microsoft Basic Render Driver), 48–56 fps, no long tasks, 0 JS errors; shots looked at.
+  - PHPCS (WordPress + PHPCompatibilityWP): 0 errors, 0 warnings on 24 files. Composer is not installed system-wide: `composer.phar` lives in the session scratchpad and runs on Local's PHP 8.5.1 (`php composer.phar install`, then `php vendor/squizlabs/php_codesniffer/bin/phpcs`); `vendor/` is git-ignored. Fixed: CRLF line endings in `functions.php`, `inc/film.php`, `inc/template-tags.php` (now LF like the rest), `msport_stats( $rows, $extra_class )` (was `$class`, a reserved word), assignment alignment in `msport_tachometer()`, `phpcs.xml.dist` array properties in the current `<element>` syntax.
+  - `php -l` on all 26 PHP files: OK. `WP_DEBUG` (on, log only): the theme has never written to `debug.log`; the only notice is ACF's early text domain load (plugin side; ACF is not touched until the user says so).
+  - `check.mjs`: front page 1440 / 768 / 390, reduced motion, privacy page, 404, empty search, front page as admin (`--cookie`): 0 FAIL (the 404 page's "HTTP 404" is expected). One 768 run showed CLS 0.392; two reruns and a shift trace (`layout-shift` sources while scrolling) gave 0, so it was a one-off of the local server. Old WARNs left: no meta description, no favicon.
+  - Skill checklist gone through. Found and fixed: with the mobile menu open, a mouse wheel still scrolled the page behind it (Lenis scrolls by script, `overflow: hidden` does not stop it). `header.js` now sends `msport:menu` ({ open }) synchronously, `src/film/boot.js` stops / starts Lenis on it; JS rebuilt. Menu test (keyboard at 390 px, mouse at 800 px): opens, focus on the first link, Tab wraps, Esc closes and returns focus, the page stays put while open, scrolls after closing, a menu link closes the menu and lands on the chapter.
+  - Mobile LOD closed as not needed (user, 2026-11-22): only touch tablets with a short side ≥ 820 px (iPad Air / Pro) run the live scene, and they handle the full model (2.16 MB); everything smaller gets the video. Left for release: version `0.1.0` in `style.css` / `MSPORT_VERSION` (assets are versioned by file time already), PageSpeed on a live site, favicon and meta description.
+
 ## Next step
 1. User reviews part 2 on http://msport.local/ (V10 chapter: scroll slowly through the tachometer; SMG III; play the sound in the tail chapter; a phone).
-2. ROADMAP §7 checks to finish (PHPCS needs Composer; `motion.mjs --mode nogpu`), then §8 portfolio case. Open: mobile LOD only for tablets with live 3D.
+2. §8 portfolio case.
 
 ## Open questions for the user
-- Update ACF PRO to a current version (removes the PHP notice in the log)?
+- Update ACF PRO to a current version (removes the PHP notice in the log)? (Not now: the user will say when.)
 - Developer name, portfolio link (also the "Get in touch" button of chapter 10) and social links: fill them in M6 Settings, or tell me what to put there.
 
 ## Fixed decisions (do not change without the user)

@@ -36,6 +36,9 @@
 		outside().forEach( ( el ) => {
 			el.inert = open;
 		} );
+		// the film's smooth scroll (src/film/boot.js) pauses while the overlay is open: overflow alone
+		// does not stop a script-driven scroll
+		document.dispatchEvent( new CustomEvent( 'msport:menu', { detail: { open } } ) );
 		if ( open ) {
 			const first = menu.querySelector( 'a[href]' );
 			if ( first ) {

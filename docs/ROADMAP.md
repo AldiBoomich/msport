@@ -43,6 +43,17 @@
 - [x] User reviewed the effects (`film-*-fx2.mp4`): OK for now, final judgement on the real site (2026-11-18)
 - [x] Render chapter stills (16:9 2560×1440 + portrait 9:19.5 1200×2600) for chapters 1–8 and 10, WebP q82, in the media library and the fields (2026-11-19)
 
+## 2b. Photoreal pass (user, 2026-11-22: "make it truly photoreal, lowered, sharp background")
+- [x] Compare kit: reference photos + masks, camera fit, Cycles renders, photo | render | overlay sheets (`tools/3d/bl_compare.py`, `compare_sheet.py`, `make_masks.py`, `refs.json`)
+- [x] Model defect found and fixed for Cycles: trim sheets lying on the paint, doubled layers (`tools/3d/bl_fix.py`)
+- [ ] Better source model? Candidates rendered next to Mona's, user chooses
+- [ ] Lowered ~30 mm, wheels clear the arches, shadow and AO re-baked
+- [ ] Missing details from the photos (panel gaps, lower intake mesh, badges, seals, wipers, sensors, glass)
+- [ ] Paint, glass, chrome, rubber in Cycles checked against the photos
+- [ ] Background: Shanghai Bund 16K, the visible band at full resolution
+- [ ] Chapter stills and the film rendered in Cycles; video vs live 3D on desktop shown to the user
+- [ ] Site updated after the user's OK (old files backed up)
+
 ## 3. Theme skeleton
 - [x] Clean `_s` leftovers: 20 files deleted with the user's OK (blog templates, sidebar, comments, custom header, Jetpack, customizer, RTL, old JS) (2026-11-18)
 - [x] `style.css` header, `MSPORT_VERSION`, text domain `msport`, `inc/` split, screenshot.png from the chapter 1 render

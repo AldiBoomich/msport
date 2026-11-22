@@ -161,11 +161,22 @@ Last updated: 2026-11-21 (session 6: 3D film part 2: overlays, look fields, entr
   - Checks: every new field tested by setting a marker value and finding it on the front page / 404 / empty search, then restored. PHPCS 0 / 0, `scan-theme.mjs`: no hardcoded text outside the privacy demo copy, `check.mjs` front 1440 / 768 / 390 + reduced motion + 404 + privacy: 0 FAIL, only WARN left is the favicon (Appearance → Customize → Site Identity → Site Icon).
 - **Site icon (2026-11-22).** BMW roundel from a file the user supplied: cut to 512 px with transparent corners (`assets/images/site-icon.png`), imported to the media library and set as the Site Icon (WordPress prints the 32 / 180 / 192 px links). `msport_fallback_icon()` (`inc/assets.php`) prints the theme's copy when no Site Icon is chosen. The favicon WARN of `check.mjs` is gone.
 
+- **Photoreal pass, step 1: compare with real photos (2026-11-22).** The user asked for a truly photoreal car (refs: 9 photos of 2026-11-18 + 7 new), lowered, sharper background; research → plan approved: compare kit → better model? → lowering + details → paint / reflections → 16K background → Cycles stills and film.
+  - Reference photos: `Local Sites/msport/3d-source/refs/photos/` (`a01–a09` from 2026-11-18, `b01–b07` new; b04–b07 are a non-M 6 Series: good for paint and reflections, not for bumpers / exhaust / wheels), car masks in `refs/masks/` (`tools/3d/make_masks.py`, rembg).
+  - `tools/3d/bl_compare.py` (Blender 4.2, Cycles OptiX on the RTX 4050): renders the model from each photo's camera (`tools/3d/refs.json`), daylight / studio HDRI per photo (`canary_wharf`, `studio_small_09`, 4K, in `3d-source/hdri/`), paint colour of the photo's car; `--fit` fits the camera to the photo's car mask (silhouette IoU, now 0.93–0.97 on 6 of 8 photos, b06 set by hand). `tools/3d/compare_sheet.py`: photo | render | overlay sheets. 8 photos fitted and rendered in under 2 minutes.
+  - Blender cannot open the shipped Meshopt GLB: the uncompressed v3 (`v3c-baked.glb` from the 2026-11-18 session) is kept as `3d-source/models/m6-e63-v3-raw.glb`.
+  - **Found a model defect:** Mona's black trim (`trim_black_back`, ~2 m²) lies on the paint at −2…+2 mm along the sides, plus doubled `_back` layers. The path tracer shows them as black blotches; on the site they are probably there too, hidden by black paint at night (maybe the "strange shadows" of 2026-11-21). `tools/3d/bl_fix.py` removes faces lying on the paint (±4 mm, parallel) and lifts the `_back` layers 0.5 mm; to go into the v4 model prep.
+  - First differences: the black paint renders grey-blue satin instead of deep black with sharp reflections; dotted pattern on the windscreen glass.
+  - The kit is also in the `photoreal-3d` skill (`scripts/ref-match/`, `references/ref-match.md`). rembg installed for the user's Python (`pip install --user "rembg[cpu]"`).
+  - Better model search (Sketchfab, CC BY, free): the only M6 with more detail is "BMW e63 m6 2010 rework" by obviously.csmx (668k tris, Vossen wheels; rejected on 2026-11-17 only as too heavy for the live scene); also "BMW 6 Series E63 Pre-LCI" by elremo (2.25M, sub-d, but a base 6 Series, not M6). No paid E63 M6 of good quality found (Hum3D has only the later M6 Gran Coupe). Downloads need the user's Sketchfab account.
+
 ## Next step
-1. User reviews part 2 on http://msport.local/ (V10 chapter: scroll slowly through the tachometer; SMG III; play the sound in the tail chapter; a phone).
-2. §8 portfolio case.
+1. Photoreal pass (ROADMAP §2b): the user downloads the candidate models (or decides to stay with Mona's) → render them through the compare kit next to Mona's → choose → lowering + details → paint / reflections → 16K background → Cycles stills and film.
+2. User reviews part 2 on http://msport.local/ (V10 chapter: scroll slowly through the tachometer; SMG III; play the sound in the tail chapter; a phone).
+3. §8 portfolio case.
 
 ## Open questions for the user
+- Download the candidate models from Sketchfab (csmx M6 rework, elremo 6 Series) to compare with Mona's, or stay with Mona's model?
 
 ## Fixed decisions (do not change without the user)
 - Dark design "Redline", accent Sepang Bronze, red only for the red zone. Font Archivo.

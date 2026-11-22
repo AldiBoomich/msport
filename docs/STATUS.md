@@ -170,19 +170,33 @@ Last updated: 2026-11-21 (session 6: 3D film part 2: overlays, look fields, entr
   - The kit is also in the `photoreal-3d` skill (`scripts/ref-match/`, `references/ref-match.md`). rembg installed for the user's Python (`pip install --user "rembg[cpu]"`).
   - Better model search (Sketchfab, CC BY, free): the only M6 with more detail is "BMW e63 m6 2010 rework" by obviously.csmx (668k tris, Vossen wheels; rejected on 2026-11-17 only as too heavy for the live scene); also "BMW 6 Series E63 Pre-LCI" by elremo (2.25M, sub-d, but a base 6 Series, not M6). No paid E63 M6 of good quality found (Hum3D has only the later M6 Gran Coupe). Downloads need the user's Sketchfab account.
 
+- **Photoreal pass, steps 2–6: new model v4 + Cycles stills and film (2026-11-22).** The user downloaded both candidates and asked to do everything in one go (model, lowering, details, paint, glass, 16K background, renders, video), then review.
+  - Sources (`3d-source/candidates/`, zips kept, unpacked into `elremo/`, `csmx/`): elremo "BMW 6 Series E63 Pre-LCI" (body, lamps, glass, interior, tyres, brakes; the best body) and "BMW e63 m6 2010 rework (sort of)" by mrsnake073 (a game-model M6: front bumper with the three intakes and lower mesh, rear bumper with diffuser and quad tips, M6 badges). Wheels: Mona's M6 Style 167 from v3. Credits in CREDITS.md.
+  - `tools/3d/bl_build_m6.py` → `3d-source/models/m6-e63-v4.blend` (1.77M faces, 82 objects, one material per role): csmx aligned by ICP on the shared panels (mean 7 mm); the 6 Series bumpers cut out by islands; the M6 bumpers scaled per axis onto the old ones (upper band only; bending the whole surface spoilt the intakes, rejected); donor strips round the lamps cut; tyres reshaped from the ~22" bead to 19" (tread kept), brakes scaled 0.82 so the caliper clears the barrel; M6 rims into the tyres, the elremo roundel caps moved onto the M6 hubs; kidney slats black (M6), surrounds chrome; carbon roof (all roof islands, normals recomputed); body lowered 30 mm, wheels on the ground; wheels on spin empties.
+  - Photo check (`bl_compare.py --fit`, new `--paint` / `--two-sided`): silhouette IoU v4 vs Mona v3: b01 0.977 / 0.961, a07 0.911 / 0.848, a05 0.971 / 0.971, b03 0.958 / 0.972, a08 0.968 / 0.950, a09 0.936 / 0.926, b04 0.944 / 0.933. Headlight housings silver like the photos.
+  - `tools/3d/bl_materials.py`: Black Sapphire (dark flake base under a mirror coat, flakes tilt the base normal only), thin-pane glass, chrome, lamp reflectors, carbon twill (anisotropic, coat), polished tips with sooty insides (AO), rims, tyres, rubber, lamps with a keyframed `level` (angel eyes always on as parking lights, full with the headlights; tail lamps on; disc glow).
+  - `tools/3d/rail-export.mjs`: the film's state per frame from the site code (camera rail desktop + portrait, headlights, dimming, disc glow, light bar, roof sweep, speed and distance), for all 1440 frames and the 17 idle loops.
+  - `tools/3d/bl_film.py`: Cycles OptiX scene: Shanghai Bund **16K** (Poly Haven EXR, `3d-source/hdri/shanghai_bund_16k.exr`, yaw 180° as the site), damp asphalt with puddles and lane paint like the site's road, moving under the car (real motion blur; wheels turn by distance), street lamps every 25 m overhead (reflections and light only), the light bar (gills) and roof sweep, headlight beams, AgX, lamp glare, vignette. Stills = the site's still moments, film = the video timeline frame for frame. Frames on disk are skipped (resume).
+  - `tools/3d/cycles-pack.mjs`: frames → mp4 with the site video's settings (keyframe every 8, no B-frames) + idle loops + a side-by-side against the current site video.
+  - Bugs found on the way: a role material named like a source material ("reflector") deleted the source's link → 532k faces of lamp reflectors vanished (fixed: roles read first, clashing source materials renamed); `transform_apply(scale=True)` also applies location → street lamps and light strips ended up under the road (fixed); motion-blurred rims glittered (clamp direct 6 / indirect 3, filter glossy 1, no coat on rims).
+  - Output (outside the theme): `3d-source/cycles/stills/` (`d01–d10.png` 2560×1440, `p01–p10.png` 1200×2600), `film-desktop/`, `film-portrait/`, `loops-*` (JPEG frames), `video/` (mp4), scene `m6-film-scene.blend`. First tries kept as `stills-try1/`, `film-desktop-try1/`, `m6-film-scene-try1.blend`.
+  - The site is unchanged (still Mona's v3 and the WebGL video): replacing files waits for the user's OK.
+  - The kit is in the `photoreal-3d` skill: `references/cycles-film.md`, `scripts/cycles-film/`.
+
 ## Next step
-1. Photoreal pass (ROADMAP §2b): the user downloads the candidate models (or decides to stay with Mona's) → render them through the compare kit next to Mona's → choose → lowering + details → paint / reflections → 16K background → Cycles stills and film.
-2. User reviews part 2 on http://msport.local/ (V10 chapter: scroll slowly through the tachometer; SMG III; play the sound in the tail chapter; a phone).
-3. §8 portfolio case.
+1. User reviews the Cycles stills and film (`3d-source/cycles/`, side-by-side `video/*-vs-site.mp4`) and says: stills + video on the site from Cycles? live WebGL with the new model? both?
+2. Then (ROADMAP §2b last item): replace the site's stills / video (backups first); for the live scene a web version of v4 (decimate + gltf-transform), checked against the Cycles frames.
+3. User reviews part 2 on http://msport.local/; §8 portfolio case.
 
 ## Open questions for the user
-- Download the candidate models from Sketchfab (csmx M6 rework, elremo 6 Series) to compare with Mona's, or stay with Mona's model?
+- Use the Cycles film and stills on the site instead of the WebGL ones (desktop and phones)? Keep the live 3D on fast desktops (then it needs the v4 model in a web version)?
+- The bonnet: the M6 may have a slightly raised power dome; v4 keeps the 6 Series bonnet (not modelled without a clear reference). Add it?
 
 ## Fixed decisions (do not change without the user)
 - Dark design "Redline", accent Sepang Bronze, red only for the red zone. Font Archivo.
 - One-page site, English, ACF PRO, everything editable. No form (2026-11-19).
 - The whole site is one 3D film around the car, 10 chapters in the order above, no interior. V10 chapter = bonnet + tachometer (the model has no engine; no engine model will be added).
-- Car: Mona's model, deep glossy black, BMW badge stays.
+- Car: deep glossy black (Black Sapphire), BMW badge stays. On the site: Mona's model v3; the Cycles renders use v4 (elremo body + M6 parts), the site switches only after the user's OK.
 - Copyright, licences and brand rules are not a concern at all. No disclaimer, no warnings.
 
 ## Tools

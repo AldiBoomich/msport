@@ -46,12 +46,12 @@
 ## 2b. Photoreal pass (user, 2026-11-22: "make it truly photoreal, lowered, sharp background")
 - [x] Compare kit: reference photos + masks, camera fit, Cycles renders, photo | render | overlay sheets (`tools/3d/bl_compare.py`, `compare_sheet.py`, `make_masks.py`, `refs.json`)
 - [x] Model defect found and fixed for Cycles: trim sheets lying on the paint, doubled layers (`tools/3d/bl_fix.py`)
-- [ ] Better source model? Candidates rendered next to Mona's, user chooses
-- [ ] Lowered ~30 mm, wheels clear the arches, shadow and AO re-baked
-- [ ] Missing details from the photos (panel gaps, lower intake mesh, badges, seals, wipers, sensors, glass)
-- [ ] Paint, glass, chrome, rubber in Cycles checked against the photos
-- [ ] Background: Shanghai Bund 16K, the visible band at full resolution
-- [ ] Chapter stills and the film rendered in Cycles; video vs live 3D on desktop shown to the user
+- [x] Better source model: elremo body (chosen by the user's "most detailed body") + M6 parts from the csmx/mrsnake073 M6 + Mona's M6 wheels → `3d-source/models/m6-e63-v4.blend` (`tools/3d/bl_build_m6.py`) (2026-11-22)
+- [x] Lowered 30 mm, wheels clear the arches (v4; shadows and AO path-traced in Cycles, no bake needed for the renders)
+- [x] Details: real panel gaps, M6 intakes with lower mesh, black kidney slats, M6 / M badges, parking sensors, wipers, glass, silver headlight housings, quad tips, carbon roof (v4)
+- [x] Paint, glass, chrome, rubber in Cycles (`tools/3d/bl_materials.py`), checked against the photos (`bl_compare.py`)
+- [x] Background: Shanghai Bund 16K EXR in the Cycles renders
+- [ ] Chapter stills and the film rendered in Cycles (`tools/3d/bl_film.py`); video vs live 3D shown to the user (renders done, user review pending)
 - [ ] Site updated after the user's OK (old files backed up)
 
 ## 3. Theme skeleton

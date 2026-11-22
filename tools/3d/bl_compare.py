@@ -27,6 +27,8 @@ ap.add_argument('--fit', action='store_true', help='fit each camera to the car m
 ap.add_argument('--fit-write', action='store_true', help='write the fitted cameras back into refs.json')
 ap.add_argument('--fit-iters', type=int, default=160)
 ap.add_argument('--keep-materials', action='store_true', help='do not apply the preview materials')
+ap.add_argument('--paint', default='paint', help='material names (before the first ".") painted per photo, comma-separated')
+ap.add_argument('--two-sided', action='store_true', help='keep back faces (models not prepared by bl_prepare.py)')
 a = ap.parse_args(argv)
 os.makedirs(a.out, exist_ok=True)
 cfg = json.load(open(a.refs, encoding='utf-8'))
@@ -84,6 +86,10 @@ PRESET = {  # role: (base colour, metallic, roughness, extra)
     'lights_glass': ('#ffffff', 0.0, 0.0, {'Transmission Weight': 1.0, 'IOR': 1.5}),
 }
 paint_mats = set()
+PAINT = set(a.paint.split(','))
+for m in bpy.data.materials:
+    if m.name.split('.')[0] in PAINT:
+        paint_mats.add(m)
 if not a.keep_materials:
     for o in meshes:
         for m in o.data.materials:
@@ -91,9 +97,7 @@ if not a.keep_materials:
             if not p:
                 continue
             r = m.name.split('.')[0]
-            if r == 'paint':
-                paint_mats.add(m)
-            elif r in PRESET:
+            if r in PRESET:
                 col, met, rough, extra = PRESET[r]
                 setv(p, 'Base Color', lin(col)); setv(p, 'Metallic', met); setv(p, 'Roughness', rough)
                 for k, v in extra.items():
@@ -114,7 +118,7 @@ def front_side_only(m):
     nt.links.new(mix.outputs['Shader'], out.inputs['Surface'])
 
 for m in bpy.data.materials:
-    if m.use_nodes and m.name.split('.')[0] not in ('glass', 'lights_glass'):
+    if not a.two_sided and m.use_nodes and m.name.split('.')[0] not in ('glass', 'lights_glass'):
         front_side_only(m)
 
 # mesh repairs a path tracer needs (bl_fix.py): trim buried under the paint, doubled *_back layers

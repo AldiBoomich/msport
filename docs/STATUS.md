@@ -1,6 +1,6 @@
 # STATUS — where we stopped
 
-Last updated: 2026-11-23 (photoreal pass: 30 fps chosen, stage 1 desktop film rendering)
+Last updated: 2026-11-23 (photoreal pass: stage 1 desktop film done, waiting for the user's check)
 
 ## Done
 - Project documents: `DESIGN.md` (dark "Redline"), `docs/CONTENT-MODEL.md` (ACF fields), `docs/ROADMAP.md`, `CREDITS.md`, `README.md`, `CLAUDE.md`.
@@ -203,7 +203,9 @@ Last updated: 2026-11-23 (photoreal pass: 30 fps chosen, stage 1 desktop film re
 ## Next step
 - **Frame rate chosen (2026-11-23, user: "I see no difference, take the cheaper one"):** 30 fps, shutter 0.75 (as cheap as 0.5, smoother), puddles on. Test clips: 90 frames in 9.5 min (6.3 s a frame at 1080p).
 
-1. Stage 1 rendering: `3d-source/cycles/film-desktop-v6/` (1440 frames, v6, rail-30, shutter 0.75) → `cycles/video/film-1080-v6.mp4` + side-by-side with the site (`cycles-pack.mjs … --fps 30`). Then the user's check. Earlier plan: stage 1 = desktop film 1920×1080 (30 fps: 1440 frames, ~2.5–3 h; 50 fps: 2400 frames, ~4–4.5 h) with model v6 + side-by-side; stage 2 = chapter stills; stage 3 = phone film 720×1560; stage 4 = idle loops. Stop after each stage for the user's check.
+- **Stage 1 done (2026-11-23):** 1440 frames in 2 h 46 min (16:21–19:08, ~6.9 s a frame with loading). `3d-source/cycles/video/film-1080-v6.mp4` (1920×1080, 30 fps, 48 s), `film-1080-v6-vs-prev.mp4` (first Cycles film with the small rims | v6), `film-3-versions.mp4` (site WebGL, first Cycles, v6 in one frame), `film-1080-v6-vs-site.mp4`.
+
+1. User checks stage 1. Stage 1 output: `3d-source/cycles/film-desktop-v6/` (1440 frames, v6, rail-30, shutter 0.75) → `cycles/video/film-1080-v6.mp4` + side-by-side with the site (`cycles-pack.mjs … --fps 30`). Then the user's check. Earlier plan: stage 1 = desktop film 1920×1080 (30 fps: 1440 frames, ~2.5–3 h; 50 fps: 2400 frames, ~4–4.5 h) with model v6 + side-by-side; stage 2 = chapter stills; stage 3 = phone film 720×1560; stage 4 = idle loops. Stop after each stage for the user's check.
 2. Then (ROADMAP §2b last item): replace the site's stills / video (backups first; at 50 fps switch `video-timeline.js` / `src/film/video.js` to 50; at 30 fps they stay); for the live scene a web version of v5, checked against the Cycles frames.
 3. User reviews part 2 on http://msport.local/; §8 portfolio case.
 

@@ -37,7 +37,7 @@
 - [x] User reviews the v3 fly-through (followed by the effects review below and the reviews on the real site)
 - [x] User reviews realism v5 (`assets/3d/previews/realism-v5-*.png`) (reviewed 2026-11-18, see model v3 above)
 - [x] Orange peel (made, kept off: reads as ripple on this geometry; viewer `peel=`)
-- [ ] Close-up quality check: headlights, gills, rims and brake discs, exhaust tips, roof
+- [x] Close-up quality check: headlights, gills, rims and brake discs, exhaust tips, roof (Cycles: lamps and glass approved, rear seams fixed in v6, 2026-11-23)
 - [x] Per-chapter effects prototyped in the viewer: headlights on, light bar sweep, disc glow, heat haze, limiter jolt, gear jolts, roof highlight, dims + driving loop (road, wheels with spin blur, street lamps) — `tools/3d/chapter-fx.js`, `film-*-fx1.mp4` (2026-11-18)
 - [x] New backdrop: Shanghai Bund HDRI turned to 180° (Pudong skyline, no trees), chosen from 5 HDRIs (`bg-*.png`), re-rendered `chapters-*-v6.png`, `film-*-fx2.mp4` (2026-11-18)
 - [x] User reviewed the effects (`film-*-fx2.mp4`): OK for now, final judgement on the real site (2026-11-18)
@@ -52,10 +52,12 @@
 - [x] Paint, glass, chrome, rubber in Cycles (`tools/3d/bl_materials.py`), checked against the photos (`bl_compare.py`)
 - [x] Background: Shanghai Bund 16K EXR in the Cycles renders
 - [x] First Cycles film + stills shown to the user (review 1, 2026-11-22: lamps, M6 badge, rims, static near reflections, lane changes, 1080p 50 fps)
-- [x] Model v5 + live reflections + driving dynamics + 50 fps rail + faster render settings (stage 0, under review)
-- [ ] Stage 1: desktop film 1080p 50 fps + side-by-side → user check
+- [x] Model v5 + live reflections + driving dynamics + 50 fps rail + faster render settings (stage 0)
+- [x] Lamps as on the real car from every side, soft lamp halo, windows without dark patches (approved 2026-11-23); model v6 with clean rear seams
+- [ ] 30 fps test clip → user picks 30 or 50 fps and the shutter
+- [ ] Stage 1: desktop film 1080p (30 or 50 fps) + side-by-side → user check
 - [ ] Stage 2: chapter stills (desktop + phone) → user check
-- [ ] Stage 3: phone film 720×1560 50 fps → user check
+- [ ] Stage 3: phone film 720×1560 → user check
 - [ ] Stage 4: idle loops (desktop + phone) → user check
 - [ ] Site updated after the user's OK (old files backed up)
 

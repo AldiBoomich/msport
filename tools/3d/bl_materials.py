@@ -63,16 +63,36 @@ def paint(name='paint', base='#07090d', flake_size=0.00035, flake_tilt=0.28):
     return m
 
 
+def _fresnel_thin(nt, ior):
+    """Schlick's Fresnel on |N·I|: the same from either side of the sheet. Blender's Fresnel node takes a face
+    seen from its back as a view from inside the glass (IOR inverted): past ~42° total internal reflection
+    turned a cover whose normals face inwards into a black mirror (2026-11-23: half the headlight black
+    straight on, the whole lamp gone from the side)."""
+    geo = nt.nodes.new('ShaderNodeNewGeometry')
+    dot = nt.nodes.new('ShaderNodeVectorMath'); dot.operation = 'DOT_PRODUCT'
+    nt.links.new(geo.outputs['Normal'], dot.inputs[0]); nt.links.new(geo.outputs['Incoming'], dot.inputs[1])
+    ab = nt.nodes.new('ShaderNodeMath'); ab.operation = 'ABSOLUTE'; nt.links.new(dot.outputs['Value'], ab.inputs[0])
+    om = nt.nodes.new('ShaderNodeMath'); om.operation = 'SUBTRACT'; om.inputs[0].default_value = 1.0
+    nt.links.new(ab.outputs[0], om.inputs[1])
+    p5 = nt.nodes.new('ShaderNodeMath'); p5.operation = 'POWER'; p5.inputs[1].default_value = 5.0
+    nt.links.new(om.outputs[0], p5.inputs[0])
+    r0 = ((ior - 1) / (ior + 1)) ** 2
+    fr = nt.nodes.new('ShaderNodeMath'); fr.operation = 'MULTIPLY_ADD'; fr.inputs[1].default_value = 1 - r0; fr.inputs[2].default_value = r0
+    nt.links.new(p5.outputs[0], fr.inputs[0])
+    return fr.outputs[0]
+
+
 def thin_glass(name, tint, ior=1.5, rough=0.0, emit=None, strength=0.0):
     """A thin pane: reflection by Fresnel, the rest passes tinted (no refraction offset, works on single
-    sheets and on two-sided panes alike). emit: colour behind the pane that lights up with 'level'."""
+    sheets and on two-sided panes alike, whichever way their normals face). emit: colour behind the pane that
+    lights up with 'level'."""
     m, nt, p, out = _new(name)
     nt.nodes.remove(p)
-    fr = nt.nodes.new('ShaderNodeFresnel'); fr.inputs['IOR'].default_value = ior
+    fr = _fresnel_thin(nt, ior)
     tr = nt.nodes.new('ShaderNodeBsdfTransparent'); tr.inputs['Color'].default_value = (*tint, 1)
     gl = nt.nodes.new('ShaderNodeBsdfGlossy'); gl.distribution = 'GGX'; gl.inputs['Roughness'].default_value = rough
     mix = nt.nodes.new('ShaderNodeMixShader')
-    nt.links.new(fr.outputs[0], mix.inputs[0]); nt.links.new(tr.outputs[0], mix.inputs[1]); nt.links.new(gl.outputs[0], mix.inputs[2])
+    nt.links.new(fr, mix.inputs[0]); nt.links.new(tr.outputs[0], mix.inputs[1]); nt.links.new(gl.outputs[0], mix.inputs[2])
     last = mix
     if emit:
         em = nt.nodes.new('ShaderNodeEmission'); em.inputs['Color'].default_value = (*emit, 1)
@@ -105,7 +125,8 @@ def _facing(nt, axis, lo, hi):
 def projector(name='bulb', strength=160.0):
     """Bi-xenon projector lens: clear glass whose light is a beam. Straight into the lamp it burns white; a few
     degrees off it falls to a dim glow, from the side only the glass's reflections remain (a flat emitter
-    glowing alike from every side read as a sticker)."""
+    glowing alike from every side read as a sticker). The film no longer uses it (bl_film.py --lamps real:
+    lens_glass, the same from every side); kept for the model file's own lamps (--lamps v5)."""
     m = thin_glass(name, (0.9, 0.93, 1.0))
     nt = m.node_tree; out = nt.nodes['Material Output']; last = out.inputs['Surface'].links[0].from_node
     core = _facing(nt, (0.0, -1.0, 0.0), 0.80, 0.985)                    # within ~10–35° of the axis
@@ -125,6 +146,37 @@ def projector(name='bulb', strength=160.0):
     add = nt.nodes.new('ShaderNodeAddShader')
     nt.links.new(last.outputs[0], add.inputs[0]); nt.links.new(em.outputs[0], add.inputs[1])
     nt.links.new(add.outputs[0], out.inputs['Surface'])
+    return m
+
+
+def ring_light(name='angel', colour=(0.84, 0.91, 1.0), strength=30.0, spill=0.2):
+    """Angel eye ring as the real one: a light guide that glows evenly along its whole length and from every
+    side, nothing view-dependent (2026-11-23, the user, with photos a02 / a03: "two even bright rings"; a
+    glassy Principled ring with emission on top changed with the angle). Pure emission × 'level'.
+    spill: its light on everything but the camera (the chrome bowl a centimetre away), as a fraction: at full
+    strength the bowl glowed white round the rings and the lamp read as one white blob, not as the photo's
+    crisp rings in a silver bowl."""
+    m, nt, p, out = _new(name)
+    nt.nodes.remove(p)
+    em = nt.nodes.new('ShaderNodeEmission'); em.inputs['Color'].default_value = (*colour, 1)
+    lp = nt.nodes.new('ShaderNodeLightPath')
+    k = nt.nodes.new('ShaderNodeMath'); k.operation = 'MULTIPLY_ADD'            # camera 1, other rays spill
+    k.inputs[1].default_value = 1.0 - spill; k.inputs[2].default_value = spill
+    nt.links.new(lp.outputs['Is Camera Ray'], k.inputs[0])
+    mul = nt.nodes.new('ShaderNodeMath'); mul.operation = 'MULTIPLY'; nt.links.new(k.outputs[0], mul.inputs[0])
+    _level(nt, mul.inputs[1], strength)
+    nt.links.new(mul.outputs[0], em.inputs['Strength'])
+    nt.links.new(em.outputs[0], out.inputs['Surface'])
+    return m
+
+
+def lens_glass(name='bulb', glow=0.0, colour=(0.86, 0.92, 1.0)):
+    """Projector lens as in the photos (a02: a dark glass ball inside the ring): clear glass, the same from every
+    side; glow: an even glow from the lamp behind it × 'level' (0: none; even 0.8 read as a white disc). The
+    2026-11-22 lens burned at 160 straight on, lit the whole bowl white and went black from the side, so the
+    lamp looked different at every angle."""
+    m = thin_glass(name, (0.9, 0.93, 1.0), emit=colour, strength=glow)
+    m.cycles.emission_sampling = 'NONE'
     return m
 
 
@@ -165,18 +217,19 @@ def carbon(name='carbon', tow=0.004):
     return m
 
 
-def exhaust(name='exhaust'):
+def exhaust(name='exhaust', steel=0.3, rough=0.34):
     """Brushed stainless tips, sooty inside: ambient occlusion darkens and roughens the inner pipe (polished,
-    the lips mirrored the red tail lamps as glowing pink rings)."""
+    the lips mirrored the red tail lamps as glowing pink rings; at 0.5 / 0.22 they still shone as bright rings
+    in the night film, 2026-11-23)."""
     m, nt, p, out = _new(name)
-    _set(p, Base_Color=(0.5, 0.49, 0.47), Metallic=1.0, Roughness=0.22)
+    _set(p, Base_Color=(steel, steel * 0.98, steel * 0.94), Metallic=1.0, Roughness=rough)
     ao = nt.nodes.new('ShaderNodeAmbientOcclusion'); ao.inputs['Distance'].default_value = 0.06
     ramp = nt.nodes.new('ShaderNodeMapRange'); ramp.inputs['From Min'].default_value = 0.35; ramp.inputs['From Max'].default_value = 0.9
     nt.links.new(ao.outputs['AO'], ramp.inputs['Value'])
     col = nt.nodes.new('ShaderNodeMix'); col.data_type = 'RGBA'
-    col.inputs['A'].default_value = (0.02, 0.018, 0.016, 1); col.inputs['B'].default_value = (0.5, 0.49, 0.47, 1)
+    col.inputs['A'].default_value = (0.02, 0.018, 0.016, 1); col.inputs['B'].default_value = (steel, steel * 0.98, steel * 0.94, 1)
     nt.links.new(ramp.outputs[0], col.inputs['Factor']); nt.links.new(col.outputs['Result'], p.inputs['Base Color'])
-    rr = nt.nodes.new('ShaderNodeMapRange'); rr.inputs['To Min'].default_value = 0.7; rr.inputs['To Max'].default_value = 0.22
+    rr = nt.nodes.new('ShaderNodeMapRange'); rr.inputs['To Min'].default_value = 0.7; rr.inputs['To Max'].default_value = rough
     nt.links.new(ramp.outputs[0], rr.inputs['Value']); nt.links.new(rr.outputs[0], p.inputs['Roughness'])
     return m
 

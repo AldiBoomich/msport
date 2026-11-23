@@ -40,6 +40,16 @@ ap.add_argument('--comp', default='gpu', choices=('cpu', 'gpu'), help='composito
 ap.add_argument('--env-interp', default='Linear', choices=('Cubic', 'Linear'), help='panorama filtering')
 ap.add_argument('--street', default='full', choices=('full', 'lite', 'none'), help='moving street for reflections: facades, trees, posts')
 ap.add_argument('--fps', type=int, default=30, help='frames per second of the rail (motion blur shutter = half a frame)')
+ap.add_argument('--lamps', default='real', choices=('real', 'v5'), help='real: lamps as in the photos, alike from every side; v5: the lamps of the model file')
+ap.add_argument('--ring', type=float, default=30.0, help='--lamps real: angel eye rings, emission strength')
+ap.add_argument('--ring-spill', type=float, default=0.12, help='--lamps real: the light of the rings on the bowl, a fraction')
+ap.add_argument('--lens-glow', type=float, default=0.0, help='--lamps real: the projector lens, its faint even glow')
+ap.add_argument('--housing-rough', type=float, default=0.1, help='--lamps real: roughness of the silver headlight bowl')
+ap.add_argument('--lamp-bloom', type=float, default=0.3, help='--lamps real: the soft halo round the lamps (their own light only, not the city)')
+ap.add_argument('--lamp-bloom-size', type=int, default=8, help='--lamps real: halo size, 6 (tight) to 9 (wide)')
+ap.add_argument('--puddles', default='on', choices=('on', 'off'), help='off: evenly damp asphalt, no mirror patches')
+ap.add_argument('--shutter', type=float, default=0.5, help='motion blur shutter, in frames (0.5 = the 180 degree film rule)')
+ap.add_argument('--tail-spill', type=float, default=40.0, help='--lamps real: red light of each tail lamp on the road (W)')
 a = ap.parse_args(argv)
 os.makedirs(a.out, exist_ok=True)
 W, H = map(int, a.size.split('x'))
@@ -78,7 +88,7 @@ cy.caustics_reflective = False; cy.caustics_refractive = False; cy.blur_glossy =
 cy.sample_clamp_direct = 6.0; cy.sample_clamp_indirect = 3.0
 sc.render.use_persistent_data = True
 sc.render.resolution_x, sc.render.resolution_y, sc.render.resolution_percentage = W, H, 100
-sc.render.use_motion_blur = not a.no_blur; sc.render.motion_blur_shutter = 0.5
+sc.render.use_motion_blur = not a.no_blur; sc.render.motion_blur_shutter = a.shutter
 sc.render.image_settings.file_format = 'PNG'; sc.render.image_settings.color_mode = 'RGB'; sc.render.image_settings.color_depth = '8'
 sc.render.film_transparent = False
 sc.view_settings.view_transform = 'AgX'
@@ -166,6 +176,8 @@ noise.noise_dimensions = '2D'; rt.links.new(rtc.outputs['Object'], noise.inputs[
 wet = rt.nodes.new('ShaderNodeMapRange'); wet.inputs['From Min'].default_value = 0.5; wet.inputs['From Max'].default_value = 0.62
 wet.inputs['To Min'].default_value = 0.22; wet.inputs['To Max'].default_value = 1.0; wet.clamp = True
 rt.links.new(noise.outputs['Fac'], wet.inputs['Value'])
+if a.puddles == 'off':                             # the damp base level everywhere, no puddles
+    wet.inputs['To Max'].default_value = wet.inputs['To Min'].default_value
 # lane paint: dashes at x = 1.95 every 6 m (3 m long), an edge line at x = -1.75 (the site's road)
 sep = rt.nodes.new('ShaderNodeSeparateXYZ'); rt.links.new(rtc.outputs['Object'], sep.inputs[0])
 
@@ -340,6 +352,46 @@ for x in (0.62, -0.62):
     o.rotation_mode = 'QUATERNION'; o.rotation_quaternion = (Vector((x * 1.6, -12, 0)) - o.location).to_track_quat('-Z', 'Y')
     beams.append(ld)
 
+# ---------------------------------------------------------------- lamps as in the photos (--lamps real)
+# The user's photos a02 / a03 (angel eyes on): two even, bright white rings in each headlight, a calm silver
+# bowl lit by them, the projector lens a glass ball. Nothing here depends on the view angle: the 2026-11-22 lens
+# burned at 160 straight on (it lit the whole bowl white, hid the inner ring) and went black from the side, the
+# rings were glassy plastic with a glow on top, so the lamp looked different from every camera (the user,
+# 2026-11-23: "at the right angle it's all clear, change the angle and the lamp falls apart"). Now: rings of pure
+# light (bl_materials.ring_light), a glass lens with a faint even glow (lens_glass), a satin silver bowl that
+# scatters the rings' light, so it glows from any side. Tail lamps: the model's six light-guide bars (the real
+# E63's fibre-optic bars) as they are; their light lies red on the road behind (spot lights linked to the road).
+# --lamps v5: the model's own lamps, for comparison.
+bulbs = []
+if a.lamps == 'real':
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    import bl_materials as BM
+    swap = {'bulb': BM.lens_glass(glow=a.lens_glow), 'angel': BM.ring_light(strength=a.ring, spill=a.ring_spill),   # old ones become '*_src'
+            'exhaust': BM.exhaust(steel=0.4, rough=0.08),   # polished: sharp highlights; satin, the lips glowed as even neon rings
+            # the lamp covers again, with the two-sided Fresnel (the model's covers went black-mirror where their
+            # normals face inwards: half the headlight black straight on, the lamp gone from the side)
+            'lamp_glass': BM.thin_glass('lamp_glass', (0.96, 0.96, 0.96)),
+            'lamp_inner': BM.thin_glass('lamp_inner', (0.9, 0.9, 0.9), rough=0.08),
+            'lamp_red': BM.thin_glass('lamp_red', (0.62, 0.025, 0.02)),
+            'glass': BM.thin_glass('glass', (0.55, 0.6, 0.59))}         # windows: the same fix, the same tint
+    for o in bpy.data.objects:
+        for s_ in getattr(o, 'material_slots', []):
+            if s_.material and s_.material.name.endswith('_src') and s_.material.name[:-4] in swap:
+                s_.material = swap[s_.material.name[:-4]]
+    hm = bpy.data.materials.get('housing')
+    if hm:
+        _set_p = hm.node_tree.nodes['Principled BSDF'].inputs
+        _set_p['Base Color'].default_value = (0.5, 0.51, 0.53, 1); _set_p['Roughness'].default_value = a.housing_rough
+    road_rx = bpy.data.collections.new('road_only'); road_rx.objects.link(road)     # not the bumper right below
+    for sx in (1, -1):
+        ld = bpy.data.lights.new('bulb_tail', 'SPOT'); ld.spot_size = math.radians(150); ld.spot_blend = 1.0
+        ld.color = (1.0, 0.03, 0.012); ld.shadow_soft_size = 0.08; ld.energy = 0
+        o = bpy.data.objects.new('bulb_tail', ld); sc.collection.objects.link(o); o.location = (sx * 0.64, 2.24, 0.72)
+        o.rotation_mode = 'QUATERNION'; o.rotation_quaternion = (Vector((sx * 0.9, 6.0, -0.3)) - o.location).to_track_quat('-Z', 'Y')
+        o.visible_camera = False; o.light_linking.receiver_collection = road_rx
+        o['on'] = a.tail_spill; o['tail'] = 1
+        bulbs.append(o)
+
 # ---------------------------------------------------------------- camera
 cam = bpy.data.objects.new('cam', bpy.data.cameras.new('cam')); sc.collection.objects.link(cam); sc.camera = cam
 cam.data.sensor_fit = 'VERTICAL'; cam.data.sensor_height = 24.0; cam.data.clip_start = 0.02; cam.data.clip_end = 5000
@@ -361,6 +413,17 @@ ct.links.new(vr.outputs['Value'], mul.inputs[0]); ct.links.new(gl.outputs['Image
 mix2 = ct.nodes.new('CompositorNodeMixRGB'); mix2.blend_type = 'MULTIPLY'; mix2.inputs[0].default_value = 1.0
 ct.nodes.remove(mul)
 ct.links.new(gl.outputs['Image'], mix2.inputs[1]); ct.links.new(vr.outputs['Value'], mix2.inputs[2])
+# the lamps' halo (user's photos: soft light round the rings, as a lens sees a lamp at night): a glow made of
+# the emission the camera sees straight on (rings, tail bars, glowing discs), so the city and the reflections
+# keep their sharpness; added on top of the image before the vignette
+if a.lamps == 'real' and a.lamp_bloom > 0:
+    sc.view_layers[0].use_pass_emit = True
+    eg = ct.nodes.new('CompositorNodeGlare'); eg.glare_type = 'FOG_GLOW'; eg.quality = 'HIGH'; eg.threshold = 0.0
+    eg.size = a.lamp_bloom_size; eg.mix = 1.0                         # the glow alone
+    ct.links.new(rl.outputs['Emit'], eg.inputs['Image'])
+    add = ct.nodes.new('CompositorNodeMixRGB'); add.blend_type = 'ADD'; add.inputs[0].default_value = a.lamp_bloom
+    ct.links.new(gl.outputs['Image'], add.inputs[1]); ct.links.new(eg.outputs['Image'], add.inputs[2])
+    ct.links.new(add.outputs['Image'], mix2.inputs[1])
 ct.links.new(mix2.outputs['Image'], comp.inputs['Image'])
 
 # ---------------------------------------------------------------- animation from the rail
@@ -395,7 +458,7 @@ for o in list(root.children):
             reparent(o, steer['LF' if c.x > 0 else 'RF'])
         continue
     reparent(o, body_e)
-for b in [o for o in bpy.data.objects if o.type == 'LIGHT' and o.name.startswith('beam')]:
+for b in [o for o in bpy.data.objects if o.type == 'LIGHT' and o.name.startswith(('beam', 'bulb_'))]:
     reparent(b, body_e)
 bpy.context.view_layer.update()
 
@@ -505,6 +568,12 @@ def animate(states, first=1):
         fcurve(t, 'nodes["level"].outputs[0].default_value', frames, [1.0 for s in states])
     for b in beams:
         fcurve(b, 'energy', frames, [180.0 * s['lights'] * s['beam'] for s in states])
+    for b in bulbs:                                   # headlight bulbs burn with the projector; tail lamps always
+        fcurve(b.data, 'energy', frames, [b['on'] * (1.0 if b.get('tail') else s['lights']) for s in states])
+    for name, fn in (('lamp_glass', lambda s: 0.3 + 0.7 * s['lights']), ('lamp_red', lambda s: 1.0)):
+        t = level_node(name)
+        if t and 'level' in t.nodes:
+            fcurve(t, 'nodes["level"].outputs[0].default_value', frames, [fn(s) for s in states])
     wn = world.node_tree
     fcurve(wn, 'nodes["k_env"].outputs[0].default_value', frames, [a.env * (0.15 + 0.85 * s['dim']) for s in states])
     fcurve(wn, 'nodes["k_sky"].outputs[0].default_value', frames, [a.sky * s['dim'] for s in states])

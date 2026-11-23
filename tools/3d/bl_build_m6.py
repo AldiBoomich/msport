@@ -279,6 +279,51 @@ def drop_crumbs(objs, max_faces=40, zmin=0.5):
 
 drop_crumbs([front_skin, rear_skin] + by_name(C, 'bumperf_a_SUB4', 'fenders_a_SUB3'))
 
+
+def drop_teeth(o, zmin=0.6, ymin=2.0, passes=2):
+    """cut_strips deletes whole triangles: where it ran along a row of quads, every other triangle of the row
+    stayed as a tooth (two open edges) and the dark boot floor showed between them, a saw along the seam
+    under the boot lid. The teeth go; the edge is the straight row behind them. Two passes: a corner of a
+    real opening loses at most one small triangle."""
+    for _ in range(passes):
+        bm = bmesh.new(); bm.from_mesh(o.data)
+        kill = [f for f in bm.faces if sum(e.is_boundary for e in f.edges) >= 2
+                and f.calc_center_median().z > zmin and f.calc_center_median().y > ymin]
+        bmesh.ops.delete(bm, geom=kill, context='FACES'); bm.to_mesh(o.data); bm.free()
+        log('teeth', o.name, len(kill))
+
+
+def fill_teeth(o, xmin=0.8, ys=(1.5, 2.0), zmin=0.6, max_gap=0.06, max_angle=110):
+    """The same saw over the rear arches, but there the teeth are the bumper's own surface (deleting them
+    leaves a hole onto the arch liner): the missing triangle between two teeth is put back instead. A gap
+    is a boundary vertex whose two boundary neighbours are close, not joined, and make a sharp angle with it
+    (a straight edge is ~180 degrees)."""
+    bm = bmesh.new(); bm.from_mesh(o.data); bm.verts.ensure_lookup_table(); new = 0
+    for v in list(bm.verts):
+        c = v.co
+        if not (v.is_boundary and abs(c.x) > xmin and ys[0] < c.y < ys[1] and c.z > zmin):
+            continue
+        nb = [e.other_vert(v) for e in v.link_edges if e.is_boundary]
+        if len(nb) != 2:
+            continue
+        a, b = nb
+        if bm.edges.get((a, b)) or (a.co - b.co).length > max_gap:
+            continue
+        if math.degrees((a.co - c).angle(b.co - c)) > max_angle:
+            continue
+        f0 = bm.edges.get((v, a)).link_faces[0]              # wind the new face against its neighbour on v-a
+        try:
+            f = bm.faces.new((a, v, b) if any(l.vert is v and l.link_loop_next.vert is a for l in f0.loops) else (b, v, a))
+        except ValueError:
+            continue
+        f.smooth = True; f.material_index = f0.material_index; new += 1
+    bm.to_mesh(o.data); bm.free()
+    log('teeth filled', o.name, new)
+
+
+fill_teeth(rear_skin)
+drop_teeth(rear_skin)
+
 if a.stage < 4:
     bpy.ops.wm.save_as_mainfile(filepath=os.path.abspath(a.out)); sys.exit(0)
 

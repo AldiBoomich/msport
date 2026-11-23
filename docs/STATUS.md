@@ -1,6 +1,6 @@
 # STATUS — where we stopped
 
-Last updated: 2026-11-23 (photoreal pass: lamps approved, model v6 (rear seams), 30 fps test clip under review)
+Last updated: 2026-11-23 (photoreal pass: 30 fps chosen, stage 1 desktop film rendering)
 
 ## Done
 - Project documents: `DESIGN.md` (dark "Redline"), `docs/CONTENT-MODEL.md` (ACF fields), `docs/ROADMAP.md`, `CREDITS.md`, `README.md`, `CLAUDE.md`.
@@ -201,7 +201,9 @@ Last updated: 2026-11-23 (photoreal pass: lamps approved, model v6 (rear seams),
 - **30 fps test (2026-11-23, user: "try 30 fps, add blur if it costs nothing, drop the puddles if they cost time").** `3d-source/models/m6-e63-rail-30.json` (`rail-export.mjs --fps 30`: 1440 film frames, the same lane changes). 1080p, 96 spp, steady frames: puddles on + shutter 0.5 = 6.3 s, puddles off = 6.1 s (−4 %, kept on: the road loses its reflections), shutter 0.75 = 6.3 s (free). New flags: `bl_film.py --puddles on|off`, `--shutter <frames>`. Test clips (3 s, the lane change at 32.8 s): `3d-source/cycles/test-30/` (shutter 0.75), `test-30-s05/` (0.5), `cycles/video/test-30*.mp4`. Junk `3d-source/badge-src/bmw_m.svg` (an HTML error page) deleted with the user's OK.
 
 ## Next step
-1. User reviews the 30 fps test clips (shutter 0.75 vs 0.5) and picks the frame rate. On OK: stage 1 = desktop film 1920×1080 (30 fps: 1440 frames, ~2.5–3 h; 50 fps: 2400 frames, ~4–4.5 h) with model v6 + side-by-side; stage 2 = chapter stills; stage 3 = phone film 720×1560; stage 4 = idle loops. Stop after each stage for the user's check.
+- **Frame rate chosen (2026-11-23, user: "I see no difference, take the cheaper one"):** 30 fps, shutter 0.75 (as cheap as 0.5, smoother), puddles on. Test clips: 90 frames in 9.5 min (6.3 s a frame at 1080p).
+
+1. Stage 1 rendering: `3d-source/cycles/film-desktop-v6/` (1440 frames, v6, rail-30, shutter 0.75) → `cycles/video/film-1080-v6.mp4` + side-by-side with the site (`cycles-pack.mjs … --fps 30`). Then the user's check. Earlier plan: stage 1 = desktop film 1920×1080 (30 fps: 1440 frames, ~2.5–3 h; 50 fps: 2400 frames, ~4–4.5 h) with model v6 + side-by-side; stage 2 = chapter stills; stage 3 = phone film 720×1560; stage 4 = idle loops. Stop after each stage for the user's check.
 2. Then (ROADMAP §2b last item): replace the site's stills / video (backups first; at 50 fps switch `video-timeline.js` / `src/film/video.js` to 50; at 30 fps they stay); for the live scene a web version of v5, checked against the Cycles frames.
 3. User reviews part 2 on http://msport.local/; §8 portfolio case.
 

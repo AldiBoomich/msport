@@ -54,8 +54,8 @@
 - [x] First Cycles film + stills shown to the user (review 1, 2026-11-22: lamps, M6 badge, rims, static near reflections, lane changes, 1080p 50 fps)
 - [x] Model v5 + live reflections + driving dynamics + 50 fps rail + faster render settings (stage 0)
 - [x] Lamps as on the real car from every side, soft lamp halo, windows without dark patches (approved 2026-11-23); model v6 with clean rear seams
-- [ ] 30 fps test clip → user picks 30 or 50 fps and the shutter
-- [ ] Stage 1: desktop film 1080p (30 or 50 fps) + side-by-side → user check
+- [x] 30 fps test clip → user: no visible difference, 30 fps (shutter 0.75)
+- [ ] Stage 1: desktop film 1080p 30 fps + side-by-side → user check (rendering)
 - [ ] Stage 2: chapter stills (desktop + phone) → user check
 - [ ] Stage 3: phone film 720×1560 → user check
 - [ ] Stage 4: idle loops (desktop + phone) → user check

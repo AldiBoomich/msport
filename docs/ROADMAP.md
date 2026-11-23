@@ -56,8 +56,8 @@
 - [x] Lamps as on the real car from every side, soft lamp halo, windows without dark patches (approved 2026-11-23); model v6 with clean rear seams
 - [x] 30 fps test clip → user: no visible difference, 30 fps (shutter 0.75)
 - [x] Stage 1: desktop film 1080p 30 fps + side-by-side → user check (rendered 2026-11-23; user OK, moved on to stage 2)
-- [ ] Stage 2: chapter stills (desktop + phone) → user check (rendered 2026-11-23, waiting for the check)
-- [ ] Stage 3: phone film 720×1560 → user check
+- [x] Stage 2: chapter stills (desktop + phone) → user check (2026-11-23; phone chapter 7 tail spill weakened, user OK)
+- [ ] Stage 3: phone film 720×1560 → user check (rendered 2026-11-23, waiting for the check)
 - [ ] Stage 4: idle loops (desktop + phone) → user check
 - [ ] Site updated after the user's OK (old files backed up)
 

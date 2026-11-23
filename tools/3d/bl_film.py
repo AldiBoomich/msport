@@ -50,6 +50,7 @@ ap.add_argument('--lamp-bloom-size', type=int, default=8, help='--lamps real: ha
 ap.add_argument('--puddles', default='on', choices=('on', 'off'), help='off: evenly damp asphalt, no mirror patches')
 ap.add_argument('--shutter', type=float, default=0.5, help='motion blur shutter, in frames (0.5 = the 180 degree film rule)')
 ap.add_argument('--tail-spill', type=float, default=40.0, help='--lamps real: red light of each tail lamp on the road (W)')
+ap.add_argument('--tail-gloss', default='on', choices=('on', 'off'), help='off: the tail spill lights the road but has no mirror spot of its own in the wet asphalt (the lamps reflect anyway)')
 a = ap.parse_args(argv)
 os.makedirs(a.out, exist_ok=True)
 W, H = map(int, a.size.split('x'))
@@ -389,6 +390,7 @@ if a.lamps == 'real':
         o = bpy.data.objects.new('bulb_tail', ld); sc.collection.objects.link(o); o.location = (sx * 0.64, 2.24, 0.72)
         o.rotation_mode = 'QUATERNION'; o.rotation_quaternion = (Vector((sx * 0.9, 6.0, -0.3)) - o.location).to_track_quat('-Z', 'Y')
         o.visible_camera = False; o.light_linking.receiver_collection = road_rx
+        o.visible_glossy = a.tail_gloss == 'on'               # its spot in the wet road reads as a searchlight from a low camera
         o['on'] = a.tail_spill; o['tail'] = 1
         bulbs.append(o)
 

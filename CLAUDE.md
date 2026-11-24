@@ -13,8 +13,12 @@
 
 ## Project
 - Single-page portfolio site presenting the **BMW M6 E63** (V10, 8,250 rpm).
-- **Reset to zero on 2026-11-24** (user's decision): the 3D film and the old "Redline" design are gone. No 3D. The new concept comes from reference sites the user sends; until it is agreed, there is no DESIGN.md.
-- E63 reference photos: `C:\Users\aaldi\Local Sites\msport\refs-e63\` — never delete.
+- **Reset to zero on 2026-11-24** (user's decision): the 3D film and the old "Redline" design are gone. **No 3D, no WebGL.**
+- New concept (approved 2026-11-24), after Porsche 911 Turbo S / Ferrari 812 GTS / Koenigsegg: a car-launch studio, night and day chapters alternate, 8 chapters (hero, profile, design hotspots, V10/POWER, drive, spec sheet, heritage, outro). Contract: [DESIGN.md](DESIGN.md). Fields: [docs/CONTENT-MODEL.md](docs/CONTENT-MODEL.md). Plan: [docs/ROADMAP.md](docs/ROADMAP.md). Credits: [CREDITS.md](CREDITS.md).
+- **Signature = the POWER button** (P400 → P500, 400 → 507 PS, the needle to 8,250 rpm in time with the V10 recording). Amber `--c-amber` is used only for engine speed, never on day chapters.
+- Photos: coupé shots from Wikimedia Commons cut out onto our studio backdrop; details, cockpit, engine from official BMW press photos (M6 Convertible 06/2006 set, roof never visible); M635CSi for heritage. User's choice 2026-11-24.
+- Font: Mona Sans variable (width axis: wide caps headlines, condensed figures), self-hosted woff2.
+- E63 reference photos: `C:\Users\aaldi\Local Sites\msport\refs-e63\` — never delete. Press/source photos: `C:\Users\aaldi\Local Sites\msport\press-m6\`. Python tools venv: `C:\Users\aaldi\Local Sites\msport\.venv`.
 - Build and check with the `wp-premium-design` skill (mode **build**).
 - Local site: Local (Flywheel), site folder `C:\Users\aaldi\Local Sites\msport`. URL: `http://msport.local/`. Runs PHP 8.5.1. No WP-CLI in PATH.
 
@@ -22,11 +26,13 @@
 - Classic PHP theme (started from `_s`). Text domain and prefix: `msport` / `msport_`. Version constant `MSPORT_VERSION` in `functions.php`; code split into `inc/` (setup, cleanup, assets, helpers). Templates read fields through `msport_field()` / `msport_option()` / `msport_front()` (fallback when the plugin is off or a field is empty).
 - **ACF PRO** (installed). Field groups go to `acf-json/` (Local JSON). Never rename a field that has content.
 - All assets self-hosted in the theme. No CDNs, no Google Fonts. No jQuery on the front end. No page builders. No form on the site.
+- Motion: native scroll (no GSAP, no Lenis — none of the references uses them), `position: sticky` scenes scrubbed by a small own module, vanilla ES modules, JS ≤ 25 KB on the front page.
+- PHP linting: `composer` is not in PATH; run `"C:/Users/aaldi/AppData/Roaming/Local/lightning-services/php-8.5.1+1/bin/win64/php.exe" vendor/bin/phpcs`.
 
 ## Rules
 - Nothing visible is hardcoded in templates: text and images come from ACF, the menu or the Customizer. Fallback strings use `esc_html__( '…', 'msport' )`.
 - Escape on output: `esc_html`, `esc_attr`, `esc_url`, `wp_kses_post`. Sanitize all input, check nonces.
-- Once DESIGN.md exists: tokens only from its `:root`; no new colours, sizes or radii outside it.
+- Tokens only from DESIGN.md (`:root`); no new colours, sizes or radii outside it.
 - Images: no AI images.
 - Every animation has a `prefers-reduced-motion` version; nothing stays hidden without JS.
 - One `<h1>`. No horizontal scroll 360–1920 px. AA contrast. Full keyboard support.

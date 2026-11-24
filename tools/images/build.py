@@ -3,7 +3,8 @@
 Usage: python build.py <recipe.json>
 Recipe: {"src_dir": "...", "out_dir": "...", "items": [{"src": "bmw/P0024702.jpg", "out": "drive-smg",
           "crop": [x0, y0, x1, y1] (fractions of the image after the caption bar is removed, optional),
-          "width": 2560, "bw": false, "alpha": false}]}
+          "width": 2560, "bw": false, "alpha": false, "strip": true}]}
+"strip": false keeps the photo whole (sources without the BMW caption bar, e.g. a dark studio shot).
 Cut-outs (alpha: true) are RGBA PNGs from cutout.py; they keep their transparency.
 Run with the tools venv: "C:/Users/aaldi/Local Sites/msport/.venv/Scripts/python" -I build.py recipe.json
 """
@@ -60,7 +61,12 @@ def main() -> None:
     for it in recipe["items"]:
         img = Image.open(src_dir / it["src"])
         alpha = it.get("alpha", False)
-        img = img.convert("RGBA") if alpha else strip_caption_bar(img.convert("RGB"))
+        if alpha:
+            img = img.convert("RGBA")
+        elif it.get("strip", True):
+            img = strip_caption_bar(img.convert("RGB"))
+        else:
+            img = img.convert("RGB")
         if "crop" in it:
             x0, y0, x1, y1 = it["crop"]
             img = img.crop((round(x0 * img.width), round(y0 * img.height), round(x1 * img.width), round(y1 * img.height)))

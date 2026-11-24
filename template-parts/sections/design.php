@@ -22,7 +22,7 @@ $msport_close = msport_option( 'opt_close_label', __( 'Close', 'msport' ) );
 
 	<div class="design__stage" data-hotspots>
 		<?php if ( $msport_img ) : ?>
-			<div class="design__frame" data-zoom>
+			<div class="design__frame<?php echo msport_is_cutout( $msport_img ) ? '' : ' is-photo'; ?>" data-zoom>
 				<?php
 				msport_the_image(
 					$msport_img,

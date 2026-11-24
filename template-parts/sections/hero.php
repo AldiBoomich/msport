@@ -1,6 +1,7 @@
 <?php
 /**
- * Chapter 1, hero (night): the studio, the car, the only h1, the way to the sound.
+ * Chapter 1, hero (night), Koenigsegg-like: a full-bleed studio photo, the model name large on the left (the only h1)
+ * with the lead under it, the way to the sound on the right.
  * Motion: page-load "lights up" + the scroll exit into the profile scene (scenes.js → --p).
  *
  * @package msport
@@ -14,11 +15,8 @@ $msport_mobile = (int) msport_front( 'hero_image_mobile', 0 );
 ?>
 <section id="<?php echo esc_attr( $msport_c['anchor'] ); ?>" class="ch ch--night hero scene" data-chapter data-scene="hero" aria-labelledby="hero-title">
 	<div class="scene__sticky hero__stage">
-		<div class="studio" aria-hidden="true"></div>
-		<p class="hero__wordmark" aria-hidden="true"><?php echo esc_html( msport_front( 'hero_wordmark', __( 'M6', 'msport' ) ) ); ?></p>
-
 		<?php if ( $msport_img ) : ?>
-			<div class="hero__car">
+			<div class="hero__media">
 				<picture>
 					<?php if ( $msport_mobile ) : ?>
 						<source media="(max-width: 47.99em) and (orientation: portrait)" srcset="<?php echo esc_attr( (string) wp_get_attachment_image_srcset( $msport_mobile, 'msport-wide' ) ); ?>" sizes="100vw">
@@ -30,18 +28,19 @@ $msport_mobile = (int) msport_front( 'hero_image_mobile', 0 );
 						array(
 							'class'   => 'hero__img',
 							'loading' => 'eager',
-							'sizes'   => '(min-width: 75em) 68vw, (min-width: 48em) 84vw, 128vw',
+							'sizes'   => '100vw',
 						)
 					);
 					?>
 				</picture>
 			</div>
 		<?php endif; ?>
+		<div class="hero__shade" aria-hidden="true"></div>
 
 		<div class="container hero__copy">
-			<h1 id="hero-title" class="h1 stepped"><?php echo msport_lines( msport_front( 'hero_title', __( "BMW M6 Coupé.\nA V10 that revs\nto 8,250.", 'msport' ) ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped in msport_lines(). ?></h1>
+			<h1 id="hero-title" class="hero__title stepped"><?php echo msport_lines( msport_front( 'hero_title', __( "BMW\nM6", 'msport' ) ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped in msport_lines(). ?></h1>
 			<p class="lead hero__lead"><?php echo esc_html( msport_front( 'hero_lead' ) ); ?></p>
-			<a class="btn btn--light" href="<?php echo esc_url( msport_chapter_url( 'power' ) ); ?>"><?php echo esc_html( msport_front( 'hero_cta_label', __( 'Hear the V10', 'msport' ) ) ); ?></a>
+			<a class="btn btn--light hero__cta" href="<?php echo esc_url( msport_chapter_url( 'power' ) ); ?>"><?php echo esc_html( msport_front( 'hero_cta_label', __( 'Hear the V10', 'msport' ) ) ); ?></a>
 		</div>
 		<div class="hero__veil" aria-hidden="true"></div>
 	</div>

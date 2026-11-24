@@ -36,7 +36,7 @@ $msport_now  = $msport_now ? $msport_now : (int) msport_front( 'hero_image', 0 )
 		<?php endif; ?>
 
 		<?php if ( $msport_now ) : ?>
-			<figure class="heritage__now">
+			<figure class="heritage__now<?php echo msport_is_cutout( $msport_now ) ? '' : ' is-photo'; ?>">
 				<?php
 				msport_the_image(
 					$msport_now,

@@ -1,1 +1,0 @@
-var I=(r,E,o)=>r+(E-r)*o,e=r=>r*r*r*(r*(r*6-15)+10),n=r=>r<.12?800:r<.72?800+7450*Math.pow((r-.12)/.6,1.6):r<.88?8250-260*Math.abs(Math.sin((r-.72)*70)):I(8e3,800,e((r-.88)/.12)),t=r=>r>=.72?8250:n(r),L=r=>r<.06?1:Math.min(7,1+Math.floor((r-.06)/.12));export{n as a,t as b,L as c};

@@ -1,7 +1,7 @@
 {
-    "name": "msport/m6-e63-redline",
+    "name": "msport/msport",
     "type": "wordpress-theme",
-    "description": "M6 E63 Redline: one-page WordPress theme, a scroll-driven 3D film around the BMW M6 E63.",
+    "description": "msport: one-page WordPress theme presenting the BMW M6 E63.",
     "license": "GPL-2.0-or-later",
     "require": {
         "php": ">=8.2"

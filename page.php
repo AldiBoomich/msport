@@ -1,6 +1,6 @@
 <?php
 /**
- * Default page (privacy policy and other plain pages): title + editor content.
+ * Default page: title + editor content.
  *
  * @package msport
  */
@@ -9,16 +9,14 @@ defined( 'ABSPATH' ) || exit;
 
 get_header();
 ?>
-<main id="main" class="plain-page container">
+<main id="main">
 	<?php
 	while ( have_posts() ) :
 		the_post();
 		?>
-		<article <?php post_class( 'plain-page__article' ); ?>>
-			<h1 class="plain-page__title"><?php the_title(); ?></h1>
-			<div class="entry-content">
-				<?php the_content(); ?>
-			</div>
+		<article <?php post_class(); ?>>
+			<h1><?php the_title(); ?></h1>
+			<?php the_content(); ?>
 		</article>
 	<?php endwhile; ?>
 </main>

@@ -6,9 +6,6 @@
 /tools
 /src
 /docs
-/assets/3d/previews
-/assets/3d/m6-e63.glb
-/assets/3d/m6-e63-v2.glb
 .distignore
 .eslintrc
 CLAUDE.md

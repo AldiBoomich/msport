@@ -1,9 +1,9 @@
 /*
-Theme Name: M6 E63 Redline
+Theme Name: msport
 Theme URI: http://msport.local/
 Author: msport
-Description: Single-page presentation of the BMW M6 E63, told as one scroll-driven 3D film around the car. Content is edited in Secure Custom Fields / ACF (fields stored in acf-json/).
-Version: 0.1.0
+Description: Single-page presentation of the BMW M6 E63. Rebuild from scratch in progress (docs/ROADMAP.md).
+Version: 0.2.0
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 8.2
@@ -11,5 +11,3 @@ License: GNU General Public License v2 or later
 License URI: LICENSE
 Text Domain: msport
 */
-
-/* Styles live in assets/css/main.css (tokens from DESIGN.md first). This file only carries the theme header. */

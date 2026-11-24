@@ -48,6 +48,7 @@ export const LOOPS = [
   ...[2, 3, 4, 5, 6].map(g => ({ rail: 7, ft: 0.06 + 0.12 * (g - 1.5), range: [0.08 + 0.12 * (g - 2), 0.16 + 0.12 * (g - 2)] })),
   { rail: 7, ft: 0.85, range: [0.7, 1] },
   { rail: 9, ft: 0.5, range: [0, 1] },
+  { rail: 8, ft: 0.5, range: [0, 1] },              // added 2026-11-24 (loop 17, after the others: indices kept)
 ];
 
 /** The loop for a resting rail state, or -1. */
@@ -55,6 +56,40 @@ export function loopAt(p, ft) {
   if (ft === null || ft === undefined) return -1;
   const i = Math.round(p);
   return LOOPS.findIndex(l => l.rail === i && ft >= l.range[0] && ft <= l.range[1]);
+}
+
+// Stops of the played film (src/film/video.js, user 2026-11-24): the scroll only picks where the film goes and
+// the film plays there by itself at one steady pace. A stop is an idle loop's state, so the car keeps driving
+// while the film rests: { loop, rail, ft, range, frame }, in film order.
+export const STOPS = LOOPS.map((l, loop) => ({ loop, rail: l.rail, ft: l.ft, range: l.range, frame: Math.round(frameAt(l.rail, l.ft)) }))
+  .sort((a, b) => a.frame - b.frame);
+
+/**
+ * The stop the film should head for at a rail state. Inside a chapter's hold: that chapter's stop whose range
+ * holds ft, else its nearest one. On a leg (and in a chapter without stops): the next stop when the scroll
+ * goes down (dir > 0), the previous one when it goes up, the nearest when it rests.
+ */
+export function stopFor(p, ft, dir = 0) {
+  if (ft !== null && ft !== undefined) {
+    const i = Math.round(p);
+    const mine = STOPS.filter(s => s.rail === i);
+    if (mine.length) {
+      const inside = mine.find(s => ft >= s.range[0] && ft <= s.range[1]);
+      return STOPS.indexOf(inside || mine.reduce((a, b) => (Math.abs(b.ft - ft) < Math.abs(a.ft - ft) ? b : a)));
+    }
+  }
+  const f = frameAt(p, ft);
+  if (dir > 0) {
+    const k = STOPS.findIndex(s => s.frame >= f);
+    return k < 0 ? STOPS.length - 1 : k;
+  }
+  if (dir < 0) {
+    for (let k = STOPS.length - 1; k >= 0; k--) if (STOPS[k].frame <= f) return k;
+    return 0;
+  }
+  let best = 0;
+  STOPS.forEach((s, k) => { if (Math.abs(s.frame - f) < Math.abs(STOPS[best].frame - f)) best = k; });
+  return best;
 }
 
 /** Rail state (boot.js → railAt) → frame index, fractional (0 … FRAMES - 1). */

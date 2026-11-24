@@ -1,6 +1,6 @@
 # STATUS — where we stopped
 
-Last updated: 2026-11-24 (three trial versions of the film on the site, one link each, for the user to choose)
+Last updated: 2026-11-24 (the user chose video; ?film=video now plays from stop to stop instead of scrubbing)
 
 ## Done
 - Project documents: `DESIGN.md` (dark "Redline"), `docs/CONTENT-MODEL.md` (ACF fields), `docs/ROADMAP.md`, `CREDITS.md`, `README.md`, `CLAUDE.md`.
@@ -218,7 +218,15 @@ Last updated: 2026-11-24 (three trial versions of the film on the site, one link
   - Checks (headless Chrome, RTX 4050): all four load with no console errors, preloader gone in 0.7–6.5 s locally (desktop 1920: site 6.5 s, live 3.3 s, video 0.9 s, frames 1.3 s; phone 390: 0.7–1.6 s); idle loops run in video and frames; phpcs clean. Sheets: scratchpad `trial/sheet-d.jpg`, `trial/sheet-m.jpg`.
   - Next: the user picks one; then remove the other trials (ask first), move the chosen files where they belong, full checks.
 
-1. User compares the trials: http://msport.local/?film=live, ?film=video, ?film=frames (and the plain site), and picks one.
+- **The user chose the video; it now plays instead of scrubbing (2026-11-24).** User: scrubbed by a slow scroll the car moved "at 3 fps" and froze between moves; whatever the scroll speed, the camera should change the same way. `?film=video` (`src/film/video.js`, rewritten):
+  - The scroll only picks a **stop** (`tools/3d/video-timeline.js` → `STOPS`, one per idle loop; `stopFor(p, ft, dir)`: inside a hold that chapter's stop, on a leg the next stop going down / the previous going up). The film plays there by itself: easing 1× → 2.5× → 1× (`ACCEL` 120 frames/s², `SPEED` 2.5, `&speed=` in the address to try others), so a chapter step takes ~2–2.5 s at any scroll speed and meets the loop's pace; at the stop the film pauses and the loop fades in (400 ms), leaving it fades out (250 ms).
+  - Up: the film rendered backwards (`cycles-pack.mjs --reverse` → `3d-source/cycles/video/film-1080-v6-reverse.mp4` 54 MB, `film-portrait-v6-reverse.mp4` 23 MB, CRF 20 like the forward films; copies in `uploads/msport-film/video/`); the car rolls back meanwhile (the user's choice, no render). Turning round half-way swaps the files at the same picture (GOP 8).
+  - Far jumps (> 320 frames: menu links, flicks) dissolve once (a frozen snapshot fading out, 500 ms) after the target has settled 150 ms; so does going back before the backwards file has loaded. Where the browser refuses to play video by itself (power saving), the old scrubbing player takes over.
+  - `src/film/boot.js` (video mode only): a scroll left resting 150 ms between two chapters glides (0.9 s) on to the next one in the direction it went; menu links land on a chapter's pinned hold. Overlays (tachometer, gears) keep following the scroll.
+  - Spec chapter loop (it had none): loop 17 `{ rail: 8, ft: 0.5 }` appended to `LOOPS` (indices kept); rail `3d-source/models/m6-e63-rail-30-l18.json` (film identical to rail-30, old loops identical); `bl_film.py --loop-only 17`; rendered with the stage 4 settings (desktop 11.5 min, phone 5.7 min) → `loops-*-v6/l17_*.jpg`; repacked → `3d-source/cycles/video/film-1080-v6-loops18.mp4` (27 MB), `film-portrait-v6-loops18.mp4` (10 MB), copied over the trial copies in `uploads/msport-film/video/*-loops.mp4`. Known: loops are rendered in the car's own lane, so where the film has the car in the next lane (the SMG stops, 32.7–42.7 s) or mid lane change (the spec stop) the loop fade-in shifts the lane lines / car a little for 0.4 s (as in the old video version; hardly visible under the spec veil). Fix if the user sees it: loops that carry the film's lateral offset, re-render those 8 loops (~1.5–2 h).
+  - Checks (headless Chrome, RTX 4050, wheel scrolling): desktop 1600 and phone 390: slow scroll never shows a frozen picture for more than 100 ms (film playing or loop), fast flicks play at the same pace, up uses the backwards film, turning round works, a menu link dissolves once; 0 console errors. `check.mjs` 1440 / 768 / 390 and `--reduced-motion` 0 FAIL (LCP 0.26–0.39 s, CLS ≤ 0.007); `motion.mjs` gpu / nogpu 0 JS errors; phpcs clean. Page weight in video mode: forward + backwards + loops ≈ 135 MB desktop, 56 MB phone (local trial; trim for the live site).
+
+1. User tries http://msport.local/?film=video (and `&speed=2` / `&speed=3`). On OK: video becomes the default, ask whether to remove the trials (?film=live, ?film=frames) and their files, trim the video weight for the live site.
 2. Look into the 200 ms hitch entering chapter 4 on phones (pre-compile the shaders while the preloader is up?).
 3. §8 portfolio case.
 

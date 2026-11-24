@@ -27,6 +27,10 @@ if ( root.classList.contains( 'film' ) ) {
 }
 
 function start() {
+	// Trial versions for the user's side-by-side (2026-11-24), one per link: ?film=live (live scene with the
+	// v6 car), ?film=video (the Cycles film, played from stop to stop), ?film=frames (the Cycles film as a frame
+	// sequence on a canvas). Without it the site stays as it is.
+	const mode = new URLSearchParams( location.search ).get( 'film' );
 	const lenis = new Lenis( { autoRaf: false, anchors: false } );
 	// the mobile menu covers the page (header.js): no scrolling behind it; sent synchronously, so a menu
 	// link restarts the scroll before its anchor jump below
@@ -92,7 +96,9 @@ function start() {
 			return;
 		}
 		event.preventDefault();
-		lenis.scrollTo( target.getBoundingClientRect().top + window.scrollY, { duration: 1.6 } );
+		// the played film rests only inside a chapter's hold: land where its frame is pinned
+		const zone = mode === 'video' ? zones.find( ( z ) => z.el === target ) : null;
+		lenis.scrollTo( zone ? zone.holdStart : target.getBoundingClientRect().top + window.scrollY, { duration: 1.6 } );
 		history.pushState( null, '', url.hash );
 		target.setAttribute( 'tabindex', '-1' );
 		target.focus( { preventScroll: true } );
@@ -107,6 +113,44 @@ function start() {
 		}
 	}
 
+	// ---- the played film (?film=video): a scroll left resting between two chapters glides on to the next one
+	// in the direction it went, so the text and the picture (heading there by itself) always match. Any wheel
+	// or touch takes over again (Lenis).
+	let snapY = window.scrollY;
+	let snapDir = 0;
+	let still = performance.now();
+	let snapUntil = 0;
+	let touching = false;
+	if ( mode === 'video' ) {
+		window.addEventListener( 'touchstart', () => ( touching = true ), { passive: true } );
+		[ 'touchend', 'touchcancel' ].forEach( ( e ) => window.addEventListener( e, () => ( touching = false ), { passive: true } ) );
+	}
+	const glide = ( t ) => ( t < 0.5 ? 4 * t * t * t : 1 - ( ( -2 * t + 2 ) ** 3 ) / 2 );
+	const snap = ( y, now ) => {
+		if ( Math.abs( y - snapY ) > 0.5 ) {
+			snapDir = Math.sign( y - snapY );
+			snapY = y;
+			still = now;
+			return;
+		}
+		if ( touching || lenis.isStopped || now < snapUntil || now - still < 150 ) {
+			return;
+		}
+		for ( let i = 0; i < zones.length - 1; i++ ) {
+			const a = zones[ i ].holdEnd;
+			const b = zones[ i + 1 ].holdStart;
+			if ( y > a + 1 && y < b - 1 ) {
+				let to = y - a < b - y ? a : b;
+				if ( snapDir ) {
+					to = snapDir > 0 ? b : a;
+				}
+				snapUntil = now + 1100;
+				lenis.scrollTo( to, { duration: 0.9, easing: glide } );
+				return;
+			}
+		}
+	};
+
 	// ---- one loop for scroll, overlays and film
 	const overlays = createOverlays();
 	const sound = document.getElementById( 'm6-sound' );
@@ -116,6 +160,9 @@ function start() {
 		const dt = Math.min( 0.1, ( now - last ) / 1000 ); // 0.1 s clamps a background tab
 		last = now;
 		lenis.raf( now );
+		if ( mode === 'video' && film ) {
+			snap( window.scrollY, now );
+		}
 		const rail = railAt( window.scrollY );
 		overlays.update( rail );
 		if ( film ) {
@@ -157,11 +204,7 @@ function start() {
 	// every screen gets the live scene (user's decision, 2026-11-24: no video); weak graphics step their own
 	// quality down (film-scene.js → adaptive). Software rendering or a failed load: the stills stay. A slow
 	// load (10 s): the preloader gives way to the stills and the scene fades in over them when it is ready.
-	//
-	// Trial versions for the user's side-by-side (2026-11-24), one per link: ?film=live (live scene with the
-	// v6 car), ?film=video (the Cycles film as a scrubbed video), ?film=frames (the Cycles film as a frame
-	// sequence on a canvas). Without it the site stays as it is.
-	const mode = new URLSearchParams( location.search ).get( 'film' );
+	// trial versions: see `mode` at the top
 	const load = {
 		video: () => import( './video.js' ).then( ( m ) => m.goVideo ),
 		frames: () => import( './frames.js' ).then( ( m ) => m.goFrames ),

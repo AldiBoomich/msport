@@ -117,8 +117,8 @@ function msport_film_data() {
 	);
 
 	// Trial versions for the user's side-by-side (boot.js → ?film=live | video | frames). The heavy Cycles
-	// files sit in uploads/msport-film/ (outside the theme repository): video = cycles-pack.mjs CRF 24,
-	// frames = tools/3d/frames-pack.mjs WebP q82.
+	// files sit in uploads/msport-film/ (outside the theme repository): video = cycles-pack.mjs CRF 20
+	// (`reverse`: the film backwards, --reverse), frames = tools/3d/frames-pack.mjs WebP q82.
 	$up             = trailingslashit( wp_upload_dir( null, false )['baseurl'] ) . 'msport-film/';
 	$data['v6']     = array(
 		'model'       => $base . 'm6-e63-v6.glb',
@@ -127,12 +127,14 @@ function msport_film_data() {
 	);
 	$data['video']  = array(
 		'land' => array(
-			'film'  => $up . 'video/film-1080.mp4',
-			'loops' => $up . 'video/film-1080-loops.mp4',
+			'film'    => $up . 'video/film-1080.mp4',
+			'reverse' => $up . 'video/film-1080-reverse.mp4',
+			'loops'   => $up . 'video/film-1080-loops.mp4',
 		),
 		'port' => array(
-			'film'  => $up . 'video/film-portrait.mp4',
-			'loops' => $up . 'video/film-portrait-loops.mp4',
+			'film'    => $up . 'video/film-portrait.mp4',
+			'reverse' => $up . 'video/film-portrait-reverse.mp4',
+			'loops'   => $up . 'video/film-portrait-loops.mp4',
 		),
 	);
 	$data['frames'] = array(

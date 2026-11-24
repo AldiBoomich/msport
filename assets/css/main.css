@@ -705,6 +705,24 @@ html.film .chapter--film > .chapter__inner.split {
 	transition-duration: 400ms;
 }
 
+/* the film rendered backwards: swapped in at the same picture, so no fade */
+.film-video--rev {
+	opacity: 0;
+}
+
+.film-video--rev.is-on {
+	opacity: 1;
+}
+
+/* a far jump: the picture as it was, dissolving into the new chapter */
+.film-video--snap {
+	transition: opacity 500ms linear;
+}
+
+.film-video--snap.is-gone {
+	opacity: 0;
+}
+
 .film-grain {
 	position: fixed;
 	inset: -128px;

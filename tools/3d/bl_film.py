@@ -11,7 +11,7 @@ lamps passing overhead, headlights, disc glow, light bar and roof sweep where th
 
   --stills   one frame per chapter (the moment the site's stills show) → <dir>/d01.png … (p01 portrait)
   --frames   a range of the film → <dir>/f0000.png …; frames already on disk are skipped (resume)
-  --loops    the 17 idle loops (LOOP_LEN + LOOP_FADE frames each) → <dir>/l00_000.png …
+  --loops    the idle loops (LOOP_LEN + LOOP_FADE frames each) → <dir>/l00_000.png … (--loop-only 17: just that one)
 
 World: Blender z up, car front = -y (three.js (x, y, z) = Blender (x, -z, y)), the car stands at the origin
 and the road moves under it (+y), so motion blur is real object motion.
@@ -27,6 +27,7 @@ ap.add_argument('--orient', default='desktop'); ap.add_argument('--size', defaul
 ap.add_argument('--samples', type=int, default=64)
 ap.add_argument('--stills', action='store_true'); ap.add_argument('--frames', default='')
 ap.add_argument('--loops', action='store_true'); ap.add_argument('--only', default='', help='stills: chapter numbers, e.g. 1,2,10')
+ap.add_argument('--loop-only', default='', help='--loops: only these loop indices, e.g. 17 or 3,17')
 ap.add_argument('--save', default='')
 ap.add_argument('--env', type=float, default=0.65, help='panorama strength in reflections and light')
 ap.add_argument('--sky', type=float, default=0.28, help='panorama strength seen directly (backdrop)')
@@ -620,7 +621,10 @@ if a.frames:
         for k in range(f0, f1 + 1):
             render_frame(k + 1, os.path.join(os.path.abspath(a.out), 'f%04d.png' % k))
 if a.loops:
+    pick = {int(x) for x in a.loop_only.split(',') if x}
     for li, states in enumerate(RAIL['loops']):
+        if pick and li not in pick:
+            continue
         frames = animate(states)
         for j, f in enumerate(frames):
             render_frame(f, os.path.join(os.path.abspath(a.out), 'l%02d_%03d.png' % (li, j)))

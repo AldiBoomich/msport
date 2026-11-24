@@ -2,7 +2,7 @@
 // (a keyframe every 8 frames, no B-frames; the idle loops one after another, each loop's extra frames
 // cross-faded into its start), plus a side-by-side check against the current site video.
 //
-// usage: node cycles-pack.mjs <film dir> <loops dir|-> <ffmpeg> <out prefix> <width> <height> [crf=24] [compare.mp4] [--fps 50]
+// usage: node cycles-pack.mjs <film dir> <loops dir|-> <ffmpeg> <out prefix> <width> <height> [crf=24] [compare.mp4] [--fps 50] [--reverse]
 //   <film dir>/f0000.jpg …          bl_film.py --frames … --jpeg
 //   <loops dir>/l00_000.jpg …       bl_film.py --loops --jpeg
 //   compare.mp4: the site video to put on the left of <out prefix>-vs-site.mp4 (labels: "WebGL" / "Cycles")
@@ -16,11 +16,29 @@ import { LOOPS, LOOP_LEN, LOOP_FADE } from './video-timeline.js';
 const argv = process.argv.slice(2);
 const fi = argv.indexOf('--fps'), FPS = fi >= 0 ? Number(argv[fi + 1]) : 30;
 if (fi >= 0) argv.splice(fi, 2);
+const ri = argv.indexOf('--reverse'), REVERSE = ri >= 0;
+if (REVERSE) argv.splice(ri, 1);
 const [filmDir, loopsDir, ff, out, w, h, crf = 24, site] = argv;
 const K = FPS / 30, GOP = String(Math.round(8 * K)), LL = Math.round(LOOP_LEN * K), LF = Math.round(LOOP_FADE * K);
 const run = args => execFileSync(ff, ['-hide_banner', '-loglevel', 'error', '-y', ...args], { stdio: 'inherit' });
 const scale = `scale=${w}:${h}:flags=lanczos`;
 const x264 = ['-c:v', 'libx264', '-preset', 'slow', '-crf', String(crf), '-pix_fmt', 'yuv420p', '-movflags', '+faststart'];
+
+// --reverse: only the film played backwards → <out>-reverse.mp4 (src/film/video.js plays it when the scroll goes
+// up: frame k of it is frame FRAMES-1-k of the film). Same settings as the film, so both seek alike.
+if (REVERSE) {
+  const frames = fs.readdirSync(filmDir).filter(f => /^f\d{4}\.jpg$/.test(f)).sort();
+  const seq = fs.mkdtempSync(path.join(os.tmpdir(), 'revseq-'));
+  frames.reverse().forEach((f, i) => {
+    const to = path.join(seq, `f${String(i).padStart(5, '0')}.jpg`);
+    try { fs.linkSync(path.join(filmDir, f), to); } catch { fs.copyFileSync(path.join(filmDir, f), to); }
+  });
+  run(['-framerate', String(FPS), '-i', path.join(seq, 'f%05d.jpg'), '-vf', scale, ...x264,
+    '-g', GOP, '-keyint_min', GOP, '-sc_threshold', '0', '-bf', '0', out + '-reverse.mp4']);
+  fs.rmSync(seq, { recursive: true, force: true });
+  console.log(out + '-reverse.mp4', fs.statSync(out + '-reverse.mp4').size);
+  process.exit(0);
+}
 
 run(['-framerate', String(FPS), '-i', path.join(filmDir, 'f%04d.jpg'), '-vf', scale, ...x264,
   '-g', GOP, '-keyint_min', GOP, '-sc_threshold', '0', '-bf', '0', out + '.mp4']);

@@ -44,6 +44,11 @@ _Last updated: 2026-11-25_
 - Behind it the ghost badge "M6" in the BMW M manner: Mona Sans wide 800 slanted −14° + the three M stripes (new tokens
   `--c-m-light/-dark/-red`, profile badge only), soft studio light on the stage. `profile_ghost` = "M6".
 
+## Heritage as a matched pair (2026-11-25)
+- "Now" = the user's grey 645Ci press photo (2004, front three-quarter on a road — the same angle as the M635CSi).
+  Both in the same 16:9 frame (`msport-wide`, cover), then in B/W, now in colour, captions "Name, 1983" set as a large
+  condensed year + name (`msport_year_caption()`), slight zoom on hover (mouse only).
+
 ## Next step
 - Stage 5: full look at every screenshot (squint, silhouette, first screen at 390), up to 3 rounds of fixes; candidates:
   the duplicate "Hear the V10" (header + hero) on phones, the heritage layout ("now" car small), the dark car on the

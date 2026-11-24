@@ -1,6 +1,7 @@
 <?php
 /**
- * Chapter 7, heritage (day): the ancestor in black and white next to the M6.
+ * Chapter 7, heritage (day): then and now as a matched pair — the ancestor in black and white, the E63 in colour,
+ * the same frame and the same three-quarter angle, the years set large under them.
  *
  * @package msport
  */
@@ -11,6 +12,10 @@ $msport_c    = $args;
 $msport_then = (int) msport_front( 'heritage_then_image', 0 );
 $msport_now  = (int) msport_front( 'heritage_now_image', 0 );
 $msport_now  = $msport_now ? $msport_now : (int) msport_front( 'hero_image', 0 );
+$msport_pair = array(
+	'then' => array( $msport_then, msport_front( 'heritage_then_caption' ) ),
+	'now'  => array( $msport_now, msport_front( 'heritage_now_caption' ) ),
+);
 ?>
 <section id="<?php echo esc_attr( $msport_c['anchor'] ); ?>" class="ch ch--day heritage" data-chapter aria-labelledby="heritage-title">
 	<div class="container heritage__grid">
@@ -19,36 +24,27 @@ $msport_now  = $msport_now ? $msport_now : (int) msport_front( 'hero_image', 0 )
 			<div class="heritage__text"><?php echo msport_paragraphs( msport_front( 'heritage_text' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped in msport_paragraphs(). ?></div>
 		</div>
 
-		<?php if ( $msport_then ) : ?>
-			<figure class="heritage__then">
-				<?php
-				msport_the_image(
-					$msport_then,
-					'msport-panel',
-					array(
-						'class' => 'heritage__img',
-						'sizes' => '(min-width: 62em) 50vw, 100vw',
-					)
-				);
-				?>
-				<figcaption class="heritage__caption"><?php echo esc_html( msport_front( 'heritage_then_caption' ) ); ?></figcaption>
+		<?php foreach ( $msport_pair as $msport_key => $msport_item ) : ?>
+			<?php
+			if ( ! $msport_item[0] ) {
+				continue;
+			}
+			?>
+			<figure class="heritage__item heritage__<?php echo esc_attr( $msport_key ); ?>">
+				<div class="heritage__frame">
+					<?php
+					msport_the_image(
+						$msport_item[0],
+						'msport-wide',
+						array(
+							'class' => 'heritage__img',
+							'sizes' => '(min-width: 62em) 50vw, 100vw',
+						)
+					);
+					?>
+				</div>
+				<figcaption class="heritage__caption"><?php echo msport_year_caption( $msport_item[1] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped in msport_year_caption(). ?></figcaption>
 			</figure>
-		<?php endif; ?>
-
-		<?php if ( $msport_now ) : ?>
-			<figure class="heritage__now<?php echo msport_is_cutout( $msport_now ) ? '' : ' is-photo'; ?>">
-				<?php
-				msport_the_image(
-					$msport_now,
-					'msport-wide',
-					array(
-						'class' => 'heritage__cut',
-						'sizes' => '(min-width: 62em) 45vw, 100vw',
-					)
-				);
-				?>
-				<figcaption class="heritage__caption"><?php echo esc_html( msport_front( 'heritage_now_caption' ) ); ?></figcaption>
-			</figure>
-		<?php endif; ?>
+		<?php endforeach; ?>
 	</div>
 </section>

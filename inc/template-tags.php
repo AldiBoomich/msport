@@ -97,6 +97,20 @@ function msport_the_image( $id, $size = 'msport-wide', $attrs = array() ) {
 }
 
 /**
+ * A caption "Name, 1983" set as a large year and the name; any other caption is printed as is.
+ *
+ * @param string $caption Raw caption.
+ * @return string HTML (escaped).
+ */
+function msport_year_caption( $caption ) {
+	$caption = trim( (string) $caption );
+	if ( preg_match( '/^(.*?),\s*(\d{4})$/u', $caption, $m ) ) {
+		return sprintf( '<span class="heritage__year">%s</span><span class="heritage__name">%s</span>', esc_html( $m[2] ), esc_html( $m[1] ) );
+	}
+	return esc_html( $caption );
+}
+
+/**
  * A number formatted for the page: thousands separator, decimals only when present.
  *
  * @param mixed $value Number or numeric string.

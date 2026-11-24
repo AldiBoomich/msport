@@ -829,18 +829,50 @@ p:last-child { margin-bottom: 0; }
 }
 
 /* 15 Heritage ------------------------------------------------------------------------------------------------- */
+/* Then and now as a matched pair: the same 16:9 frame, the same angle, the years set large under them. */
 .heritage { padding-block: var(--s-9); }
-.heritage__grid { display: grid; gap: var(--s-7); align-items: end; }
+.heritage__grid { display: grid; gap: var(--s-7); }
 .heritage__text { margin-top: var(--s-5); max-width: 52ch; color: var(--c-muted-day); }
-.heritage__img { width: 100%; aspect-ratio: 3 / 2; object-fit: cover; }
-.heritage__caption { margin-top: var(--s-2); font-size: var(--fs-small); color: var(--c-muted-day); }
+.heritage__item { margin: 0; }
+.heritage__frame { overflow: hidden; background: var(--c-day-2); }
+.heritage__img {
+	display: block;
+	width: 100%;
+	aspect-ratio: 16 / 9;
+	object-fit: cover;
+	transition: transform var(--dur-reveal) var(--ease-out);
+}
+.heritage__then .heritage__img { object-position: 50% 68%; filter: grayscale(1) contrast(1.05); }
+.heritage__now .heritage__img { object-position: 50% 62%; }
+.heritage__caption {
+	display: flex;
+	align-items: baseline;
+	gap: var(--s-4);
+	margin-top: var(--s-4);
+	padding-top: var(--s-4);
+	border-top: 1px solid var(--c-line-day);
+	font-size: var(--fs-small);
+	color: var(--c-muted-day);
+}
+.heritage__year {
+	font-size: var(--fs-h2);
+	font-stretch: 75%;
+	font-weight: 600;
+	line-height: 0.9;
+	font-variant-numeric: tabular-nums;
+	color: var(--c-ink);
+}
+.heritage__name { font-size: var(--fs-body); font-weight: 500; color: var(--c-ink); }
+
+@media (hover: hover) and (pointer: fine) {
+	.heritage__item:hover .heritage__img { transform: scale(1.03); }
+}
 
 @media (min-width: 62em) {
 	/* Heading and text on one row, then / now side by side below at the same weight. */
-	.heritage__grid { grid-template-columns: 1fr 1fr; column-gap: var(--s-8); }
-	.heritage__copy { grid-column: 1 / -1; display: grid; grid-template-columns: 5fr 7fr; gap: var(--s-8); align-items: end; }
+	.heritage__grid { grid-template-columns: 1fr 1fr; column-gap: var(--s-7); }
+	.heritage__copy { grid-column: 1 / -1; display: grid; grid-template-columns: 5fr 7fr; gap: var(--s-8); align-items: end; margin-bottom: var(--s-5); }
 	.heritage__text { margin-top: 0; }
-	.heritage__now:not(.is-photo) .heritage__cut { width: 112%; max-width: none; margin-left: -6%; }
 }
 
 /* 16 Outro ---------------------------------------------------------------------------------------------------- */

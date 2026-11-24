@@ -27,7 +27,7 @@ the chapter rail; default = prefix).
 | `opt_menu_label`, `opt_close_label`, `opt_skip_label`, `opt_nav_label` | UI labels |
 | `opt_dev_name`, `opt_dev_url` | developer credit and the outro link |
 | `opt_sound_file` | V10 recording (file; falls back to `assets/audio/m6-v10.mp3`) |
-| `opt_rpm_curve` | textarea, JSON `[[seconds, rpm], …]` for the POWER needle (built by `tools/audio/rpm-curve.mjs`) |
+| `opt_rpm_curve` | textarea, JSON `[[seconds, rpm], …]` for the POWER needle (built by `tools/audio/rpm-curve.py`) |
 | `opt_credits` | textarea, photo and sound credits shown in the footer dialog |
 | `opt_meta_description` | meta description |
 | `opt_404_title`, `opt_404_text`, `opt_404_button` | 404 page |

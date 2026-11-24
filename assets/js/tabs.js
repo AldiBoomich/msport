@@ -1,6 +1,8 @@
 /**
  * Spec sheet tabs (WAI-ARIA tabs, automatic activation): click or arrow keys / Home / End switch the panel; the new
  * panel plays the diagonal wipe (CSS .is-entering). Without JS all groups are shown stacked.
+ * The photos of the hidden panels are lazy; they are fetched when the section comes near, so the wipe never opens on an
+ * empty frame.
  */
 export function initTabs() {
 	document.querySelectorAll( '[data-tabs]' ).forEach( ( box ) => {
@@ -43,5 +45,21 @@ export function initTabs() {
 		} );
 
 		panels.forEach( ( p, n ) => ( p.hidden = n !== 0 ) );
+
+		const preload = () => box.querySelectorAll( 'img[loading="lazy"]' ).forEach( ( img ) => ( img.loading = 'eager' ) );
+		if ( 'IntersectionObserver' in window ) {
+			const io = new IntersectionObserver(
+				( entries ) => {
+					if ( entries.some( ( e ) => e.isIntersecting ) ) {
+						preload();
+						io.disconnect();
+					}
+				},
+				{ rootMargin: '800px 0px' }
+			);
+			io.observe( box );
+		} else {
+			preload();
+		}
 	} );
 }

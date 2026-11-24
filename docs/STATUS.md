@@ -3,22 +3,25 @@
 _Last updated: 2026-11-25_
 
 ## Where we are
-- Stages 1–3 done. Photos approved by the user (2026-11-24); content imported (2026-11-25): 14 images in the media
-  library (`_msport_src` meta = site file name), all front-page fields in English with the verified figures, credits
-  and meta description in M6 Settings. Front page = page #9 "BMW M6". The one-off import mu-plugin was removed.
-- Developer name / link in M6 Settings were already set before (Aldi1988); the outro button uses that link.
-- First browser round done: hero re-laid (copy left, car right, ghost "M6" behind; h1 token now
-  `clamp(2.25rem, 1rem + 3.6vw, 4.75rem)`), container leaves room for the chapter rail at ≥ 75em, hero → profile scene
-  retimed (hero car stays while it scrolls away, profile car rises on the section entry `--in` from scenes.js),
-  stronger hotspot dots, hotspot labels always on for touch screens.
-- Checks: check.mjs 1440/768/390 and reduced motion: 0 FAIL, 1 WARN (hotspot labels hidden until hover with a mouse —
-  intended, Ferrari-like). motion.mjs gpu: 60 fps in every section, no long tasks. PHPCS clean. scan-theme: one
-  `outline: none` on the detail panel that only takes programmatic focus.
+- Stages 1–4 done. Photos approved, content imported (front page #9 "BMW M6"), motion checked frame by frame:
+  - hero entrance (lights up + heading lines rise), hero → profile scene (profile car rises on the section entry `--in`);
+  - hotspots: click → zoom to the point, detail panel on the right under the header, focus to the panel, Esc / Close
+    return focus to the point; labels always on for touch screens;
+  - POWER: LED, P400 → P500, 400 → 507, needle follows the recording along a curve measured from the sound
+    (`tools/audio/rpm-curve.py`, venv package `soundfile`): two pulls to ~6,900 rpm with shifts 2 → 3 → 4 — the driver
+    in the recording never reaches 8,250, so the needle stays out of the red zone (honest to the sound). The curve is
+    built into `assets/js/power.js`; `opt_rpm_curve` is only for a different recording;
+  - spec tabs: diagonal wipe, rows fade in, arrow keys / Home / End; photos of hidden tabs preload near the section;
+  - drive collage drift ±30 px;
+  - no-JS (checked with JS disabled): everything visible, details as cards, tabs stacked, P500 / 507 shown;
+    reduced motion: 0 FAIL.
+- Checks: check.mjs 1440/768/390 + reduced motion 0 FAIL (1 WARN on desktop: hotspot labels until hover — intended);
+  motion.mjs gpu and nogpu 60 fps everywhere, no long tasks; JS 15 KB (unminified); PHPCS clean.
 
 ## Next step
-- Stage 4 (motion): check and tune the hero entrance, hotspot click → zoom + panel, POWER (needle, sound, rpm curve —
-  `tools/audio/rpm-curve.mjs` still to write; power.js has a built-in fallback curve), tabs wipe, collage drift,
-  reduced motion / no-JS.
+- Stage 5: full look at every screenshot (squint, silhouette, first screen at 390), up to 3 rounds of fixes; candidates:
+  the duplicate "Hear the V10" (header + hero) on phones, the heritage layout ("now" car small), the dark car on the
+  dark Performance tab, screenshot.png for the theme.
 
 ## Open questions
 - None.

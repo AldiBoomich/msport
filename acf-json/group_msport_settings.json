@@ -299,7 +299,7 @@
             "name": "opt_rpm_curve",
             "aria_label": "",
             "type": "textarea",
-            "instructions": "Built by tools/audio/rpm-curve.mjs: JSON [[seconds, rpm], …]. The needle follows it while the recording plays.",
+            "instructions": "Only for a different recording: JSON [[seconds, rpm], …] built by tools/audio/rpm-curve.py. If empty, the curve of the recording shipped with the theme is used.",
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
@@ -430,5 +430,5 @@
     "active": true,
     "description": "Site-wide texts and files.",
     "show_in_rest": 0,
-    "modified": 1795544178
+    "modified": 1795547979
 }

@@ -1,12 +1,14 @@
 /**
  * The signature: the POWER key (DESIGN.md). The chapter starts in P400 (400 PS, needle at idle). Pressing POWER plays
  * the V10 recording, lights the LED, rolls the output 400 → 507 and runs the needle along the rev curve of the
- * recording ([[seconds, rpm], …] from M6 Settings; a built-in blip-to-redline profile otherwise). Pressing again stops
+ * recording ([[seconds, rpm], …] from M6 Settings; otherwise the curve of the recording shipped with the theme, measured
+ * by tools/audio/rpm-curve.py: two pulls to ~6,900 rpm with shifts 2 → 3 → 4). Pressing again stops
  * the sound and returns to P400. Reduced motion: no roll and no sweep — the number and the needle jump; sound still plays.
  */
 const FALLBACK_CURVE = [
-	[ 0, 800 ], [ 0.5, 1100 ], [ 1.4, 5200 ], [ 2.2, 8250 ], [ 2.6, 8100 ], [ 3.2, 3000 ], [ 4.2, 6500 ],
-	[ 5, 8250 ], [ 5.6, 7600 ], [ 7, 2400 ], [ 8.5, 7800 ], [ 9.3, 8250 ], [ 10.2, 4200 ], [ 12, 1400 ], [ 13.5, 900 ],
+	[ 0, 3600 ], [ 1.4, 3500 ], [ 2.12, 3400 ], [ 3.64, 4650 ], [ 5.48, 6850 ], [ 5.88, 6950 ], [ 6.08, 6050 ],
+	[ 6.28, 5850 ], [ 6.4, 5050 ], [ 6.56, 5200 ], [ 6.72, 4800 ], [ 10.16, 6800 ], [ 10.32, 6750 ], [ 10.76, 5050 ],
+	[ 11.12, 5600 ], [ 11.32, 5200 ], [ 12.36, 5550 ], [ 13.28, 5200 ], [ 13.64, 5300 ],
 ];
 
 export function initPower( reduced ) {

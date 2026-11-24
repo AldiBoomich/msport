@@ -26,13 +26,13 @@ Plan approved 2026-11-24. References: Porsche 911 Turbo S, Ferrari 812 GTS, Koen
 - [x] Restore the V10 recording and the tachometer from git history
 
 ## 4. Motion
-- [ ] Hero entrance (lights up)
+- [x] Hero entrance (lights up, heading lines rise; ≤ 1.1 s)
 - [x] Hero → profile scene (sticky, scrubbed; the profile car rises on the section entry `--in`)
-- [ ] Hotspots: zoom + detail panel, keyboard, Esc
-- [ ] POWER: LED, 400 → 507, needle in time with the recording (rpm curve)
-- [ ] Spec tabs with diagonal wipe
-- [ ] Drive collage drift
-- [ ] Reduced motion and no-JS versions
+- [x] Hotspots: zoom + detail panel (under the header), focus to the panel, Esc returns focus
+- [x] POWER: LED, 400 → 507, needle in time with the recording (curve measured by tools/audio/rpm-curve.py, peaks ~6,950 rpm)
+- [x] Spec tabs with diagonal wipe (panel photos preloaded near the section), arrow keys
+- [x] Drive collage drift (±30 px)
+- [x] Reduced motion and no-JS versions (checked in the browser with JS disabled)
 
 ## 5. Checks
 - [ ] check.mjs 1440/768/390 + reduced motion, motion.mjs gpu/nogpu, scan-theme, phpcs

@@ -583,14 +583,14 @@ p:last-child { margin-bottom: 0; }
 /* With JS: the details are a panel on the right; the car zooms into the open point. */
 .js .details {
 	position: fixed;
-	z-index: 60;
-	top: 0;
+	z-index: 45;
+	top: var(--header);
 	right: 0;
 	bottom: 0;
 	width: min(100vw, 560px);
 	max-width: none;
 	margin: 0;
-	padding: calc(var(--header) + var(--s-6)) var(--s-7) var(--s-7);
+	padding: var(--s-6) var(--s-7) var(--s-7);
 	display: block;
 	overflow: auto;
 	overscroll-behavior: contain;

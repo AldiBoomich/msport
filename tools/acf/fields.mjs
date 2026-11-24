@@ -177,7 +177,7 @@ const settings = {
 
     f.tab('opt_sound', 'Sound'),
     f.file('opt_sound_file', 'V10 recording', 'MP3. If empty, the recording shipped with the theme is used.', 'mp3'),
-    f.area('opt_rpm_curve', 'Rev curve', 'Built by tools/audio/rpm-curve.mjs: JSON [[seconds, rpm], …]. The needle follows it while the recording plays.', '', 4),
+    f.area('opt_rpm_curve', 'Rev curve', 'Only for a different recording: JSON [[seconds, rpm], …] built by tools/audio/rpm-curve.py. If empty, the curve of the recording shipped with the theme is used.', '', 4),
 
     f.tab('opt_meta', 'Search and 404'),
     f.area('opt_meta_description', 'Meta description', 'One sentence for search engines.', '', 2),

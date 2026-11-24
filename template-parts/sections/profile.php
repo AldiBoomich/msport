@@ -14,7 +14,7 @@ $msport_figures = msport_front( 'profile_figures', array() );
 ?>
 <section id="<?php echo esc_attr( $msport_c['anchor'] ); ?>" class="ch ch--night profile scene" data-chapter data-scene="profile" aria-label="<?php echo esc_attr( $msport_c['nav'] ); ?>">
 	<div class="scene__sticky profile__stage">
-		<p class="profile__ghost" aria-hidden="true"><?php echo esc_html( msport_front( 'profile_ghost', '8250' ) ); ?></p>
+		<p class="profile__ghost" aria-hidden="true"><span class="m-stripes"><i></i><i></i><i></i></span><span><?php echo esc_html( msport_front( 'profile_ghost', 'M6' ) ); ?></span></p>
 
 		<?php if ( $msport_img ) : ?>
 			<div class="profile__car">

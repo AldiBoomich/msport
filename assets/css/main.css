@@ -16,6 +16,9 @@
 	--c-muted-night: #a1a5ac;
 	--c-muted-day: #575b62;
 	--c-amber: #ff7a1f;
+	--c-m-light: #0066b1;
+	--c-m-dark: #003d78;
+	--c-m-red: #e22718;
 	--c-line-night: rgb(240 240 238 / 0.14);
 	--c-line-day: rgb(18 19 22 / 0.14);
 
@@ -415,23 +418,38 @@ p:last-child { margin-bottom: 0; }
 /* 10 Profile -------------------------------------------------------------------------------------------------- */
 .profile { --p: 1; --in: 1; --scene-h: 170svh; }
 
-.profile__stage { display: grid; place-items: center; }
+.profile__stage {
+	display: grid;
+	place-items: center;
+	/* Porsche-like studio: a soft light on the wall behind the car. */
+	background: radial-gradient(ellipse 58% 46% at 50% 44%, color-mix(in oklab, var(--c-ink-inverse) 7%, var(--c-night)) 0%, transparent 74%);
+}
 
+/* The ghost badge behind the car: "M6" in the BMW M badge manner (wide, heavy, slanted, the three M stripes). */
 .profile__ghost {
 	position: absolute;
 	left: 50%;
-	top: 40%;
+	top: 33%;
 	margin: 0;
-	transform: translate(-50%, calc(-50% + (1 - var(--in)) * 14svh));
+	display: flex;
+	align-items: center;
+	gap: 0.07em;
+	transform: translate(-50%, calc(-50% + (1 - var(--in)) * 14svh)) skewX(-14deg);
 	font-size: var(--fs-ghost);
-	font-stretch: 75%;
+	font-stretch: 125%;
 	font-weight: 800;
-	line-height: 0.8;
-	font-variant-numeric: tabular-nums;
-	color: var(--c-night-2);
+	line-height: 0.78;
+	letter-spacing: -0.02em;
+	color: color-mix(in oklab, var(--c-ink-inverse) 14%, var(--c-night));
+	white-space: nowrap;
 	pointer-events: none;
 	user-select: none;
 }
+.m-stripes { display: flex; gap: 0.045em; height: 0.72em; }
+.m-stripes i { width: 0.15em; height: 100%; }
+.m-stripes i:nth-child(1) { background: color-mix(in oklab, var(--c-m-light) 45%, var(--c-night)); }
+.m-stripes i:nth-child(2) { background: color-mix(in oklab, var(--c-m-dark) 45%, var(--c-night)); }
+.m-stripes i:nth-child(3) { background: color-mix(in oklab, var(--c-m-red) 45%, var(--c-night)); }
 
 .profile__car {
 	position: absolute;
@@ -471,7 +489,7 @@ p:last-child { margin-bottom: 0; }
 
 @media (max-width: 47.99em) {
 	.profile__car { width: 118vw; top: 38%; }
-	.profile__ghost { top: 34%; }
+	.profile__ghost { top: 27%; }
 }
 
 /* 11 Design + hotspots ---------------------------------------------------------------------------------------- */

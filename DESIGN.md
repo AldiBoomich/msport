@@ -47,6 +47,7 @@ Rejected defaults:
 | `--c-muted-night` | `#A1A5AC` | secondary text on night | 7.2 / 6.4 |
 | `--c-muted-day` | `#575B62` | secondary text on day | 5.6 / 4.9 |
 | `--c-amber` | `#FF7A1F` | engine speed only: needle, red zone, POWER LED, rpm figures | 6.8 on night; **never on day** (2.1) |
+| `--c-m-light`, `--c-m-dark`, `--c-m-red` | `#0066B1`, `#003D78`, `#E22718` | the three BMW M stripes, only in the profile ghost badge, mixed 45% into night | decorative |
 | `--c-line-night` | `rgb(240 240 238 / .14)` | hairlines at night | – |
 | `--c-line-day` | `rgb(18 19 22 / .14)` | hairlines by day | – |
 
@@ -67,7 +68,9 @@ grounds), not amber. `::selection` = amber on night.
   - display `clamp(3.5rem, 1rem + 6.4vw, 8.5rem)` / 0.9, wide caps 800: the model name in the hero (the h1), Koenigsegg-like;
   - h1 token `clamp(2.25rem, 1rem + 3.6vw, 4.75rem)` / 0.95, wide caps (plain pages);
   - figures `clamp(3.5rem, 1.5rem + 7vw, 8.5rem)` / 0.9, condensed;
-  - ghost number `clamp(10rem, 30vw, 30rem)`, condensed 800, `--c-night-2`, decorative (`aria-hidden`).
+  - ghost badge `clamp(10rem, 30vw, 30rem)`: "M6" behind the profile car (Porsche's "turbo S" idea) in the BMW M badge
+    manner — wide 125% 800, slanted −14°, the three M stripes before it, dim (ink-inverse 14% in night), `aria-hidden`.
+    The BMW M typeface is not available; Mona Sans wide + slant is the stand-in.
 - Measure: body 60–65ch; headlines `text-wrap: balance`; paragraphs `text-wrap: pretty`.
 - Units sit next to numbers with a no-break space: `507 PS`, `8,250 rpm`, `4.6 s`.
 

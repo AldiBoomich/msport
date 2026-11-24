@@ -315,11 +315,11 @@
         },
         {
             "key": "field_msport_profile_ghost",
-            "label": "Big number behind the car",
+            "label": "Big badge behind the car",
             "name": "profile_ghost",
             "aria_label": "",
             "type": "text",
-            "instructions": "Decorative, not read aloud. For example \"8250\".",
+            "instructions": "Decorative, not read aloud; set in the BMW M badge manner with the three M stripes. For example \"M6\".",
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
@@ -327,7 +327,7 @@
                 "class": "",
                 "id": ""
             },
-            "default_value": "8250",
+            "default_value": "M6",
             "maxlength": "",
             "placeholder": "",
             "prepend": "",
@@ -1964,5 +1964,5 @@
     "active": true,
     "description": "Every chapter of the M6 page (docs/CONTENT-MODEL.md).",
     "show_in_rest": 0,
-    "modified": 1795547979
+    "modified": 1795552923
 }

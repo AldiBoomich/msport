@@ -67,7 +67,7 @@ const front = {
     f.tab('profile', 'Profile'),
     ...common('profile', 'profile', 'Profile'),
     f.image('profile_image', 'Side profile', 'Cut-out car seen exactly from the side, transparent background, at least 2560 px wide.'),
-    f.text('profile_ghost', 'Big number behind the car', 'Decorative, not read aloud. For example "8250".', '8250'),
+    f.text('profile_ghost', 'Big badge behind the car', 'Decorative, not read aloud; set in the BMW M badge manner with the three M stripes. For example "M6".', 'M6'),
     f.repeater('profile_figures', 'Figures', 'Three or four true numbers. Value without the unit.', [
       f.text('value', 'Value', 'For example "507" or "4.6".'),
       f.text('unit', 'Unit', 'For example "PS", "rpm", "s", "km/h".'),

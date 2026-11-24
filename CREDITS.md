@@ -12,7 +12,8 @@ outside the theme: `C:\Users\aaldi\Local Sites\msport\press-m6\`.
 | Site file | Source | Credit |
 |---|---|---|
 | hero-car, design-car, detail-roof | Wikimedia Commons, "BMW M6 (E63) Retro Classics 2026 IMG_4810 / IMG_4809" | Alexander Migl, CC BY-SA 4.0 |
-| profile-car | Wikimedia Commons, "BMW M6 (4584515863)" | nakhon100, CC BY 2.0 |
+| profile-car | BMW 6 Series Coupé (2008) press photo, via NetCarShow (cut out, studio shadow, smoked glass) | © BMW AG |
+| hero-car, design-car, heritage-m6 (2026-11-25) | Generated with Gemini by the user (studio shots) | – |
 | heritage-m6 | Wikimedia Commons, "2005-2010 BMW M6 (E63) coupe (2011-11-08)" | OSX, public domain |
 | detail-gills, detail-tailpipes | Wikimedia Commons, "BMW M6 E63 - Flickr - Alexandre Prévot (16) / (13)" | Alexandre Prévot, CC BY-SA 2.0 |
 | detail-wheel, drive-cockpit, drive-smg, drive-wheel, power-engine-bay | BMW Group press archive, BMW M6 Convertible (06/2006): P0024696, P0024698, P0024702, P0024700, P0024703 | © BMW AG |

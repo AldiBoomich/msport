@@ -38,6 +38,12 @@ _Last updated: 2026-11-25_
 - `build.py` got `"strip": false` (a dark studio shot is not a BMW caption bar).
 - Media #332–335 point to `*-gemini.webp`; older uploads of these four remain in uploads/2026/11 unused.
 
+## Profile like Porsche (2026-11-25)
+- Profile car = the user's grey 6 Series side view (BMW press photo; note: a 630i/650i facelift, not an M6 — the user
+  chose it knowingly), cut out (`cut3/04-side-grey.png`), smoked glass + studio shadow (`recipe-studio3.json`).
+- Behind it the ghost badge "M6" in the BMW M manner: Mona Sans wide 800 slanted −14° + the three M stripes (new tokens
+  `--c-m-light/-dark/-red`, profile badge only), soft studio light on the stage. `profile_ghost` = "M6".
+
 ## Next step
 - Stage 5: full look at every screenshot (squint, silhouette, first screen at 390), up to 3 rounds of fixes; candidates:
   the duplicate "Hear the V10" (header + hero) on phones, the heritage layout ("now" car small), the dark car on the

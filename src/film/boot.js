@@ -28,9 +28,11 @@ if ( root.classList.contains( 'film' ) ) {
 
 function start() {
 	// Trial versions for the user's side-by-side (2026-11-24), one per link: ?film=live (live scene with the
-	// v6 car), ?film=video (the Cycles film, played from stop to stop), ?film=frames (the Cycles film as a frame
+	// v6 car), ?film=video (the Cycles film, played from stop to stop), ?film=frozen (the same, its legs
+	// frozen-time flights that follow the scroll: Apple style), ?film=frames (the Cycles film as a frame
 	// sequence on a canvas). Without it the site stays as it is.
 	const mode = new URLSearchParams( location.search ).get( 'film' );
+	const played = mode === 'video' || mode === 'frozen'; // the played film: rests only inside a chapter
 	const lenis = new Lenis( { autoRaf: false, anchors: false } );
 	// the mobile menu covers the page (header.js): no scrolling behind it; sent synchronously, so a menu
 	// link restarts the scroll before its anchor jump below
@@ -97,8 +99,8 @@ function start() {
 		}
 		event.preventDefault();
 		// the played film rests only inside a chapter's hold: land where its frame is pinned
-		const zone = mode === 'video' ? zones.find( ( z ) => z.el === target ) : null;
-		lenis.scrollTo( zone ? zone.holdStart : target.getBoundingClientRect().top + window.scrollY, { duration: 1.6 } );
+		const zone = played ? zones.find( ( z ) => z.el === target ) : null;
+		lenis.scrollTo( zone ? zone.holdStart + 1 : target.getBoundingClientRect().top + window.scrollY, { duration: 1.6 } );
 		history.pushState( null, '', url.hash );
 		target.setAttribute( 'tabindex', '-1' );
 		target.focus( { preventScroll: true } );
@@ -113,7 +115,7 @@ function start() {
 		}
 	}
 
-	// ---- the played film (?film=video): a scroll left resting between two chapters glides on to the next one
+	// ---- the played film (?film=video, frozen): a scroll left resting between two chapters glides on to the next one
 	// in the direction it went, so the text and the picture (heading there by itself) always match. Any wheel
 	// or touch takes over again (Lenis).
 	let snapY = window.scrollY;
@@ -121,7 +123,7 @@ function start() {
 	let still = performance.now();
 	let snapUntil = 0;
 	let touching = false;
-	if ( mode === 'video' ) {
+	if ( played ) {
 		window.addEventListener( 'touchstart', () => ( touching = true ), { passive: true } );
 		[ 'touchend', 'touchcancel' ].forEach( ( e ) => window.addEventListener( e, () => ( touching = false ), { passive: true } ) );
 	}
@@ -139,10 +141,11 @@ function start() {
 		for ( let i = 0; i < zones.length - 1; i++ ) {
 			const a = zones[ i ].holdEnd;
 			const b = zones[ i + 1 ].holdStart;
-			if ( y > a + 1 && y < b - 1 ) {
-				let to = y - a < b - y ? a : b;
+			if ( y >= a && y < b ) {
+				// 1 px inside the hold: a position a fraction short of it still counts as the leg (railAt)
+				let to = y - a < b - y ? a - 1 : b + 1;
 				if ( snapDir ) {
-					to = snapDir > 0 ? b : a;
+					to = snapDir > 0 ? b + 1 : a - 1;
 				}
 				snapUntil = now + 1100;
 				lenis.scrollTo( to, { duration: 0.9, easing: glide } );
@@ -160,7 +163,7 @@ function start() {
 		const dt = Math.min( 0.1, ( now - last ) / 1000 ); // 0.1 s clamps a background tab
 		last = now;
 		lenis.raf( now );
-		if ( mode === 'video' && film ) {
+		if ( played && film ) {
 			snap( window.scrollY, now );
 		}
 		const rail = railAt( window.scrollY );
@@ -207,6 +210,7 @@ function start() {
 	// trial versions: see `mode` at the top
 	const load = {
 		video: () => import( './video.js' ).then( ( m ) => m.goVideo ),
+		frozen: () => import( './video.js' ).then( ( m ) => ( o ) => m.goVideo( { ...o, frozen: true } ) ),
 		frames: () => import( './frames.js' ).then( ( m ) => m.goFrames ),
 	}[ mode ] ?? ( () => import( './live.js' ).then( ( m ) => ( o ) => m.goLive( { ...o, v6: mode === 'live' } ) ) );
 	gauge.set( 0.04 );

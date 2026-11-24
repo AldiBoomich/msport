@@ -12,6 +12,10 @@ lamps passing overhead, headlights, disc glow, light bar and roof sweep where th
   --stills   one frame per chapter (the moment the site's stills show) → <dir>/d01.png … (p01 portrait)
   --frames   a range of the film → <dir>/f0000.png …; frames already on disk are skipped (resume)
   --loops    the idle loops (LOOP_LEN + LOOP_FADE frames each) → <dir>/l00_000.png … (--loop-only 17: just that one)
+  --legs     the legs again as frozen-time flights (Apple style, user 2026-11-24): the camera flies the leg while
+             the world (road, wheels, body, panorama) stays at the moment the leg starts, blurred over the shutter
+             as a photo of the car at speed would be; the camera itself stays sharp, so the page can scrub the
+             flight at any scroll speed. Same frame numbers as the film's legs: they replace them one for one.
 
 World: Blender z up, car front = -y (three.js (x, y, z) = Blender (x, -z, y)), the car stands at the origin
 and the road moves under it (+y), so motion blur is real object motion.
@@ -28,6 +32,8 @@ ap.add_argument('--samples', type=int, default=64)
 ap.add_argument('--stills', action='store_true'); ap.add_argument('--frames', default='')
 ap.add_argument('--loops', action='store_true'); ap.add_argument('--only', default='', help='stills: chapter numbers, e.g. 1,2,10')
 ap.add_argument('--loop-only', default='', help='--loops: only these loop indices, e.g. 17 or 3,17')
+ap.add_argument('--legs', default='', help='frozen-time flights between the chapters ("all" or leg numbers 0-8) → <dir>/f0000.png … under the frame numbers of the film legs')
+ap.add_argument('--legs-at', default='', help='--legs: only these film frame numbers (trials), e.g. 45,90,134')
 ap.add_argument('--save', default='')
 ap.add_argument('--env', type=float, default=0.65, help='panorama strength in reflections and light')
 ap.add_argument('--sky', type=float, default=0.28, help='panorama strength seen directly (backdrop)')
@@ -525,7 +531,7 @@ def cam_state(s):
     return pos, q, lens, sx, sy
 
 
-def animate(states, first=1):
+def animate(states, first=1, d0=None):
     frames = list(range(first, first + len(states)))
     P, Q, L, SX, SY = [], [], [], [], []
     prev = None
@@ -539,7 +545,7 @@ def animate(states, first=1):
     for i in range(4):
         fcurve(cam, 'rotation_quaternion', frames, [q[i] for q in Q], i)
     fcurve(cam.data, 'lens', frames, L); fcurve(cam.data, 'shift_x', frames, SX); fcurve(cam.data, 'shift_y', frames, SY)
-    d0 = states[0]['d']
+    d0 = states[0]['d'] if d0 is None else d0        # --legs: the film's own origin, so the road lies as in the film
     D = [s['d'] - d0 for s in states]
     if 'lat' in states[0]:
         # driving dynamics (rail-export.mjs): the camera rig follows the car's path with a lag. Relative to the
@@ -628,3 +634,34 @@ if a.loops:
         frames = animate(states)
         for j, f in enumerate(frames):
             render_frame(f, os.path.join(os.path.abspath(a.out), 'l%02d_%03d.png' % (li, j)))
+if a.legs:
+    # each rendered frame gets three keys one frame apart: the camera (and the chapter lights) the same on all
+    # three, the world at the frozen moment -1 / 0 / +1 frame. The shutter (±0.375 frame) then blurs only the
+    # world's own motion. Between two rendered frames the camera jumps, outside any shutter.
+    WORLD = ('d', 'v', 'lat', 'lat_s', 'yaw', 'yaw_s', 'roll', 'pitch', 'heave', 'steer')
+    runs = []
+    for k, st in enumerate(film):
+        if st['ft'] is None:
+            if runs and runs[-1][1] == k - 1:
+                runs[-1][1] = k
+            else:
+                runs.append([k, k])
+    pick = set(range(len(runs))) if a.legs == 'all' else {int(x) for x in a.legs.split(',') if x}
+    at = {int(x) for x in a.legs_at.split(',') if x}
+    states, outs = [], []
+    for li, (k0, k1) in enumerate(runs):
+        if li not in pick:
+            continue
+        j = k0 - 1                                   # the moment the leg leaves the hold
+        for k in range(k0, k1 + 1):
+            if at and k not in at:
+                continue
+            for w in (film[j - 1], film[j], film[j + 1]):
+                st = dict(film[k])
+                st.update({key: w[key] for key in WORLD if key in w})
+                states.append(st)
+            outs.append(k)
+    frames = animate(states, d0=film[0]['d'])
+    print('LEGS', len(outs), 'frames', flush=True)
+    for n, k in enumerate(outs):
+        render_frame(frames[3 * n + 1], os.path.join(os.path.abspath(a.out), 'f%04d.png' % k))

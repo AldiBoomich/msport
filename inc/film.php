@@ -118,7 +118,8 @@ function msport_film_data() {
 
 	// Trial versions for the user's side-by-side (boot.js → ?film=live | video | frames). The heavy Cycles
 	// files sit in uploads/msport-film/ (outside the theme repository): video = cycles-pack.mjs CRF 20
-	// (`reverse`: the film backwards, --reverse), frames = tools/3d/frames-pack.mjs WebP q82.
+	// (`reverse`: the film backwards, --reverse; `frozen`: the v7 film, its legs frozen-time flights from
+	// bl_film.py --legs), frames = tools/3d/frames-pack.mjs WebP q82.
 	$up             = trailingslashit( wp_upload_dir( null, false )['baseurl'] ) . 'msport-film/';
 	$data['v6']     = array(
 		'model'       => $base . 'm6-e63-v6.glb',
@@ -129,11 +130,13 @@ function msport_film_data() {
 		'land' => array(
 			'film'    => $up . 'video/film-1080.mp4',
 			'reverse' => $up . 'video/film-1080-reverse.mp4',
+			'frozen'  => $up . 'video/film-1080-frozen.mp4',
 			'loops'   => $up . 'video/film-1080-loops.mp4',
 		),
 		'port' => array(
 			'film'    => $up . 'video/film-portrait.mp4',
 			'reverse' => $up . 'video/film-portrait-reverse.mp4',
+			'frozen'  => $up . 'video/film-portrait-frozen.mp4',
 			'loops'   => $up . 'video/film-portrait-loops.mp4',
 		),
 	);

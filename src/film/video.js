@@ -16,6 +16,12 @@
  * - Where the browser will not play video by itself (power saving), the film falls back to scrubbing.
  * - The HTML overlays (tachometer, gears) keep following the scroll (boot.js). A light grain lies over it all.
  * - `&speed=2` in the address tries another cruise speed (trial only).
+ *
+ * `frozen` (?film=frozen, Apple style, user 2026-11-24): the legs are frozen-time flights (bl_film.py --legs:
+ * the camera flies, the car stays at one moment, blurred as at speed), so on a leg the film follows the scroll
+ * frame for frame at any scroll speed. Inside a chapter the film plays as above; entering one from a leg (where
+ * the world jumps from the frozen moment to the chapter's own) and going back inside one dissolve, so the car
+ * never rolls backwards. No backwards file.
  */
 import { FRAMES, frameAt, loopAt, LOOP_LEN, STOPS, stopFor } from '../../tools/3d/video-timeline.js';
 import { addGrain } from './grain.js';
@@ -96,15 +102,20 @@ const clampFrame = ( f ) => Math.max( 0, Math.min( FRAMES - 1, Math.round( f ) )
  * @param {Function}  o.railAt     scroll position → { p, ft }
  * @param {?Function} o.onProgress 0…1, the preloader
  * @param {?Function} o.onLate     the load passed LOAD_LIMIT
+ * @param {boolean}   o.frozen     the film with frozen-time legs (see above)
  * @return {Promise<object|null>} the player once its first frame is shown, or null
  */
-export async function goVideo( { railAt, onProgress = null, onLate = null } ) {
+export async function goVideo( { railAt, onProgress = null, onLate = null, frozen = false } ) {
 	const dataEl = document.getElementById( 'msport-film-data' );
 	const data = dataEl ? JSON.parse( dataEl.textContent ) : null;
 	if ( ! data?.video ) {
 		return null;
 	}
-	const files = window.innerHeight > window.innerWidth ? data.video.port : data.video.land;
+	const set = window.innerHeight > window.innerWidth ? data.video.port : data.video.land;
+	if ( frozen && ! set.frozen ) {
+		return null;
+	}
+	const files = frozen ? { film: set.frozen, loops: set.loops } : set;
 	const timer = setTimeout( () => onLate?.(), LOAD_LIMIT );
 
 	// ---- the forward film, at the stop for the current scroll position
@@ -294,7 +305,7 @@ export async function goVideo( { railAt, onProgress = null, onLate = null } ) {
 		.then( () => {
 			loopCount = Math.round( ( loop.duration * FPS ) / LOOP_LEN );
 			loopsReady = true;
-			if ( ! moving && canPlay ) {
+			if ( ! moving && canPlay && target >= 0 ) {
 				setLoop( STOPS[ target ].loop );
 			}
 		} )
@@ -307,6 +318,37 @@ export async function goVideo( { railAt, onProgress = null, onLate = null } ) {
 		} )
 		.then( () => ( revReady = true ) )
 		.catch( () => rev.remove() );
+
+	// ---- frozen legs: the film follows the scroll frame for frame
+	let inLeg = false;
+	let legSeeking = false;
+	let legShown = -1;
+	const leg = ( p ) => {
+		if ( ! inLeg ) {
+			inLeg = true;
+			op++;
+			moving = 0;
+			pending = -1;
+			target = -1;
+			active.pause();
+			active.playbackRate = 1;
+			setLoop( -1 );
+		}
+		pos = clampFrame( frameAt( p, null ) );
+		if ( ! legSeeking && pos !== legShown ) {
+			legSeeking = true;
+			const f = pos;
+			seekTo( fwd, f ).then( () => ( legShown = f ) ).finally( () => ( legSeeking = false ) );
+		}
+	};
+	// leaving a leg for a chapter: the world jumps from the frozen moment to the chapter's own; dissolve
+	const enterHold = ( p, ft ) => {
+		inLeg = false;
+		legShown = -1;
+		const release = freeze();
+		pos = clampFrame( frameAt( p, ft ) );
+		seekTo( fwd, pos ).finally( release );
+	};
 
 	let last = performance.now();
 	let lastF = frameAt( start.p, start.ft );
@@ -329,6 +371,16 @@ export async function goVideo( { railAt, onProgress = null, onLate = null } ) {
 				loopWrap();
 				return;
 			}
+			if ( frozen ) {
+				if ( ft === null || ft === undefined ) {
+					leg( p );
+					loopWrap();
+					return;
+				}
+				if ( inLeg ) {
+					enterHold( p, ft );
+				}
+			}
 			const t = stopFor( p, ft, dir );
 			const way = STOPS[ t ].frame - pos;
 			const far = t !== target && ( Math.abs( way ) > FAR || ( way < -1 && ! revReady ) );
@@ -346,12 +398,10 @@ export async function goVideo( { railAt, onProgress = null, onLate = null } ) {
 				pending = -1;
 				target = t;
 				const d = Math.abs( way ) < 1 ? 0 : Math.sign( way );
-				if ( d !== moving ) {
-					if ( d === 0 ) {
-						arrive();
-					} else {
-						go( d );
-					}
+				if ( d === 0 ) {
+					arrive(); // already there (also: a chapter entered right at its stop)
+				} else if ( d !== moving ) {
+					go( d );
 				}
 			}
 			step( dt );

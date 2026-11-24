@@ -49,6 +49,11 @@ _Last updated: 2026-11-25_
   Both in the same 16:9 frame (`msport-wide`, cover), then in B/W, now in colour, captions "Name, 1983" set as a large
   condensed year + name (`msport_year_caption()`), slight zoom on hover (mouse only).
 
+## POWER chapter reworked (2026-11-25, user: "cheap, AI-sloppy")
+- Direction chosen by the user: "night cluster". New `msport_tachometer()` (E63-style dial with the LED warning
+  field), output display inside the dial, physical POWER key, engine bay as the dim backdrop, engine data as one fine
+  line (`.spec-line`), heading without steps ("Naturally aspirated. / Ten cylinders."). power.js also writes `--rpm`.
+
 ## Next step
 - Stage 5: full look at every screenshot (squint, silhouette, first screen at 390), up to 3 rounds of fixes; candidates:
   the duplicate "Hear the V10" (header + hero) on phones, the heritage layout ("now" car small), the dark car on the

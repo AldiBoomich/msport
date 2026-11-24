@@ -127,9 +127,15 @@ grounds), not amber. `::selection` = amber on night.
   text, a 3:2 photo, a Close button. Esc closes, focus returns.
 - **Tabs (spec sheet):** `role="tablist"`, arrow keys move between tabs; the underline of the active tab; rows as a
   definition list with tabular numbers.
-- **Tachometer:** SVG, scale 0–9 (×1000 rpm), red zone from 8,250 in amber, needle in amber, readout in condensed figures.
-- **POWER key:** rectangular 4px key, label "POWER", an LED dot (off: `--c-night-2`, on: amber with a soft glow),
-  `aria-pressed`.
+- **Night cluster (POWER chapter, reworked 2026-11-25 after "cheap, AI-sloppy"):** the engine bay is a dim
+  backdrop (20%, greyed, darkened around the dial); heading + lead in one row; the dial in the middle; the engine
+  data as one fine line at the foot (no big stat grid).
+- **Tachometer:** drawn after the E63 M6 instrument — chrome bezel, deep radial face, hairline ticks every 100 rpm
+  (500 and 1,000 longer), light condensed numerals, the red field from 8,250, and the M variable warning field:
+  250-rpm LED segments from 5,000 rpm that light one by one with the revs (CSS `--rpm` vs `--at`). Tapered amber
+  needle with a soft glow. The output sits in a small display inside the dial ("P400 400 PS"), not as a giant number.
+- **POWER key:** a physical key — bevelled gradient, inner highlight, drop shadow, an LED strip above the label
+  (off: dim, on: amber glow), pressed state sinks 1px; `aria-pressed`.
 - **Footer:** one line: developer link, photo credits link, model of the page. Nothing else.
 
 ## Page structure

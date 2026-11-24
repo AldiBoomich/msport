@@ -43,6 +43,7 @@ export function initPower( reduced ) {
 	const setRpm = ( rpm ) => {
 		shownRpm = rpm;
 		tacho.style.setProperty( '--deg', angle( rpm ).toFixed( 2 ) + 'deg' );
+		tacho.style.setProperty( '--rpm', Math.round( rpm ) );
 		if ( readout ) {
 			readout.textContent = fmt.format( Math.round( rpm / 50 ) * 50 );
 		}

@@ -120,7 +120,14 @@ function msport_film_data() {
 	// files sit in uploads/msport-film/ (outside the theme repository): video = cycles-pack.mjs CRF 20
 	// (`reverse`: the film backwards, --reverse; `frozen`: the v7 film, its legs frozen-time flights from
 	// bl_film.py --legs), frames = tools/3d/frames-pack.mjs WebP q82.
-	$up             = trailingslashit( wp_upload_dir( null, false )['baseurl'] ) . 'msport-film/';
+	// A re-rendered file keeps its name: its modification time in the URL makes browsers fetch it again.
+	$dirs           = wp_upload_dir( null, false );
+	$up             = trailingslashit( $dirs['baseurl'] ) . 'msport-film/';
+	$updir          = trailingslashit( $dirs['basedir'] ) . 'msport-film/';
+	$file           = static function ( $name ) use ( $up, $updir ) {
+		$time = file_exists( $updir . $name ) ? filemtime( $updir . $name ) : 0;
+		return $up . $name . ( $time ? '?v=' . $time : '' );
+	};
 	$data['v6']     = array(
 		'model'       => $base . 'm6-e63-v6.glb',
 		'modelMobile' => $base . 'm6-e63-v6-mobile.glb',
@@ -128,16 +135,16 @@ function msport_film_data() {
 	);
 	$data['video']  = array(
 		'land' => array(
-			'film'    => $up . 'video/film-1080.mp4',
-			'reverse' => $up . 'video/film-1080-reverse.mp4',
-			'frozen'  => $up . 'video/film-1080-frozen.mp4',
-			'loops'   => $up . 'video/film-1080-loops.mp4',
+			'film'    => $file( 'video/film-1080.mp4' ),
+			'reverse' => $file( 'video/film-1080-reverse.mp4' ),
+			'frozen'  => $file( 'video/film-1080-frozen.mp4' ),
+			'loops'   => $file( 'video/film-1080-loops.mp4' ),
 		),
 		'port' => array(
-			'film'    => $up . 'video/film-portrait.mp4',
-			'reverse' => $up . 'video/film-portrait-reverse.mp4',
-			'frozen'  => $up . 'video/film-portrait-frozen.mp4',
-			'loops'   => $up . 'video/film-portrait-loops.mp4',
+			'film'    => $file( 'video/film-portrait.mp4' ),
+			'reverse' => $file( 'video/film-portrait-reverse.mp4' ),
+			'frozen'  => $file( 'video/film-portrait-frozen.mp4' ),
+			'loops'   => $file( 'video/film-portrait-loops.mp4' ),
 		),
 	);
 	$data['frames'] = array(

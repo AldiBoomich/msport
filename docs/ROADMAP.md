@@ -63,6 +63,8 @@
 - [ ] Live 3D on every screen (phones and weak graphics with adaptive quality) behind a preloader → user check (built 2026-11-24)
 - [x] User picks one of the trials (?film=live v6 / ?film=video / ?film=frames, built 2026-11-24): video
 - [ ] Video played stop to stop (built 2026-11-24) → user check; then default, trials removed (ask), weight trimmed
+- [x] Apple-style frozen-time legs rendered (9 legs × 2 formats, ?film=frozen, 2026-11-24)
+- [ ] User compares ?film=frozen with ?film=video and picks one
 
 ## 3. Theme skeleton
 - [x] Clean `_s` leftovers: 20 files deleted with the user's OK (blog templates, sidebar, comments, custom header, Jetpack, customizer, RTL, old JS) (2026-11-18)

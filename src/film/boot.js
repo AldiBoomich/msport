@@ -6,8 +6,8 @@
  * - Scroll → camera: each chapter has a hold (its text frame is pinned, the camera rests on the chapter's
  *   key, ft runs 0…1) and a leg (the next frame slides in, the camera travels to the next key).
  *   The geometry comes from the layout itself (main.css → 8.0), measured on load and resize.
- * - After the hero still has painted, the Three.js scene (live.js, a separate chunk) loads; when its first
- *   frame is ready the stills fade out over it.
+ * - After the hero still has painted, the film loads. Now always as video (LIVE below is false); with LIVE
+ *   the Three.js scene (live.js, a separate chunk) loads on desktops and the stills fade out over its first frame.
  * - Phones, and computers whose graphics cannot run the scene or hold it at ~50 fps in its first frames,
  *   get the same film pre-rendered as video (video.js): it fades in over the stills or the live canvas.
  *   If neither can run, the pinned stills stay: the film plays as pictures.
@@ -18,6 +18,10 @@ import Lenis from 'lenis';
 import { createOverlays } from './overlays.js';
 
 const root = document.documentElement;
+
+// The live Three.js scene is off (user's decision, 2026-11-24): every screen gets the path-traced Cycles film
+// as video, the same car as the chapter stills. live.js stays in the build; true brings it back on desktops.
+const LIVE = false;
 
 // field prefix (inc/chapters.php) → key on the camera rail (tools/3d/chapters.js)
 const RAIL = { hero: 0, front: 1, rev: 2, wheels: 3, gills: 4, roof: 5, sound: 6, smg: 7, spec: 8, outro: 9 };
@@ -206,7 +210,7 @@ function start() {
 	const phone = window.matchMedia( '(pointer: coarse)' ).matches && Math.min( screen.width, screen.height ) < 820;
 	afterLcp()
 		.then( () => {
-			if ( phone ) {
+			if ( phone || ! LIVE ) {
 				return toVideo();
 			}
 			return import( './live.js' )

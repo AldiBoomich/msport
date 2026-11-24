@@ -58,8 +58,8 @@
 - [x] Stage 1: desktop film 1080p 30 fps + side-by-side → user check (rendered 2026-11-23; user OK, moved on to stage 2)
 - [x] Stage 2: chapter stills (desktop + phone) → user check (2026-11-23; phone chapter 7 tail spill weakened, user OK)
 - [x] Stage 3: phone film 720×1560 → user check (2026-11-23, user OK)
-- [ ] Stage 4: idle loops (desktop + phone) → user check (rendered 2026-11-24, waiting for the check)
-- [ ] Site updated after the user's OK (old files backed up)
+- [x] Stage 4: idle loops (desktop + phone) → user check (2026-11-24, user OK)
+- [x] Site updated after the user's OK (old files backed up) (2026-11-24: Cycles video on every screen, live scene off, 18 stills replaced; waiting for the user's look)
 
 ## 3. Theme skeleton
 - [x] Clean `_s` leftovers: 20 files deleted with the user's OK (blog templates, sidebar, comments, custom header, Jetpack, customizer, RTL, old JS) (2026-11-18)

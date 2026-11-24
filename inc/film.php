@@ -103,8 +103,8 @@ function msport_film_data() {
 		'look'        => msport_film_look(),
 		'video'       => array(
 			'land' => array(
-				'film'  => msport_film_video( 'film-900.mp4' ),
-				'loops' => msport_film_video( 'film-900-loops.mp4' ),
+				'film'  => msport_film_video( 'film-1080.mp4' ),
+				'loops' => msport_film_video( 'film-1080-loops.mp4' ),
 			),
 			'port' => array(
 				'film'  => msport_film_video( 'film-portrait.mp4' ),

@@ -15,19 +15,19 @@ Plan approved 2026-11-24. References: Porsche 911 Turbo S, Ferrari 812 GTS, Koen
 - [x] Download BMW press candidates (M6 Convertible 2006 set, M5 engine, M635CSi)
 - [x] Download Commons E63 coupé shots (rest saved by the user in the browser into `press-m6/raw/manual`)
 - [x] Choose ~14, cut out the coupé shots (rembg), one grade, sizes (sheet: `press-m6/photo-sheet.jpg`)
-- [ ] User approves the photo sheet
+- [x] User approves the photo sheet (2026-11-24)
 - [x] Verify figures (Wikipedia BMW M6 + BMW S85): 507 PS @ 7,750, 520 Nm @ 6,100, 8,250 rpm, 4.6 s, 250 / 305 km/h, P400 = 400 PS, 1,785 kg, 4,872 × 1,854 × 1,377 mm, wheelbase 2,781 mm
 
 ## 3. Skeleton (static, complete without JS)
 - [x] Tokens, font, header, footer, chapter rail
 - [x] ACF field groups + options page (tools/acf/fields.mjs)
 - [x] 8 chapter templates
-- [ ] Content import (media + fields) through a one-off mu-plugin
+- [x] Content import (media + fields) through a one-off mu-plugin (run 2026-11-25, removed)
 - [x] Restore the V10 recording and the tachometer from git history
 
 ## 4. Motion
 - [ ] Hero entrance (lights up)
-- [ ] Hero → profile scene (sticky, scrubbed)
+- [x] Hero → profile scene (sticky, scrubbed; the profile car rises on the section entry `--in`)
 - [ ] Hotspots: zoom + detail panel, keyboard, Esc
 - [ ] POWER: LED, 400 → 507, needle in time with the recording (rpm curve)
 - [ ] Spec tabs with diagonal wipe

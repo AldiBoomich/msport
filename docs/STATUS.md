@@ -1,25 +1,24 @@
 # Status
 
-_Last updated: 2026-11-24_
+_Last updated: 2026-11-25_
 
 ## Where we are
-- Stage 1 (documents) done and approved (palette + Mona Sans).
-- Stage 2 (photos) waiting for the user's approval of the photo sheet `C:\Users\aaldi\Local Sites\msport\press-m6\photo-sheet.jpg`:
-  - Coupé shots from Commons were saved by the user in the browser into `press-m6\raw\manual\` (Wikimedia answered 429
-    to scripts). Cut-outs (rembg BiRefNet) in `press-m6\cut2\`, all clean.
-  - Proposed roles: hero = blue coupé front 3/4 (Retro Classics IMG_4810, "M6" placard instead of a plate), profile =
-    grey coupé side (4584515863), design = the same blue coupé rear 3/4 (IMG_4809), heritage "now" = black coupé
-    (2011-11-08). Details, engine, cockpit, SMG from BMW press photos; M635CSi B/W.
-  - All site photos in `press-m6\final\` (WebP, one grade). Recipes: `recipe-bmw.json`, `recipe-fix.json`,
-    `recipe-cars.json`; tools `tools/images/cutout.py`, `tools/images/build.py`.
-- Stage 3 (skeleton) written ahead: ACF groups, options page, 8 chapter templates, CSS from the tokens, JS modules
-  (scenes, nav, hotspots, POWER, tabs). PHPCS clean; the page renders without errors but has no content yet.
-- Figures verified against Wikipedia (BMW M6, BMW S85) — see ROADMAP.
+- Stages 1–3 done. Photos approved by the user (2026-11-24); content imported (2026-11-25): 14 images in the media
+  library (`_msport_src` meta = site file name), all front-page fields in English with the verified figures, credits
+  and meta description in M6 Settings. Front page = page #9 "BMW M6". The one-off import mu-plugin was removed.
+- Developer name / link in M6 Settings were already set before (Aldi1988); the outro button uses that link.
+- First browser round done: hero re-laid (copy left, car right, ghost "M6" behind; h1 token now
+  `clamp(2.25rem, 1rem + 3.6vw, 4.75rem)`), container leaves room for the chapter rail at ≥ 75em, hero → profile scene
+  retimed (hero car stays while it scrolls away, profile car rises on the section entry `--in` from scenes.js),
+  stronger hotspot dots, hotspot labels always on for touch screens.
+- Checks: check.mjs 1440/768/390 and reduced motion: 0 FAIL, 1 WARN (hotspot labels hidden until hover with a mouse —
+  intended, Ferrari-like). motion.mjs gpu: 60 fps in every section, no long tasks. PHPCS clean. scan-theme: one
+  `outline: none` on the detail panel that only takes programmatic focus.
 
 ## Next step
-- After the approval: fill CREDITS.md, content import (media + fields) through a one-off mu-plugin, first look in the
-  browser.
+- Stage 4 (motion): check and tune the hero entrance, hotspot click → zoom + panel, POWER (needle, sound, rpm curve —
+  `tools/audio/rpm-curve.mjs` still to write; power.js has a built-in fallback curve), tabs wipe, collage drift,
+  reduced motion / no-JS.
 
 ## Open questions
-- Photo sheet approval (colour mix: blue hero/design, grey profile).
-- The cockpit shot (convertible) shows a light corner top right; it will be recropped.
+- None.

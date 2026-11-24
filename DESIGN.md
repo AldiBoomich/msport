@@ -64,7 +64,7 @@ grounds), not amber. `::selection` = amber on night.
   - small 14px / 1.45;
   - h3 22px / 1.25, weight 600, normal width;
   - h2 `clamp(2rem, 1.1rem + 3vw, 3.75rem)` / 1.0, wide caps, tracking 0;
-  - h1 `clamp(2.5rem, 1rem + 5vw, 6rem)` / 0.95, wide caps;
+  - h1 `clamp(2.25rem, 1rem + 3.6vw, 4.75rem)` / 0.95, wide caps;
   - figures `clamp(3.5rem, 1.5rem + 7vw, 8.5rem)` / 0.9, condensed;
   - ghost number `clamp(10rem, 30vw, 30rem)`, condensed 800, `--c-night-2`, decorative (`aria-hidden`).
 - Measure: body 60–65ch; headlines `text-wrap: balance`; paragraphs `text-wrap: pretty`.

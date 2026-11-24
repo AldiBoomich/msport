@@ -5,7 +5,7 @@ The contract every template is built from. If a token you need is missing, add i
 ## Subject
 - **What:** a one-page presentation of the BMW M6 Coupé, E63 (2005–2010), built as a portfolio piece. The visitor is a
   car enthusiast or a potential client of the developer.
-- **Main action:** "Hear the V10" (the POWER moment); at the end, contact the developer.
+- **Main action:** "Hear the V10" (the sound of the engine); at the end, contact the developer.
 - **What is different:** the only production BMW coupé with a 5.0-litre V10 that revs to 8,250 rpm. On start-up it gives
   400 PS (P400); the POWER button on the centre console unlocks all 507 PS (P500).
 - **The world it is made of:** the S85 V10, SMG III paddles and the Drivelogic lever, the carbon-fibre roof, the M gills,
@@ -24,9 +24,10 @@ Learned from the references (studied in the browser, 2026-11-24):
   panel; a chapter rail on the left.
 - Koenigsegg: a grey fog studio; wide caps headlines set in stepped lines; tabs that swap the photo with a diagonal wipe.
 
-**Signature (the one bold thing): the POWER button.** The engine chapter starts in P400: "400 PS", the tachometer at idle.
-Pressing POWER lights the button's LED, rolls the number 400 → 507, and the needle runs to 8,250 rpm in time with a real
-V10 recording; the red zone glows. Nothing else on the page is that loud.
+**Signature (the one bold thing): the sound of the V10.** The engine chapter shows the engine bay large, dimmed, with a
+sound button on the photo. Pressing it plays a real V10 recording: the photo lights up and an amber ring around the
+button runs with the recording. Nothing else on the page is that loud. (Until 2026-11-25 this was a POWER key with a
+tachometer; the user dropped it as not fitting the site.)
 
 Rejected defaults:
 - "Near-black + one acid accent": instead a full palette with light chapters; the amber accent has one job taken from the
@@ -39,14 +40,14 @@ Rejected defaults:
 | Token | Value | Role | Contrast |
 |---|---|---|---|
 | `--c-night` | `#16181B` | night chapters, page ground | – |
-| `--c-night-2` | `#202328` | raised surfaces at night (panels, tachometer face, ghost numbers) | – |
+| `--c-night-2` | `#202328` | raised surfaces at night (panels, photo placeholders, ghost numbers) | – |
 | `--c-day` | `#E7E8EA` | day chapters (studio floor) | – |
 | `--c-day-2` | `#D8DADD` | day panels (hotspot detail panel, cards) | – |
 | `--c-ink` | `#121316` | text on day | 15.2 on day, 13.3 on day-2 |
 | `--c-ink-inverse` | `#F0F0EE` | text on night | 15.6 on night, 13.8 on night-2 |
 | `--c-muted-night` | `#A1A5AC` | secondary text on night | 7.2 / 6.4 |
 | `--c-muted-day` | `#575B62` | secondary text on day | 5.6 / 4.9 |
-| `--c-amber` | `#FF7A1F` | engine speed only: needle, red zone, POWER LED, rpm figures | 6.8 on night; **never on day** (2.1) |
+| `--c-amber` | `#FF7A1F` | the engine only: the progress ring of the V10 recording | 6.8 on night; **never on day** (2.1) |
 | `--c-m-light`, `--c-m-dark`, `--c-m-red` | `#0066B1`, `#003D78`, `#E22718` | the three BMW M stripes, only in the profile ghost badge, mixed 45% into night | decorative |
 | `--c-line-night` | `rgb(240 240 238 / .14)` | hairlines at night | – |
 | `--c-line-day` | `rgb(18 19 22 / .14)` | hairlines by day | – |
@@ -80,14 +81,14 @@ grounds), not amber. `::selection` = amber on night.
 - Chapter padding by weight: power 160/96 (desktop/phone); profile, design, specs 128/72; drive 128/64; heritage
   96/56; outro 160/96. Hero and pinned scenes are viewport-height.
 - Grid: 12 columns, asymmetric 5/7 and 4/8 splits; the cut-out car often breaks the container (up to the viewport edge).
-- Radius by role: controls (buttons, tabs, POWER key) `--r-control: 4px`; photos in the drive collage `--r-media: 12px`;
+- Radius by role: controls (buttons, tabs) `--r-control: 4px`; photos in the drive collage `--r-media: 12px`;
   hotspot dots are circles; cut-outs and full-bleed photos have no frame; panels are square.
 - Elevation: only the hotspot detail panel and the open mobile menu float (`--shadow-float`). Cut-out cars stand on a soft
   contact shadow, never a drop shadow. The sticky header has a solid ground, no blur.
 - Alignment: left-aligned by default. The profile scene and the outro headline are the only centred blocks.
 
 ## Motion
-- Easing: `--ease-out: cubic-bezier(.16,1,.3,1)`; `--ease-in-out: cubic-bezier(.77,0,.175,1)`; linear only for the needle
+- Easing: `--ease-out: cubic-bezier(.16,1,.3,1)`; `--ease-in-out: cubic-bezier(.77,0,.175,1)`; linear only for the sound ring
   following the audio.
 - Durations: press 120ms (`scale(.98)`); hover 180ms; UI 280ms; panel 420ms (exit 340ms); reveal 640ms; tab wipe 560ms.
 - Moments:
@@ -95,13 +96,13 @@ grounds), not amber. `::selection` = amber on night.
      ≤ 1.2s.
   2. **Scroll, hero → profile:** the hero car fades and scales down, the side profile rises over the ghost "8250"; the
      figures appear one by one at the end of the scene (sticky, scrubbed by scroll position).
-  3. **Signature, POWER** (described above).
+  3. **Signature, the V10 sound** (described above).
 - Responses (not moments): hotspot zoom + panel, tab wipe, a slight drift of the drive collage (≤ 40px).
 - Hovers only for `(hover: hover) and (pointer: fine)`. Only `transform` and `opacity` animate.
-- Reduced motion: no pinning, drift or zoom. The scene becomes a stacked layout. The hotspot panel fades in. POWER swaps
-  the number and sets the needle without the sweep; the sound still plays on press. Nothing is hidden.
+- Reduced motion: no pinning, drift or zoom. The scene becomes a stacked layout. The hotspot panel fades in. The engine
+  photo lights up without the slow zoom; the sound plays on press. Nothing is hidden.
 - No JavaScript: everything is visible. Hotspots become a list of details under the photo, tabs become stacked tables, the
-  POWER chapter shows 507 PS and a native audio player.
+  V10 chapter shows a native audio player on the engine photo.
 - Performance budget: LCP ≤ 2.5s on a phone, JS ≤ 25 KB on the front page, ≥ 55 fps while scrolling with a GPU. No
   preloader.
 
@@ -115,7 +116,7 @@ grounds), not amber. `::selection` = amber on night.
 - Sources: `CREDITS.md`. Studio shots generated with Gemini (user's decision 2026-11-25), one look for all of them (see the prompts file).
 
 ## Components
-- **Header:** wordmark "M6" left, "Hear the V10" right (scrolls to POWER), menu on phones. 64px, solid
+- **Header:** wordmark "M6" left, "Hear the V10" right (scrolls to the V10 chapter; hidden while the hero shows the same button), menu on phones. 64px, solid
   `--c-night`.
 - **Chapter rail** (≥ 1200px): a dot per chapter on the left edge; the current one shows its name. Links, keyboard
   reachable.
@@ -127,15 +128,12 @@ grounds), not amber. `::selection` = amber on night.
   text, a 3:2 photo, a Close button. Esc closes, focus returns.
 - **Tabs (spec sheet):** `role="tablist"`, arrow keys move between tabs; the underline of the active tab; rows as a
   definition list with tabular numbers.
-- **Night cluster (POWER chapter, reworked 2026-11-25 after "cheap, AI-sloppy"):** the engine bay is a dim
-  backdrop (20%, greyed, darkened around the dial); heading + lead in one row; the dial in the middle; the engine
-  data as one fine line at the foot (no big stat grid).
-- **Tachometer:** drawn after the E63 M6 instrument — chrome bezel, deep radial face, hairline ticks every 100 rpm
-  (500 and 1,000 longer), light condensed numerals, the red field from 8,250, and the M variable warning field:
-  250-rpm LED segments from 5,000 rpm that light one by one with the revs (CSS `--rpm` vs `--at`). Tapered amber
-  needle with a soft glow. The output sits in a small display inside the dial ("P400 400 PS"), not as a giant number.
-- **POWER key:** a physical key — bevelled gradient, inner highlight, drop shadow, an LED strip above the label
-  (off: dim, on: amber glow), pressed state sinks 1px; `aria-pressed`.
+- **V10 chapter (reworked again 2026-11-25: the tachometer is gone):** heading + lead in one row; the engine bay as one
+  large photo (16:9, 4:5 on phones, `--r-media`), dimmed to 62% with a dark shade at the bottom left; the engine data
+  as one fine line at the foot.
+- **Sound button:** on the photo, bottom left: a 72px light disc (60px on phones) with play / pause, the label and a
+  small note beside it; a hairline ring around the disc fills with amber as the recording runs (`--t`); while it
+  plays the photo lights up to 100% (and zooms 3% unless reduced motion). `aria-pressed`.
 - **Footer:** one line: developer link, photo credits link, model of the page. Nothing else.
 
 ## Page structure
@@ -143,7 +141,7 @@ grounds), not amber. `::selection` = amber on night.
 2. **Profile** (night): the shape of the car and four true figures (507 PS, 8,250 rpm, 4.6 s, 250 km/h).
 3. **Design** (day): the details enthusiasts look for (carbon roof, gills, four tailpipes, 19-inch wheels and brakes,
    headlights), explored by hotspots.
-4. **V10 / POWER** (night): the signature; the engine facts next to it.
+4. **V10** (night): the signature, the engine photo with the sound; the engine facts under it.
 5. **Drive** (day): SMG III, the M Drive button, the cockpit, the head-up display.
 6. **Spec sheet** (night): engine, gearbox, chassis, dimensions in tabs.
 7. **Heritage** (day): M635CSi (1983) to M6 (2005).
@@ -151,5 +149,5 @@ grounds), not amber. `::selection` = amber on night.
 
 ## Copy rules
 - Voice: a calm press kit written by an enthusiast. Short sentences, real numbers, sentence case in UI.
-- CTA verbs: "Hear the V10", "Press POWER", "Close", "Get in touch".
+- CTA verbs: "Hear the V10", "Close", "Get in touch".
 - Banned: elevate, seamless, cutting-edge, unleash, "Welcome to", arrows glued to button text, invented numbers.

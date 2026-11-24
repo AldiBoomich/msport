@@ -226,6 +226,9 @@ p:last-child { margin-bottom: 0; }
 	border-bottom: 1px solid var(--c-line-night);
 }
 
+.site-header__cta { transition: opacity var(--dur-ui) ease, visibility 0s linear 0s, background-color var(--dur-hover) ease, transform var(--dur-press) var(--ease-out); }
+.is-hero-cta .site-header__cta { opacity: 0; visibility: hidden; transition: opacity var(--dur-ui) ease, visibility 0s linear var(--dur-ui); }
+
 .wordmark { font-size: 1.25rem; text-decoration: none; margin-right: auto; }
 
 .menu-toggle {
@@ -271,7 +274,7 @@ p:last-child { margin-bottom: 0; }
 @media (min-width: 75em) {
 	.menu-toggle { display: none; }
 
-	.container { padding-inline-start: max(var(--gutter), 8rem - (100vw - var(--container) - 2 * var(--gutter)) / 2); }
+	.container { padding-inline-start: max(var(--gutter), 8rem - max(0px, (100vw - var(--container) - 2 * var(--gutter)) / 2)); }
 
 	.rail {
 		display: block;
@@ -488,8 +491,8 @@ p:last-child { margin-bottom: 0; }
 }
 
 @media (max-width: 47.99em) {
-	.profile__car { width: 118vw; top: 38%; }
-	.profile__ghost { top: 27%; }
+	.profile__car { width: 108vw; top: 45%; }
+	.profile__ghost { top: 34%; }
 }
 
 /* 11 Design + hotspots ---------------------------------------------------------------------------------------- */
@@ -572,8 +575,8 @@ p:last-child { margin-bottom: 0; }
 	.hotspot:hover .hotspot__label { opacity: 1; transform: none; }
 }
 
-/* Touch screens have no hover: the labels stay on. */
-@media (hover: none) {
+/* Touch screens have no hover: the labels stay on (from tablets up; on phones the car is too small for them). */
+@media (hover: none) and (min-width: 48em) {
 	.hotspot__label { opacity: 1; transform: none; }
 }
 
@@ -627,7 +630,7 @@ p:last-child { margin-bottom: 0; }
 }
 .js .detail { display: none; }
 .js .detail.is-active { display: block; }
-.js .detail:focus { outline: none; }
+.js .detail:focus:not(:focus-visible) { outline: none; }
 .detail__close { margin-top: var(--s-6); color: var(--c-ink); }
 .detail__x { position: relative; width: 12px; height: 12px; }
 .detail__x::before,
@@ -650,20 +653,9 @@ p:last-child { margin-bottom: 0; }
 	.is-detail-open .design__frame { transform: scale(1.5); }
 }
 
-/* 12 POWER ---------------------------------------------------------------------------------------------------- */
-/* A night instrument cluster: the engine bay as a dim backdrop, the E63-style dial in the middle, the key under it. */
-.power { position: relative; isolation: isolate; padding-block: var(--s-10) var(--s-9); overflow: clip; }
-
-.power__bg { position: absolute; inset: 0; z-index: -1; }
-.power__bg-img { width: 100%; height: 100%; object-fit: cover; opacity: 0.2; filter: grayscale(0.6) contrast(1.05); }
-.power__bg::after {
-	content: "";
-	position: absolute;
-	inset: 0;
-	background:
-		radial-gradient(ellipse 48% 56% at 50% 56%, color-mix(in oklab, var(--c-night) 92%, transparent) 0%, color-mix(in oklab, var(--c-night) 40%, transparent) 70%, transparent 100%),
-		linear-gradient(to bottom, var(--c-night) 0%, transparent 28%, transparent 70%, var(--c-night) 100%);
-}
+/* 12 V10 ------------------------------------------------------------------------------------------------------ */
+/* The engine and its sound: the engine bay large, the sound button on the photo; the photo lights up while it plays. */
+.power { padding-block: var(--s-10) var(--s-9); }
 
 .power__head { display: grid; gap: var(--s-5); }
 .power__lead { margin: 0; }
@@ -672,118 +664,105 @@ p:last-child { margin-bottom: 0; }
 	.power__lead { justify-self: end; max-width: 40ch; }
 }
 
-.instrument { display: grid; justify-items: center; gap: var(--s-7); margin-top: var(--s-8); }
-
-.dial {
+.engine {
 	position: relative;
-	width: min(88vw, 600px);
-	container-type: inline-size;
-	border-radius: 50%;
-	box-shadow: 0 30px 80px rgb(0 0 0 / 0.55), 0 0 0 1px rgb(0 0 0 / 0.4);
+	isolation: isolate;
+	margin-top: var(--s-8);
+	overflow: hidden;
+	border-radius: var(--r-media);
+	background: var(--c-night-2);
 }
-
-/* Tachometer (SVG from msport_tachometer()). */
-.tacho { display: block; width: 100%; --deg: -135deg; --rpm: 800; }
-.tacho__face { fill: url(#tacho-face); }
-.tacho__face-hi { stop-color: color-mix(in oklab, var(--c-night-2) 88%, var(--c-ink-inverse)); }
-.tacho__face-lo { stop-color: color-mix(in oklab, var(--c-night) 55%, black); }
-.tacho__bezel { fill: url(#tacho-bezel); }
-.tacho__bezel-hi { stop-color: color-mix(in oklab, var(--c-ink-inverse) 62%, var(--c-night)); }
-.tacho__bezel-mid { stop-color: color-mix(in oklab, var(--c-ink-inverse) 12%, var(--c-night)); }
-.tacho__bezel-lo { stop-color: color-mix(in oklab, var(--c-ink-inverse) 34%, var(--c-night)); }
-
-.tacho__tick { stroke: var(--c-ink-inverse); stroke-width: 0.7; opacity: 0.4; }
-.tacho__tick--mid { stroke-width: 1.1; opacity: 0.7; }
-.tacho__tick--major { stroke-width: 2.2; opacity: 1; }
-.tacho__tick--red { stroke: var(--c-amber); opacity: 0.9; }
-.tacho__num { fill: var(--c-ink-inverse); font: 350 25px var(--font); font-stretch: 75%; text-anchor: middle; dominant-baseline: middle; }
-.tacho__scale,
-.tacho__readout-unit { fill: var(--c-muted-night); font: 500 9.5px var(--font); text-anchor: middle; }
-.tacho__readout { fill: var(--c-ink-inverse); font: 400 27px var(--font); font-stretch: 75%; text-anchor: middle; font-variant-numeric: tabular-nums; }
-.tacho__red { fill: none; stroke: var(--c-amber); stroke-width: 3; opacity: 0.45; transition: opacity var(--dur-reveal) ease; }
-
-/* The M variable warning field: each LED lights when the revs pass its own rpm (--at). */
-.tacho__led {
-	fill: none;
-	stroke: var(--c-amber);
-	stroke-width: 5;
-	opacity: clamp(0.1, (var(--rpm) - var(--at)) / 120, 1);
+.engine__frame { aspect-ratio: 4 / 5; }
+@media (min-width: 48em) {
+	.engine__frame { aspect-ratio: 16 / 9; }
 }
-.tacho__leds { filter: drop-shadow(0 0 3px color-mix(in oklab, var(--c-amber) 70%, transparent)); }
-
-.tacho__needle { transform: rotate(var(--deg)); transform-origin: 200px 200px; }
-.tacho__needle path { fill: var(--c-amber); filter: drop-shadow(0 0 4px color-mix(in oklab, var(--c-amber) 60%, transparent)); }
-.tacho__hub { fill: color-mix(in oklab, var(--c-night) 60%, black); stroke: color-mix(in oklab, var(--c-ink-inverse) 28%, var(--c-night)); stroke-width: 1.5; }
-.tacho__hub-cap { fill: var(--c-night-2); }
-
-/* Output display inside the dial, like the cluster's centre display. */
-.output {
+.engine__img {
+	display: block;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	object-position: 50% 38%;
+	filter: brightness(0.62) saturate(0.8);
+	transition: filter 1200ms var(--ease-out), transform 1600ms var(--ease-out);
+}
+.engine::after {
+	content: "";
 	position: absolute;
-	left: 50%;
-	top: 77%;
-	transform: translate(-50%, -50%);
-	display: flex;
-	align-items: baseline;
-	gap: max(10px, 2.4cqi);
-	margin: 0;
-	padding: max(6px, 1.3cqi) max(12px, 3cqi);
-	border: 1px solid var(--c-line-night);
-	border-radius: var(--r-control);
-	background: color-mix(in oklab, var(--c-night) 65%, black);
-	white-space: nowrap;
+	inset: 0;
+	pointer-events: none;
+	background:
+		linear-gradient(to top, rgb(10 11 13 / 0.78) 0%, rgb(10 11 13 / 0.3) 32%, transparent 55%),
+		linear-gradient(to right, rgb(10 11 13 / 0.35) 0%, transparent 45%);
 }
-.output__mode { font-size: max(11px, 2.2cqi); font-weight: 600; font-stretch: 110%; color: var(--c-muted-night); transition: color var(--dur-ui) ease; }
-.output__value { font-size: max(18px, 4.6cqi); font-stretch: 75%; font-weight: 500; line-height: 1; font-variant-numeric: tabular-nums; color: var(--c-ink-inverse); }
-.output__unit { font-size: 0.6em; font-stretch: 100%; }
+.is-playing .engine__img { filter: brightness(1) saturate(1); }
+@media (prefers-reduced-motion: no-preference) {
+	.is-playing .engine__img { transform: scale(1.03); }
+}
 
-/* The POWER key: a physical key with an LED strip, like the one on the E63 centre console. */
-.instrument__controls { display: grid; justify-items: center; gap: var(--s-3); }
-.power-key {
+.engine__sound { position: absolute; left: var(--s-5); bottom: var(--s-5); right: var(--s-5); z-index: 1; }
+@media (min-width: 48em) {
+	.engine__sound { left: var(--s-7); bottom: var(--s-7); right: auto; }
+}
+.js .engine__audio { display: none; }
+.engine__audio { width: min(100%, 360px); }
+
+/* The sound button: a light disc with play / pause, a ring that runs with the recording (--t from power.js). */
+.sound-btn {
 	display: inline-flex;
-	flex-direction: column;
 	align-items: center;
-	justify-content: center;
-	gap: 9px;
-	min-width: 140px;
-	min-height: 64px;
-	padding: 12px 24px 14px;
-	border: 1px solid color-mix(in oklab, var(--c-ink-inverse) 12%, var(--c-night));
-	border-radius: var(--r-control);
-	background: linear-gradient(to bottom, color-mix(in oklab, var(--c-ink-inverse) 9%, var(--c-night)), color-mix(in oklab, var(--c-night) 70%, black));
-	box-shadow: inset 0 1px 0 rgb(240 240 238 / 0.1), 0 1px 0 rgb(0 0 0 / 0.6), 0 14px 30px rgb(0 0 0 / 0.45);
+	gap: var(--s-5);
+	padding: 0;
+	border: 0;
+	background: none;
 	color: var(--c-ink-inverse);
-	font: 700 0.8125rem / 1 var(--font);
-	font-stretch: 125%;
-	letter-spacing: 0.08em;
+	font: inherit;
+	text-align: left;
 	cursor: pointer;
-	transition: transform var(--dur-press) var(--ease-out), box-shadow var(--dur-press) ease, border-color var(--dur-hover) ease;
 }
-.power-key:active { transform: translateY(1px); box-shadow: inset 0 2px 6px rgb(0 0 0 / 0.6), 0 1px 0 rgb(0 0 0 / 0.6); }
-.power-key__led {
-	width: 24px;
-	height: 3px;
-	border-radius: 2px;
-	background: color-mix(in oklab, var(--c-ink-inverse) 14%, var(--c-night));
-	transition: background-color var(--dur-ui) ease, box-shadow var(--dur-ui) ease;
+.sound-btn__disc {
+	position: relative;
+	display: grid;
+	place-items: center;
+	flex: none;
+	width: 72px;
+	height: 72px;
+	border-radius: 50%;
+	background: var(--c-ink-inverse);
+	color: var(--c-ink);
+	box-shadow: 0 10px 30px rgb(0 0 0 / 0.45);
+	transition: transform var(--dur-press) var(--ease-out);
 }
-.power-key[aria-pressed="true"] { border-color: color-mix(in oklab, var(--c-amber) 45%, var(--c-night)); }
-.power-key[aria-pressed="true"] .power-key__led { background: var(--c-amber); box-shadow: 0 0 10px 1px color-mix(in oklab, var(--c-amber) 70%, transparent); }
+.sound-btn__disc::before {
+	content: "";
+	position: absolute;
+	inset: -8px;
+	border-radius: 50%;
+	background: conic-gradient(var(--c-amber) calc(var(--t, 0) * 1turn), rgb(240 240 238 / 0.32) 0);
+	mask: radial-gradient(farthest-side, transparent calc(100% - 2px), #000 calc(100% - 1.5px));
+}
+.sound-btn svg { width: 26px; height: 26px; fill: currentColor; }
+.sound-btn__pause,
+.sound-btn[aria-pressed="true"] .sound-btn__play { display: none; }
+.sound-btn[aria-pressed="true"] .sound-btn__pause { display: block; }
+.sound-btn__text { display: grid; gap: var(--s-1); }
+.sound-btn__label { font-size: var(--fs-h3); font-weight: 600; line-height: 1.2; }
+.sound-btn__hint { font-size: var(--fs-small); color: var(--c-muted-night); }
+.sound-btn:active .sound-btn__disc { transform: scale(0.96); }
 @media (hover: hover) and (pointer: fine) {
-	.power-key:hover { border-color: color-mix(in oklab, var(--c-ink-inverse) 28%, var(--c-night)); }
+	.sound-btn:hover .sound-btn__disc { transform: scale(1.05); }
 }
-.instrument__hint { margin: 0; font-size: var(--fs-small); color: var(--c-muted-night); transition: opacity var(--dur-ui) ease; }
-.js .instrument__audio { display: none; }
-
-.is-power-on .tacho__red { opacity: 1; }
-.is-power-on .output__mode { color: var(--c-amber); }
-.is-power-on .instrument__hint { opacity: 0; }
+@media (max-width: 29.99em) {
+	.sound-btn { gap: var(--s-4); }
+	.sound-btn__disc { width: 60px; height: 60px; }
+	.sound-btn__label { font-size: 1.125rem; }
+}
 
 /* Engine data: one fine line at the foot of the chapter. */
 .spec-line {
 	display: grid;
 	grid-template-columns: repeat(2, 1fr);
 	gap: var(--s-5) var(--s-6);
-	margin-top: var(--s-9);
+	margin-top: var(--s-8);
 	margin-bottom: 0;
 	padding-top: var(--s-5);
 	border-top: 1px solid var(--c-line-night);

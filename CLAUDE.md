@@ -14,8 +14,8 @@
 ## Project
 - Single-page portfolio site presenting the **BMW M6 E63** (V10, 8,250 rpm).
 - **Reset to zero on 2026-11-24** (user's decision): the 3D film and the old "Redline" design are gone. **No 3D, no WebGL.**
-- New concept (approved 2026-11-24), after Porsche 911 Turbo S / Ferrari 812 GTS / Koenigsegg: a car-launch studio, night and day chapters alternate, 8 chapters (hero, profile, design hotspots, V10/POWER, drive, spec sheet, heritage, outro). Contract: [DESIGN.md](DESIGN.md). Fields: [docs/CONTENT-MODEL.md](docs/CONTENT-MODEL.md). Plan: [docs/ROADMAP.md](docs/ROADMAP.md). Credits: [CREDITS.md](CREDITS.md).
-- **Signature = the POWER button** (P400 → P500, 400 → 507 PS, the needle to 8,250 rpm in time with the V10 recording). Amber `--c-amber` is used only for engine speed, never on day chapters.
+- New concept (approved 2026-11-24), after Porsche 911 Turbo S / Ferrari 812 GTS / Koenigsegg: a car-launch studio, night and day chapters alternate, 8 chapters (hero, profile, design hotspots, V10, drive, spec sheet, heritage, outro). Contract: [DESIGN.md](DESIGN.md). Fields: [docs/CONTENT-MODEL.md](docs/CONTENT-MODEL.md). Plan: [docs/ROADMAP.md](docs/ROADMAP.md). Credits: [CREDITS.md](CREDITS.md).
+- **Signature = the sound of the V10**: the engine photo with a sound button (the POWER key and the tachometer were removed on 2026-11-25 at the user's request: "does not fit the design"). Amber `--c-amber` is used only for the engine sound, never on day chapters.
 - Photos: coupé shots from Wikimedia Commons cut out onto our studio backdrop; details, cockpit, engine from official BMW press photos (M6 Convertible 06/2006 set, roof never visible); M635CSi for heritage. User's choice 2026-11-24.
 - Font: Mona Sans variable (width axis: wide caps headlines, condensed figures), self-hosted woff2.
 - E63 reference photos: `C:\Users\aaldi\Local Sites\msport\refs-e63\` — never delete. Press/source photos: `C:\Users\aaldi\Local Sites\msport\press-m6\`. Python tools venv: `C:\Users\aaldi\Local Sites\msport\.venv`.

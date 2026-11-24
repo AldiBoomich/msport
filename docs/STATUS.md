@@ -54,10 +54,26 @@ _Last updated: 2026-11-25_
   field), output display inside the dial, physical POWER key, engine bay as the dim backdrop, engine data as one fine
   line (`.spec-line`), heading without steps ("Naturally aspirated. / Ten cylinders."). power.js also writes `--rpm`.
 
+## Tachometer removed, stage 5 done (2026-11-25)
+- User: the tachometer "does not fit the design" -> removed (`msport_tachometer()`, the POWER key, P400/P500, the rev
+  curve). The V10 chapter is now the engine bay as one large photo with the sound button on it (bottom left): play /
+  pause, an amber ring runs with the recording, the photo lights up while it plays. Fields removed from the admin:
+  `power_from/to/unit/mode_off/mode_on/idle/redline/scale_max`, `opt_rpm_curve`, `hero_wordmark` (their old values stay
+  in the database, unused). `power_button_label` = "Hear the V10", `power_hint` = the note; lead rewritten.
+  `tools/audio/rpm-curve.py` is no longer used (kept until the user decides).
+- Stage 5 fixes: the header "Hear the V10" hides while the hero shows the same button; hotspot labels on phones hidden
+  (the car is too small, they overlapped and ran off the screen; dots stay, the panel names the detail); profile car on
+  phones centred and no longer cut at the edges; the left padding of all containers at 1200–1416 px (rail clearance
+  formula had the wrong sign); `.detail:focus` outline only removed for non-keyboard focus; theme `screenshot.png`.
+- Checks: check.mjs 1440/1200/768/390 + reduced motion 0 FAIL (1 WARN: hotspot labels until hover / on phones —
+  intended); motion.mjs gpu + nogpu 60 fps, no long tasks; scan-theme clean (OUTLINE warn is the `:not(:focus-visible)`
+  rule); PHPCS clean; JS 12.8 KB. The PHP notice "acf domain loaded too early" in debug.log comes from the ACF PRO plugin
+  itself (acf.php:116), not from the theme.
+
 ## Next step
-- Stage 5: full look at every screenshot (squint, silhouette, first screen at 390), up to 3 rounds of fixes; candidates:
-  the duplicate "Hear the V10" (header + hero) on phones, the heritage layout ("now" car small), the dark car on the
-  dark Performance tab, screenshot.png for the theme.
+- Project complete. Possible extras: a Gemini front three-quarter shot; og:image / SEO plugin.
 
 ## Open questions
-- None.
+- Delete the unused old uploads in uploads/2026/11 (earlier versions of the four car photos, the old engine shots)?
+- Delete the `sample-*` duplicates in `press-m6/gemini/`?
+- Delete `tools/audio/rpm-curve.py` (the rev curve is no longer used)?

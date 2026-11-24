@@ -57,10 +57,9 @@ const front = {
   fields: [
     f.tab('hero', 'Hero'),
     ...common('hero', 'top', 'Start'),
-    f.text('hero_wordmark', 'Big wordmark', 'Large model name behind the headline, for example "M6".', 'M6'),
     title('hero', 'The only main heading of the page (h1). One line per line of the heading.'),
     f.area('hero_lead', 'Lead', 'One or two sentences under the heading.'),
-    f.text('hero_cta_label', 'Button label', 'The button scrolls to the POWER chapter. Name the action.', 'Hear the V10'),
+    f.text('hero_cta_label', 'Button label', 'The button scrolls to the V10 chapter. Name the action.', 'Hear the V10'),
     half(f.image('hero_image', 'Car, desktop', 'Cut-out car on a transparent background (PNG or WebP), at least 2560 px wide. It stands on the studio backdrop.')),
     half(f.image('hero_image_mobile', 'Car, phone', 'Optional. A cut-out framed for a tall phone screen. If empty, the desktop image is used.')),
 
@@ -88,26 +87,18 @@ const front = {
       f.image('image', 'Detail photo', 'Landscape 3:2, at least 1200 × 800 px.'),
     ], { button: 'Add hotspot', layout: 'block', collapsed: 'label', max: 6 }),
 
-    f.tab('power', 'V10 / POWER'),
+    f.tab('power', 'V10'),
     ...common('power', 'power', 'V10'),
     title('power'),
     f.area('power_lead', 'Lead', 'Two or three sentences about the engine.'),
-    f.image('power_image', 'Engine photo', 'Landscape 3:2.'),
-    f.repeater('power_specs', 'Engine facts', 'Short facts next to the tachometer.', [
+    f.image('power_image', 'Engine photo', 'Landscape, at least 2000 px wide. The sound button sits on it, bottom left.'),
+    f.repeater('power_specs', 'Engine facts', 'Short facts in one line under the engine photo.', [
       f.text('label', 'Label', 'For example "Displacement".'),
       f.text('value', 'Value', 'For example "4,999".'),
       f.text('unit', 'Unit', 'For example "cc".'),
     ], { button: 'Add fact', max: 6 }),
-    third(f.num('power_from', 'Output in P400', 'Shown before POWER is pressed.', 400)),
-    third(f.num('power_to', 'Output in P500', 'Shown after POWER is pressed.', 507)),
-    third(f.text('power_unit', 'Output unit', '', 'PS')),
-    third(f.text('power_mode_off', 'Mode name, before', '', 'P400')),
-    third(f.text('power_mode_on', 'Mode name, after', '', 'P500')),
-    third(f.text('power_button_label', 'Button label', '', 'POWER')),
-    f.text('power_hint', 'Hint', 'Shown next to the button before the first press.', 'Press POWER. Sound on.'),
-    third(f.num('power_idle', 'Idle, rpm', '', 800)),
-    third(f.num('power_redline', 'Redline, rpm', 'Start of the red zone.', 8250)),
-    third(f.num('power_scale_max', 'Scale end, rpm', '', 9000)),
+    half(f.text('power_button_label', 'Sound button label', 'The button on the engine photo plays the recording.', 'Hear the V10')),
+    half(f.text('power_hint', 'Sound button note', 'Small line under the button label.', 'Full throttle in a tunnel. Sound on.')),
 
     f.tab('drive', 'Drive'),
     ...common('drive', 'drive', 'Drive'),
@@ -162,7 +153,7 @@ const settings = {
   fields: [
     f.tab('opt_header', 'Header'),
     half(f.text('opt_wordmark', 'Wordmark', 'Text in the top left corner instead of a logo.', 'M6')),
-    half(f.text('opt_header_cta_label', 'Header button', 'Scrolls to the POWER chapter.', 'Hear the V10')),
+    half(f.text('opt_header_cta_label', 'Header button', 'Scrolls to the V10 chapter.', 'Hear the V10')),
     half(f.text('opt_menu_label', 'Menu button', 'The button that opens the menu on phones.', 'Menu')),
     half(f.text('opt_close_label', 'Close label', 'Closes the menu and the detail panel.', 'Close')),
     half(f.text('opt_skip_label', 'Skip link', 'Appears on the first Tab press.', 'Skip to content')),
@@ -177,7 +168,6 @@ const settings = {
 
     f.tab('opt_sound', 'Sound'),
     f.file('opt_sound_file', 'V10 recording', 'MP3. If empty, the recording shipped with the theme is used.', 'mp3'),
-    f.area('opt_rpm_curve', 'Rev curve', 'Only for a different recording: JSON [[seconds, rpm], …] built by tools/audio/rpm-curve.py. If empty, the curve of the recording shipped with the theme is used.', '', 4),
 
     f.tab('opt_meta', 'Search and 404'),
     f.area('opt_meta_description', 'Meta description', 'One sentence for search engines.', '', 2),

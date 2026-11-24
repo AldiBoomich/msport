@@ -46,7 +46,7 @@
             "name": "opt_header_cta_label",
             "aria_label": "",
             "type": "text",
-            "instructions": "Scrolls to the POWER chapter.",
+            "instructions": "Scrolls to the V10 chapter.",
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
@@ -294,26 +294,6 @@
             "mime_types": "mp3"
         },
         {
-            "key": "field_msport_opt_rpm_curve",
-            "label": "Rev curve",
-            "name": "opt_rpm_curve",
-            "aria_label": "",
-            "type": "textarea",
-            "instructions": "Only for a different recording: JSON [[seconds, rpm], …] built by tools/audio/rpm-curve.py. If empty, the curve of the recording shipped with the theme is used.",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            },
-            "default_value": "",
-            "maxlength": "",
-            "rows": 4,
-            "placeholder": "",
-            "new_lines": ""
-        },
-        {
             "key": "field_msport_tab_opt_meta",
             "label": "Search and 404",
             "name": "",
@@ -430,5 +410,5 @@
     "active": true,
     "description": "Site-wide texts and files.",
     "show_in_rest": 0,
-    "modified": 1795552923
+    "modified": 1795555933
 }

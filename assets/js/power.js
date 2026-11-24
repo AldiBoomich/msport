@@ -1,131 +1,45 @@
 /**
- * The signature: the POWER key (DESIGN.md). The chapter starts in P400 (400 PS, needle at idle). Pressing POWER plays
- * the V10 recording, lights the LED, rolls the output 400 → 507 and runs the needle along the rev curve of the
- * recording ([[seconds, rpm], …] from M6 Settings; otherwise the curve of the recording shipped with the theme, measured
- * by tools/audio/rpm-curve.py: two pulls to ~6,900 rpm with shifts 2 → 3 → 4). Pressing again stops
- * the sound and returns to P400. Reduced motion: no roll and no sweep — the number and the needle jump; sound still plays.
+ * The signature: the sound of the V10 (DESIGN.md). The button on the engine photo plays and pauses the recording;
+ * while it plays the chapter gets .is-playing (the photo lights up) and a ring around the button runs with the
+ * recording (--t, 0 → 1). The end of the recording or leaving the tab stops it. Without JS the native player is shown.
  */
-const FALLBACK_CURVE = [
-	[ 0, 3600 ], [ 1.4, 3500 ], [ 2.12, 3400 ], [ 3.64, 4650 ], [ 5.48, 6850 ], [ 5.88, 6950 ], [ 6.08, 6050 ],
-	[ 6.28, 5850 ], [ 6.4, 5050 ], [ 6.56, 5200 ], [ 6.72, 4800 ], [ 10.16, 6800 ], [ 10.32, 6750 ], [ 10.76, 5050 ],
-	[ 11.12, 5600 ], [ 11.32, 5200 ], [ 12.36, 5550 ], [ 13.28, 5200 ], [ 13.64, 5300 ],
-];
-
-export function initPower( reduced ) {
-	const box = document.querySelector( '[data-power]' );
-	const key = box?.querySelector( '[data-power-key]' );
-	const tacho = box?.querySelector( '[data-tacho]' );
-	if ( ! box || ! key || ! tacho ) {
+export function initPower() {
+	const box = document.querySelector( '[data-engine]' );
+	const btn = box?.querySelector( '[data-sound-btn]' );
+	const audio = document.getElementById( 'm6-sound' );
+	if ( ! box || ! btn || ! audio ) {
 		return;
 	}
-	const audio = document.getElementById( 'm6-sound' );
-	const valueEl = box.querySelector( '[data-power-value]' );
-	const modeEl = box.querySelector( '[data-power-mode]' );
-	const readout = tacho.querySelector( '[data-tacho-readout]' );
-	const from = Number( box.dataset.from ) || 400;
-	const to = Number( box.dataset.to ) || 507;
-	const idle = Number( tacho.dataset.idle ) || 800;
-	const max = Number( tacho.dataset.max ) || 9000;
-	const section = box.closest( '.power' ) || box;
-	const fmt = new Intl.NumberFormat( document.documentElement.lang || 'en' );
-	let curve = FALLBACK_CURVE;
-	try {
-		const c = JSON.parse( box.dataset.curve || 'null' );
-		if ( Array.isArray( c ) && c.length > 1 ) {
-			curve = c;
-		}
-	} catch ( e ) {
-		// Keep the built-in profile.
-	}
-
-	const angle = ( rpm ) => -135 + ( 270 * Math.min( max, Math.max( 0, rpm ) ) ) / max;
-	let shownRpm = idle;
-	const setRpm = ( rpm ) => {
-		shownRpm = rpm;
-		tacho.style.setProperty( '--deg', angle( rpm ).toFixed( 2 ) + 'deg' );
-		tacho.style.setProperty( '--rpm', Math.round( rpm ) );
-		if ( readout ) {
-			readout.textContent = fmt.format( Math.round( rpm / 50 ) * 50 );
-		}
-	};
-	const rpmAt = ( t ) => {
-		if ( t <= curve[ 0 ][ 0 ] ) {
-			return curve[ 0 ][ 1 ];
-		}
-		for ( let i = 1; i < curve.length; i++ ) {
-			const [ t1, r1 ] = curve[ i ];
-			if ( t <= t1 ) {
-				const [ t0, r0 ] = curve[ i - 1 ];
-				return r0 + ( ( r1 - r0 ) * ( t - t0 ) ) / ( t1 - t0 || 1 );
-			}
-		}
-		return curve[ curve.length - 1 ][ 1 ];
-	};
-
-	// Start in P400.
-	valueEl.textContent = fmt.format( from );
-	modeEl.textContent = box.dataset.modeOff;
-	setRpm( idle );
-
-	let on = false;
 	let raf = 0;
-	const t0 = { audio: 0 };
-
-	const roll = ( a, b, ms ) => {
-		if ( reduced.matches ) {
-			valueEl.textContent = fmt.format( b );
-			return;
-		}
-		const start = performance.now();
-		const step = ( now ) => {
-			const k = Math.min( 1, ( now - start ) / ms );
-			const e = 1 - Math.pow( 1 - k, 3 );
-			valueEl.textContent = fmt.format( Math.round( a + ( b - a ) * e ) );
-			if ( k < 1 ) {
-				requestAnimationFrame( step );
-			}
-		};
-		requestAnimationFrame( step );
+	const setT = ( t ) => btn.style.setProperty( '--t', t.toFixed( 4 ) );
+	const tick = () => {
+		const d = audio.duration;
+		setT( d > 0 ? Math.min( 1, audio.currentTime / d ) : 0 );
+		raf = audio.paused ? 0 : requestAnimationFrame( tick );
+	};
+	const setOn = ( on ) => {
+		btn.setAttribute( 'aria-pressed', String( on ) );
+		box.classList.toggle( 'is-playing', on );
 	};
 
-	// Needle: follows the recording time; eases toward the target so it never jumps (unless reduced motion).
-	const loop = () => {
-		const t = audio && ! audio.paused ? audio.currentTime : t0.audio;
-		const target = on ? rpmAt( t ) : idle;
-		const next = reduced.matches ? target : shownRpm + ( target - shownRpm ) * 0.35;
-		setRpm( next );
-		if ( on || Math.abs( next - idle ) > 5 ) {
-			raf = requestAnimationFrame( loop );
+	btn.addEventListener( 'click', () => {
+		if ( audio.paused ) {
+			audio.play().catch( () => setOn( false ) );
 		} else {
-			setRpm( idle );
-			raf = 0;
-		}
-	};
-	const run = () => {
-		if ( ! raf ) {
-			raf = requestAnimationFrame( loop );
-		}
-	};
-
-	const setOn = ( v ) => {
-		if ( v === on ) {
-			return;
-		}
-		on = v;
-		key.setAttribute( 'aria-pressed', String( on ) );
-		section.classList.toggle( 'is-power-on', on );
-		modeEl.textContent = on ? box.dataset.modeOn : box.dataset.modeOff;
-		roll( on ? from : to, on ? to : from, on ? 900 : 500 );
-		if ( on && audio ) {
-			audio.currentTime = 0;
-			audio.play().catch( () => {} );
-		} else if ( audio ) {
 			audio.pause();
 		}
-		run();
-	};
-
-	key.addEventListener( 'click', () => setOn( ! on ) );
-	audio?.addEventListener( 'ended', () => setOn( false ) );
-	document.addEventListener( 'visibilitychange', () => document.hidden && setOn( false ) );
+	} );
+	audio.addEventListener( 'play', () => {
+		setOn( true );
+		if ( ! raf ) {
+			raf = requestAnimationFrame( tick );
+		}
+	} );
+	audio.addEventListener( 'pause', () => setOn( false ) );
+	audio.addEventListener( 'ended', () => {
+		setOn( false );
+		audio.currentTime = 0;
+		setT( 0 );
+	} );
+	document.addEventListener( 'visibilitychange', () => document.hidden && audio.pause() );
 }

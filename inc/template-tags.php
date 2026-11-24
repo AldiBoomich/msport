@@ -1,6 +1,6 @@
 <?php
 /**
- * Building blocks of the chapter templates: stepped headings, images, figures, the tachometer, the V10 recording.
+ * Building blocks of the chapter templates: stepped headings, images, figures, the V10 recording.
  *
  * @package msport
  */
@@ -123,120 +123,6 @@ function msport_number( $value ) {
 	$value    = (float) $value;
 	$decimals = floor( $value ) === $value ? 0 : min( 2, strlen( rtrim( substr( strrchr( (string) $value, '.' ), 1 ), '0' ) ) );
 	return number_format_i18n( $value, $decimals );
-}
-
-/**
- * The tachometer (DESIGN.md → Components), drawn after the E63 M6 instrument: chrome bezel, a deep face, hairline
- * ticks every 100 rpm, light condensed numerals, the red field from the redline and the M "variable warning field" —
- * LED segments from 5,000 rpm that light one by one as the revs climb (CSS reads --rpm, set by power.js).
- * JS turns the tapered needle through --deg; without JS it rests at idle.
- *
- * @param int   $idle    Idle rpm.
- * @param int   $redline Start of the red zone, rpm.
- * @param int   $max     Scale end, rpm.
- * @param array $texts   Texts: scale, unit, title ({redline} becomes the number).
- * @return string SVG.
- */
-function msport_tachometer( $idle, $redline, $max, $texts = array() ) {
-	$texts = wp_parse_args(
-		$texts,
-		array(
-			'scale' => __( '×1000 rpm', 'msport' ),
-			'unit'  => __( 'rpm', 'msport' ),
-			'title' => __( 'Tachometer with the red zone from {redline} rpm.', 'msport' ),
-		)
-	);
-
-	$max     = max( 1000, (int) ( ceil( (int) $max / 1000 ) * 1000 ) );
-	$redline = min( max( 0, (int) $redline ), $max );
-	$idle    = min( max( 0, (int) $idle ), $max );
-	$cx      = 200;
-	$cy      = 200;
-	$r       = 172; // Outer end of the ticks.
-
-	// Angle in degrees, clockwise from 12 o'clock: 0 rpm at -135°, max at +135°.
-	$angle = static function ( $rpm ) use ( $max ) {
-		return -135 + 270 * $rpm / $max;
-	};
-	$point = static function ( $deg, $radius ) use ( $cx, $cy ) {
-		$a = deg2rad( $deg );
-		return array( round( $cx + $radius * sin( $a ), 2 ), round( $cy - $radius * cos( $a ), 2 ) );
-	};
-	$arc   = static function ( $from, $to, $radius ) use ( $angle, $point ) {
-		$a1 = $angle( $from );
-		$a2 = $angle( $to );
-
-		list( $x1, $y1 ) = $point( $a1, $radius );
-		list( $x2, $y2 ) = $point( $a2, $radius );
-		return sprintf( 'M%s %sA%s %s 0 %d 1 %s %s', $x1, $y1, $radius, $radius, ( $a2 - $a1 ) > 180 ? 1 : 0, $x2, $y2 );
-	};
-
-	$ticks  = '';
-	$labels = '';
-	for ( $rpm = 0; $rpm <= $max; $rpm += 100 ) {
-		$major = 0 === $rpm % 1000;
-		$mid   = ! $major && 0 === $rpm % 500;
-		$deg   = $angle( $rpm );
-		$len   = $major ? 18 : ( $mid ? 11 : 6 );
-
-		list( $x1, $y1 ) = $point( $deg, $r );
-		list( $x2, $y2 ) = $point( $deg, $r - $len );
-
-		$ticks .= sprintf(
-			'<line class="tacho__tick%s%s" x1="%s" y1="%s" x2="%s" y2="%s"/>',
-			$major ? ' tacho__tick--major' : ( $mid ? ' tacho__tick--mid' : '' ),
-			$rpm >= $redline ? ' tacho__tick--red' : '',
-			$x1,
-			$y1,
-			$x2,
-			$y2
-		);
-		if ( $major ) {
-			list( $lx, $ly ) = $point( $deg, $r - 38 );
-			$labels         .= sprintf( '<text class="tacho__num" x="%s" y="%s">%d</text>', $lx, $ly, $rpm / 1000 );
-		}
-	}
-
-	// Variable warning field: 250-rpm LED segments from 5,000 rpm up to the redline.
-	$leds = '';
-	for ( $rpm = 5000; $rpm < $redline; $rpm += 250 ) {
-		$leds .= sprintf( '<path class="tacho__led" style="--at:%d" d="%s"/>', $rpm, $arc( $rpm + 30, min( $redline, $rpm + 220 ), $r + 11 ) );
-	}
-
-	$title = strtr( (string) $texts['title'], array( '{redline}' => number_format_i18n( $redline ) ) );
-
-	ob_start();
-	?>
-	<svg class="tacho" viewBox="0 0 400 400" role="img" aria-labelledby="tacho-title" data-tacho data-idle="<?php echo esc_attr( $idle ); ?>" data-redline="<?php echo esc_attr( $redline ); ?>" data-max="<?php echo esc_attr( $max ); ?>" style="--deg:<?php echo esc_attr( round( $angle( $idle ), 2 ) ); ?>deg;--rpm:<?php echo esc_attr( $idle ); ?>">
-		<title id="tacho-title"><?php echo esc_html( $title ); ?></title>
-		<defs>
-			<radialGradient id="tacho-face" cx="50%" cy="38%" r="70%">
-				<stop offset="0" class="tacho__face-hi"/>
-				<stop offset="1" class="tacho__face-lo"/>
-			</radialGradient>
-			<linearGradient id="tacho-bezel" x1="0" y1="0" x2="0" y2="1">
-				<stop offset="0" class="tacho__bezel-hi"/>
-				<stop offset="0.5" class="tacho__bezel-mid"/>
-				<stop offset="1" class="tacho__bezel-lo"/>
-			</linearGradient>
-		</defs>
-		<circle class="tacho__bezel" cx="200" cy="200" r="197"/>
-		<circle class="tacho__face" cx="200" cy="200" r="192"/>
-		<g class="tacho__leds" aria-hidden="true"><?php echo $leds; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- numbers only. ?></g>
-		<path class="tacho__red" d="<?php echo esc_attr( $arc( $redline, $max, $r + 2 ) ); ?>"/>
-		<g class="tacho__ticks"><?php echo $ticks; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- numbers only. ?></g>
-		<g class="tacho__nums" aria-hidden="true"><?php echo $labels; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- numbers only. ?></g>
-		<text class="tacho__scale" x="200" y="128" aria-hidden="true"><?php echo esc_html( $texts['scale'] ); ?></text>
-		<text class="tacho__readout" x="200" y="262" aria-hidden="true" data-tacho-readout><?php echo esc_html( number_format_i18n( $idle ) ); ?></text>
-		<text class="tacho__readout-unit" x="200" y="280" aria-hidden="true"><?php echo esc_html( $texts['unit'] ); ?></text>
-		<g class="tacho__needle">
-			<path d="M196.6 226 L199.2 <?php echo esc_attr( 200 - $r + 8 ); ?> L200.8 <?php echo esc_attr( 200 - $r + 8 ); ?> L203.4 226 Z"/>
-		</g>
-		<circle class="tacho__hub" cx="200" cy="200" r="13"/>
-		<circle class="tacho__hub-cap" cx="200" cy="200" r="4"/>
-	</svg>
-	<?php
-	return (string) ob_get_clean();
 }
 
 /**

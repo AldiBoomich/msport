@@ -12,7 +12,7 @@ const reduced = window.matchMedia( '(prefers-reduced-motion: reduce)' );
 
 initNav();
 initHotspots( reduced );
-initPower( reduced );
+initPower();
 initTabs();
 initScenes( reduced );
 

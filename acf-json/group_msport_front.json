@@ -81,26 +81,6 @@
             "append": ""
         },
         {
-            "key": "field_msport_hero_wordmark",
-            "label": "Big wordmark",
-            "name": "hero_wordmark",
-            "aria_label": "",
-            "type": "text",
-            "instructions": "Large model name behind the headline, for example \"M6\".",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            },
-            "default_value": "M6",
-            "maxlength": "",
-            "placeholder": "",
-            "prepend": "",
-            "append": ""
-        },
-        {
             "key": "field_msport_hero_title",
             "label": "Heading",
             "name": "hero_title",
@@ -146,7 +126,7 @@
             "name": "hero_cta_label",
             "aria_label": "",
             "type": "text",
-            "instructions": "The button scrolls to the POWER chapter. Name the action.",
+            "instructions": "The button scrolls to the V10 chapter. Name the action.",
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
@@ -724,7 +704,7 @@
         },
         {
             "key": "field_msport_tab_power",
-            "label": "V10 / POWER",
+            "label": "V10",
             "name": "",
             "aria_label": "",
             "type": "tab",
@@ -846,7 +826,7 @@
             "name": "power_image",
             "aria_label": "",
             "type": "image",
-            "instructions": "Landscape 3:2.",
+            "instructions": "Landscape, at least 2000 px wide. The sound button sits on it, bottom left.",
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
@@ -871,7 +851,7 @@
             "name": "power_specs",
             "aria_label": "",
             "type": "repeater",
-            "instructions": "Short facts next to the tachometer.",
+            "instructions": "Short facts in one line under the engine photo.",
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
@@ -953,124 +933,20 @@
             ]
         },
         {
-            "key": "field_msport_power_from",
-            "label": "Output in P400",
-            "name": "power_from",
-            "aria_label": "",
-            "type": "number",
-            "instructions": "Shown before POWER is pressed.",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "33",
-                "class": "",
-                "id": ""
-            },
-            "default_value": 400,
-            "min": "",
-            "max": "",
-            "step": "",
-            "placeholder": "",
-            "prepend": "",
-            "append": ""
-        },
-        {
-            "key": "field_msport_power_to",
-            "label": "Output in P500",
-            "name": "power_to",
-            "aria_label": "",
-            "type": "number",
-            "instructions": "Shown after POWER is pressed.",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "33",
-                "class": "",
-                "id": ""
-            },
-            "default_value": 507,
-            "min": "",
-            "max": "",
-            "step": "",
-            "placeholder": "",
-            "prepend": "",
-            "append": ""
-        },
-        {
-            "key": "field_msport_power_unit",
-            "label": "Output unit",
-            "name": "power_unit",
-            "aria_label": "",
-            "type": "text",
-            "instructions": "",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "33",
-                "class": "",
-                "id": ""
-            },
-            "default_value": "PS",
-            "maxlength": "",
-            "placeholder": "",
-            "prepend": "",
-            "append": ""
-        },
-        {
-            "key": "field_msport_power_mode_off",
-            "label": "Mode name, before",
-            "name": "power_mode_off",
-            "aria_label": "",
-            "type": "text",
-            "instructions": "",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "33",
-                "class": "",
-                "id": ""
-            },
-            "default_value": "P400",
-            "maxlength": "",
-            "placeholder": "",
-            "prepend": "",
-            "append": ""
-        },
-        {
-            "key": "field_msport_power_mode_on",
-            "label": "Mode name, after",
-            "name": "power_mode_on",
-            "aria_label": "",
-            "type": "text",
-            "instructions": "",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "33",
-                "class": "",
-                "id": ""
-            },
-            "default_value": "P500",
-            "maxlength": "",
-            "placeholder": "",
-            "prepend": "",
-            "append": ""
-        },
-        {
             "key": "field_msport_power_button_label",
-            "label": "Button label",
+            "label": "Sound button label",
             "name": "power_button_label",
             "aria_label": "",
             "type": "text",
-            "instructions": "",
+            "instructions": "The button on the engine photo plays the recording.",
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
-                "width": "33",
+                "width": "50",
                 "class": "",
                 "id": ""
             },
-            "default_value": "POWER",
+            "default_value": "Hear the V10",
             "maxlength": "",
             "placeholder": "",
             "prepend": "",
@@ -1078,86 +954,20 @@
         },
         {
             "key": "field_msport_power_hint",
-            "label": "Hint",
+            "label": "Sound button note",
             "name": "power_hint",
             "aria_label": "",
             "type": "text",
-            "instructions": "Shown next to the button before the first press.",
+            "instructions": "Small line under the button label.",
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
-                "width": "",
+                "width": "50",
                 "class": "",
                 "id": ""
             },
-            "default_value": "Press POWER. Sound on.",
+            "default_value": "Full throttle in a tunnel. Sound on.",
             "maxlength": "",
-            "placeholder": "",
-            "prepend": "",
-            "append": ""
-        },
-        {
-            "key": "field_msport_power_idle",
-            "label": "Idle, rpm",
-            "name": "power_idle",
-            "aria_label": "",
-            "type": "number",
-            "instructions": "",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "33",
-                "class": "",
-                "id": ""
-            },
-            "default_value": 800,
-            "min": "",
-            "max": "",
-            "step": "",
-            "placeholder": "",
-            "prepend": "",
-            "append": ""
-        },
-        {
-            "key": "field_msport_power_redline",
-            "label": "Redline, rpm",
-            "name": "power_redline",
-            "aria_label": "",
-            "type": "number",
-            "instructions": "Start of the red zone.",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "33",
-                "class": "",
-                "id": ""
-            },
-            "default_value": 8250,
-            "min": "",
-            "max": "",
-            "step": "",
-            "placeholder": "",
-            "prepend": "",
-            "append": ""
-        },
-        {
-            "key": "field_msport_power_scale_max",
-            "label": "Scale end, rpm",
-            "name": "power_scale_max",
-            "aria_label": "",
-            "type": "number",
-            "instructions": "",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "33",
-                "class": "",
-                "id": ""
-            },
-            "default_value": 9000,
-            "min": "",
-            "max": "",
-            "step": "",
             "placeholder": "",
             "prepend": "",
             "append": ""
@@ -1964,5 +1774,5 @@
     "active": true,
     "description": "Every chapter of the M6 page (docs/CONTENT-MODEL.md).",
     "show_in_rest": 0,
-    "modified": 1795552923
+    "modified": 1795555933
 }

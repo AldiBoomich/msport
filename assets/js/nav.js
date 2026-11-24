@@ -1,6 +1,7 @@
 /**
  * Chapter rail and the phone menu.
  * - The rail marks the chapter under the middle of the screen (aria-current) and switches its ink on day chapters.
+ * - The header button hides while the hero shows the same button.
  * - On phones the "Menu" button opens the same list full screen: Esc and a link click close it, focus returns.
  */
 export function initNav() {
@@ -9,6 +10,26 @@ export function initNav() {
 	if ( ! rail ) {
 		return;
 	}
+	// The header button hides while the same button is on the first screen (no duplicate "Hear the V10").
+	const heroCta = document.querySelector( '.hero__cta' );
+	const headerCta = document.querySelector( '.site-header__cta' );
+	if ( heroCta && headerCta ) {
+		let ticking = false;
+		const update = () => {
+			ticking = false;
+			const r = heroCta.getBoundingClientRect();
+			const onScreen = r.bottom > 0 && r.top < window.innerHeight && window.scrollY < window.innerHeight * 0.2;
+			document.documentElement.classList.toggle( 'is-hero-cta', onScreen );
+		};
+		window.addEventListener( 'scroll', () => {
+			if ( ! ticking ) {
+				ticking = true;
+				requestAnimationFrame( update );
+			}
+		}, { passive: true } );
+		update();
+	}
+
 	const links = [ ...rail.querySelectorAll( '[data-rail-link]' ) ];
 	const chapters = links.map( ( a ) => document.getElementById( a.hash.slice( 1 ) ) ).filter( Boolean );
 	const root = document.documentElement;

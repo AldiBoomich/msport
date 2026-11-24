@@ -31,10 +31,12 @@ Plan approved 2026-11-24. References: Porsche 911 Turbo S, Ferrari 812 GTS, Koen
 - [x] Hero → profile scene (sticky, scrubbed; the profile car rises on the section entry `--in`)
 - [x] Hotspots: zoom + detail panel (under the header), focus to the panel, Esc returns focus
 - [x] POWER: LED, 400 → 507, needle in time with the recording (curve measured by tools/audio/rpm-curve.py, peaks ~6,950 rpm)
+- [x] Tachometer and POWER key removed at the user's request; the V10 chapter = engine photo with the sound button (2026-11-25)
 - [x] Spec tabs with diagonal wipe (panel photos preloaded near the section), arrow keys
 - [x] Drive collage drift (±30 px)
 - [x] Reduced motion and no-JS versions (checked in the browser with JS disabled)
 
 ## 5. Checks
-- [ ] check.mjs 1440/768/390 + reduced motion, motion.mjs gpu/nogpu, scan-theme, phpcs
-- [ ] Look at every screenshot; at most 3 rounds of fixes
+- [x] check.mjs 1440/768/390 + reduced motion, motion.mjs gpu/nogpu, scan-theme, phpcs
+- [x] Look at every screenshot; at most 3 rounds of fixes (2 rounds, 2026-11-25)
+- [x] Theme screenshot.png

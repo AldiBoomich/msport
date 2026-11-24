@@ -33,7 +33,7 @@
 - Nothing visible is hardcoded in templates: text and images come from ACF, the menu or the Customizer. Fallback strings use `esc_html__( '…', 'msport' )`.
 - Escape on output: `esc_html`, `esc_attr`, `esc_url`, `wp_kses_post`. Sanitize all input, check nonces.
 - Tokens only from DESIGN.md (`:root`); no new colours, sizes or radii outside it.
-- Images: no AI images.
+- Images: AI-generated studio shots from Gemini are allowed (user's decision 2026-11-25, replacing the earlier "no AI images" rule); prompts in `C:\Users\aaldi\Local Sites\msport\press-m6\gemini\PROMPTS.md`.
 - Every animation has a `prefers-reduced-motion` version; nothing stays hidden without JS.
 - One `<h1>`. No horizontal scroll 360–1920 px. AA contrast. Full keyboard support.
 - No PHP notices with `WP_DEBUG` on; no JS errors.

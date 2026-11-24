@@ -108,7 +108,7 @@ grounds), not amber. `::selection` = amber on night.
   wheels and cockpit; cropped so no soft top shows), plus the engine of the BMW M5.
 - **Heritage:** BMW press photos of the M635CSi (E24), black and white.
 - Ratios: hero cut-out 21:9 desktop / 4:5 phone; drive collage 4:5 and 3:2; detail panel 3:2.
-- Sources and licences: `CREDITS.md`. No AI images.
+- Sources: `CREDITS.md`. Studio shots generated with Gemini (user's decision 2026-11-25), one look for all of them (see the prompts file).
 
 ## Components
 - **Header:** wordmark "M6" left, "Hear the V10" right (scrolls to POWER), menu on phones. 64px, solid

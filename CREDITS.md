@@ -5,7 +5,8 @@
   axes limited to `wdth` 75–125 and `wght` 350–800, saved as `assets/fonts/mona-sans-vf.woff2`.
 
 ## Photos
-Processed with `tools/images/cutout.py` (cut-outs) and `tools/images/build.py` (one grade, WebP). Recipes and sources
+Processed with `tools/images/cutout.py` (cut-outs), `tools/images/studio.py` (baked floor shadow, smoked glass, plate
+removed on heritage-m6) and `tools/images/build.py` (one grade, WebP). Recipes and sources
 outside the theme: `C:\Users\aaldi\Local Sites\msport\press-m6\`.
 
 | Site file | Source | Credit |

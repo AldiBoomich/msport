@@ -30,12 +30,11 @@ $msport_mobile = (int) msport_front( 'hero_image_mobile', 0 );
 						array(
 							'class'   => 'hero__img',
 							'loading' => 'eager',
-							'sizes'   => '(min-width: 75em) 62vw, (min-width: 48em) 84vw, 128vw',
+							'sizes'   => '(min-width: 75em) 68vw, (min-width: 48em) 84vw, 128vw',
 						)
 					);
 					?>
 				</picture>
-				<span class="contact-shadow" aria-hidden="true"></span>
 			</div>
 		<?php endif; ?>
 

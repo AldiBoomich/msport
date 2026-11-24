@@ -61,6 +61,31 @@ function msport_image( $id, $size = 'msport-wide', $attrs = array() ) {
 }
 
 /**
+ * Whether an image is a cut-out (has an alpha channel): cut-outs are shown whole (contain), photos fill their frame.
+ * Reads the file header only (PNG colour type, WebP VP8X alpha flag).
+ *
+ * @param int $id Attachment ID.
+ * @return bool
+ */
+function msport_is_cutout( $id ) {
+	static $cache = array();
+	$id           = (int) $id;
+	if ( ! $id ) {
+		return false;
+	}
+	if ( ! isset( $cache[ $id ] ) ) {
+		$file = get_attached_file( $id );
+		$head = ( $file && is_readable( $file ) ) ? (string) file_get_contents( $file, false, null, 0, 32 ) : ''; // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- local file header.
+
+		$png  = 0 === strpos( $head, "\x89PNG" ) && strlen( $head ) > 25 && in_array( ord( $head[25] ), array( 4, 6 ), true );
+		$webp = 'RIFF' === substr( $head, 0, 4 ) && 'WEBP' === substr( $head, 8, 4 ) && 'VP8X' === substr( $head, 12, 4 ) && ( ord( $head[20] ) & 0x10 );
+
+		$cache[ $id ] = $png || $webp;
+	}
+	return $cache[ $id ];
+}
+
+/**
  * Print an attachment image (see msport_image()); wp_get_attachment_image() escapes its output.
  *
  * @param int    $id    Attachment ID.

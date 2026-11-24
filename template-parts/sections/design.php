@@ -33,7 +33,6 @@ $msport_close = msport_option( 'opt_close_label', __( 'Close', 'msport' ) );
 					)
 				);
 				?>
-				<span class="contact-shadow" aria-hidden="true"></span>
 				<?php foreach ( $msport_spots as $msport_i => $msport_spot ) : ?>
 					<button class="hotspot js-only" type="button" style="--x:<?php echo esc_attr( (float) ( $msport_spot['x'] ?? 50 ) ); ?>%;--y:<?php echo esc_attr( (float) ( $msport_spot['y'] ?? 50 ) ); ?>%" aria-expanded="false" aria-controls="detail-<?php echo (int) $msport_i; ?>" data-hotspot>
 						<span class="hotspot__dot" aria-hidden="true"></span>

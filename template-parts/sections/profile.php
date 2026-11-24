@@ -28,7 +28,6 @@ $msport_figures = msport_front( 'profile_figures', array() );
 					)
 				);
 				?>
-				<span class="contact-shadow" aria-hidden="true"></span>
 			</div>
 		<?php endif; ?>
 

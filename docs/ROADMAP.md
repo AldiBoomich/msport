@@ -16,6 +16,7 @@ Plan approved 2026-11-24. References: Porsche 911 Turbo S, Ferrari 812 GTS, Koen
 - [x] Download Commons E63 coupé shots (rest saved by the user in the browser into `press-m6/raw/manual`)
 - [x] Choose ~14, cut out the coupé shots (rembg), one grade, sizes (sheet: `press-m6/photo-sheet.jpg`)
 - [x] User approves the photo sheet (2026-11-24)
+- [x] Studio finish of the four car cut-outs after user feedback (2026-11-25, `tools/images/studio.py`): baked floor + tyre contact shadows, smoked glass, plate removed, hero rear fades into the dark, edge decontamination
 - [x] Verify figures (Wikipedia BMW M6 + BMW S85): 507 PS @ 7,750, 520 Nm @ 6,100, 8,250 rpm, 4.6 s, 250 / 305 km/h, P400 = 400 PS, 1,785 kg, 4,872 × 1,854 × 1,377 mm, wheelbase 2,781 mm
 
 ## 3. Skeleton (static, complete without JS)

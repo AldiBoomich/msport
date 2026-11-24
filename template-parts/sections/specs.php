@@ -28,11 +28,12 @@ $msport_tabs = is_array( $msport_tabs ) ? array_values( $msport_tabs ) : array()
 						<div class="tabs__panel" id="spec-panel-<?php echo (int) $msport_i; ?>" role="tabpanel" aria-labelledby="spec-tab-<?php echo (int) $msport_i; ?>" data-panel>
 							<h3 class="h3 tabs__title"><?php echo esc_html( $msport_tab['label'] ?? '' ); ?></h3>
 							<?php if ( ! empty( $msport_tab['image'] ) ) : ?>
-								<figure class="tabs__media">
+								<?php $msport_cut = msport_is_cutout( $msport_tab['image'] ); ?>
+								<figure class="tabs__media<?php echo $msport_cut ? ' tabs__media--cut' : ''; ?>">
 								<?php
 								msport_the_image(
 									$msport_tab['image'],
-									'msport-panel',
+									$msport_cut ? 'msport-wide' : 'msport-panel',
 									array(
 										'class' => 'tabs__img',
 										'sizes' => '(min-width: 62em) 50vw, 100vw',

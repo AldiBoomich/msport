@@ -3,19 +3,22 @@
 _Last updated: 2026-11-24_
 
 ## Where we are
-- New concept approved: a premium one-page M6 E63 site after Porsche / Ferrari / Koenigsegg. Decisions: photos (no 3D),
-  night and day chapters alternate, signature = the POWER button (P400 → P500 with the V10 sound and the needle).
-- Stage 1 (documents) written: DESIGN.md, docs/CONTENT-MODEL.md, CREDITS.md, ROADMAP, CLAUDE.md. Font chosen and prepared:
-  Mona Sans variable, subset woff2 (102 KB), waiting in the session scratchpad until the skeleton stage.
-- Photo research: the official BMW archive (now newsroom.bmwgroup.com, API `services/getmedia.php`) no longer has the
-  2005 M6 coupé sets; it has the M6 Convertible 06/2006 set (37 photos, 3664 px), the M5 Touring engine and the M635CSi.
-  The coupé comes from Wikimedia Commons (street photos up to 4600 px), cut out onto our studio backdrop — user's choice.
-- E63 reference photos: `C:\Users\aaldi\Local Sites\msport\refs-e63\` (keep).
-- Python tools venv: `C:\Users\aaldi\Local Sites\msport\.venv` (fonttools, Pillow, numpy; rembg comes in stage 2).
+- Stage 1 (documents) done and approved (palette + Mona Sans).
+- Stage 2 (photos) in progress:
+  - BMW press photos downloaded and processed into `C:\Users\aaldi\Local Sites\msport\press-m6\final\` (caption bar
+    stripped, one grade): headlights, wheel, gills (coupé), tailpipes (coupé), SMG, steering wheel, cockpit, engine (M5 /
+    M6 bay), M635CSi ×2 (B/W).
+  - Tools: `tools/images/cutout.py` (rembg BiRefNet, keeps the largest object, optional pre-crop) and
+    `tools/images/build.py` (strip caption bar, crop, grade, WebP). Venv: `C:\Users\aaldi\Local Sites\msport\.venv`.
+  - Wikimedia Commons answers 429 (too many requests) for this IP; 4 of 15 coupé photos downloaded. The hero, profile and
+    design cut-outs need the remaining full-car shots (Prévot 17, Migl 4809/4810, nakhon side, OSX side).
+- Stage 3 (skeleton) written ahead: ACF groups, options page, 8 chapter templates, CSS from the tokens, JS modules
+  (scenes, nav, hotspots, POWER, tabs). PHPCS clean; the page renders without errors but has no content yet.
+- Figures verified against Wikipedia (BMW M6, BMW S85) — see ROADMAP.
 
 ## Next step
-- User approves palette and font (preview), then stage 2: download and choose photos, cut-outs, grade, photo sheet for
-  approval.
+- Get the remaining Commons photos (wait for the limit, or the user saves them in the browser), cut out the coupé,
+  show the photo sheet for approval, then the content import (media + fields) and the first look in the browser.
 
 ## Open questions
-- Figures still to verify against a reliable source (BMW press pages for 2005 moved and are not readable now).
+- None besides the photo download.

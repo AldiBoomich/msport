@@ -9,20 +9,21 @@ Plan approved 2026-11-24. References: Porsche 911 Turbo S, Ferrari 812 GTS, Koen
 - [x] Study the references in the browser (scroll, click, frame-by-frame)
 - [x] DESIGN.md (palette with measured contrast, Mona Sans, motion, signature POWER)
 - [x] CONTENT-MODEL.md, CREDITS.md, CLAUDE.md
-- [ ] User approves palette and font (preview page)
+- [x] User approves palette and font (preview page, 2026-11-24)
 
 ## 2. Photos
-- [ ] Download candidates (BMW Newsroom M6 Convertible 2006 set, M5 engine, M635CSi; Commons E63 coupé)
+- [x] Download BMW press candidates (M6 Convertible 2006 set, M5 engine, M635CSi)
+- [ ] Download Commons E63 coupé shots (Wikimedia 429 for this IP; 4 of 15 done)
 - [ ] Choose ~14, cut out the coupé shots (rembg), one grade, sizes
 - [ ] User approves the photo sheet
-- [ ] Verify all figures (power, torque, 0–100, weight, dimensions, brakes) against a reliable source
+- [x] Verify figures (Wikipedia BMW M6 + BMW S85): 507 PS @ 7,750, 520 Nm @ 6,100, 8,250 rpm, 4.6 s, 250 / 305 km/h, P400 = 400 PS, 1,785 kg, 4,872 × 1,854 × 1,377 mm, wheelbase 2,781 mm
 
 ## 3. Skeleton (static, complete without JS)
-- [ ] Tokens, font, header, footer, chapter rail
-- [ ] ACF field groups + options page
-- [ ] 8 chapters (hero, profile, design, power, drive, specs, heritage, outro)
+- [x] Tokens, font, header, footer, chapter rail
+- [x] ACF field groups + options page (tools/acf/fields.mjs)
+- [x] 8 chapter templates
 - [ ] Content import (media + fields) through a one-off mu-plugin
-- [ ] Restore the V10 recording and the tachometer from git history (d4c5686)
+- [x] Restore the V10 recording and the tachometer from git history
 
 ## 4. Motion
 - [ ] Hero entrance (lights up)

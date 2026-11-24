@@ -681,6 +681,45 @@ html.film .chapter--film > .chapter__inner.split {
 	transition: opacity 400ms linear;
 }
 
+/* Trial versions of the pre-rendered film (boot.js → ?film=video | frames): the scrubbed video, the idle
+   loop over it (fades in when the scroll rests in a chapter) and a light grain, since the Cycles frames
+   are rendered without. The frame canvas is drawn at the frame's own size and covers the screen. */
+.film-video {
+	position: fixed;
+	inset: 0;
+	z-index: -1;
+	display: block;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	pointer-events: none;
+}
+
+.film-video--loop {
+	opacity: 0;
+	transition: opacity 250ms linear;
+}
+
+.film-video--loop.is-on {
+	opacity: 1;
+	transition-duration: 400ms;
+}
+
+.film-grain {
+	position: fixed;
+	inset: -128px;
+	z-index: -1;
+	pointer-events: none;
+	animation: film-grain 400ms steps(1) infinite;
+}
+
+@keyframes film-grain {
+	0% { transform: translate(0, 0); }
+	25% { transform: translate(-37px, 53px); }
+	50% { transform: translate(61px, -19px); }
+	75% { transform: translate(-83px, -71px); }
+}
+
 /* Preloader (inc/film.php): covers the page while the 3D scene loads; the head script adds `film-loading`
    and boot.js takes it away once the first live frame is drawn (or the stills stay). The rev bar fills
    with the download; the last stretch is the red zone. */

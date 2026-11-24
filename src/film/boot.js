@@ -157,11 +157,20 @@ function start() {
 	// every screen gets the live scene (user's decision, 2026-11-24: no video); weak graphics step their own
 	// quality down (film-scene.js → adaptive). Software rendering or a failed load: the stills stay. A slow
 	// load (10 s): the preloader gives way to the stills and the scene fades in over them when it is ready.
+	//
+	// Trial versions for the user's side-by-side (2026-11-24), one per link: ?film=live (live scene with the
+	// v6 car), ?film=video (the Cycles film as a scrubbed video), ?film=frames (the Cycles film as a frame
+	// sequence on a canvas). Without it the site stays as it is.
+	const mode = new URLSearchParams( location.search ).get( 'film' );
+	const load = {
+		video: () => import( './video.js' ).then( ( m ) => m.goVideo ),
+		frames: () => import( './frames.js' ).then( ( m ) => m.goFrames ),
+	}[ mode ] ?? ( () => import( './live.js' ).then( ( m ) => ( o ) => m.goLive( { ...o, v6: mode === 'live' } ) ) );
 	gauge.set( 0.04 );
-	import( './live.js' )
-		.then( ( m ) => {
+	load()
+		.then( ( go ) => {
 			gauge.set( 0.1 );
-			return m.goLive( { railAt, onProgress: ( f ) => gauge.set( 0.1 + 0.8 * f ), onLate: () => root.classList.remove( 'film-loading' ) } );
+			return go( { railAt, onProgress: ( f ) => gauge.set( 0.1 + 0.8 * f ), onLate: () => root.classList.remove( 'film-loading' ) } );
 		} )
 		.then( ( f ) => {
 			if ( ! f ) {

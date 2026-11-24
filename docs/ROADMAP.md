@@ -61,6 +61,7 @@
 - [x] Stage 4: idle loops (desktop + phone) → user check (2026-11-24, user OK)
 - [x] Site updated after the user's OK (old files backed up) (2026-11-24: Cycles stills kept; the Cycles video was rejected by the user, so no video on the site)
 - [ ] Live 3D on every screen (phones and weak graphics with adaptive quality) behind a preloader → user check (built 2026-11-24)
+- [ ] User picks one of the trials (?film=live v6 / ?film=video / ?film=frames, built 2026-11-24), the others removed
 
 ## 3. Theme skeleton
 - [x] Clean `_s` leftovers: 20 files deleted with the user's OK (blog templates, sidebar, comments, custom header, Jetpack, customizer, RTL, old JS) (2026-11-18)

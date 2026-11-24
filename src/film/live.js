@@ -5,12 +5,14 @@
  * should stay on the stills: no WebGL2 / software rendering, no settings, or a failed load (DESIGN.md →
  * 3D / WebGL → Fallback). onProgress( 0…1 ) feeds the preloader; onLate() fires when the load passes
  * LOAD_LIMIT (slow network): the page drops the preloader for the stills and the scene fades in when ready.
+ * v6 (trial, ?film=live): the v6 web model (tools/3d/bl_web_v6.py → bl_web_export.py, meshopt) and, on
+ * desktops, the 12K horizon band; film-scene.js finds the v6 car itself and uses its own look (V6_LOOK).
  */
 import { createFilm } from '../../tools/3d/film-scene.js';
 
 const LOAD_LIMIT = 10000;
 
-export async function goLive( { railAt, onProgress, onLate } ) {
+export async function goLive( { railAt, onProgress, onLate, v6 = false } ) {
 	const probe = document.createElement( 'canvas' ).getContext( 'webgl2', { failIfMajorPerformanceCaveat: true } );
 	if ( ! probe ) {
 		return null;
@@ -32,6 +34,8 @@ export async function goLive( { railAt, onProgress, onLate } ) {
 	canvas.setAttribute( 'aria-hidden', 'true' );
 	document.body.prepend( canvas );
 
+	// trial ?film=live: the v6 car (the one in the Cycles frames), the sharp horizon band on desktops
+	const set = v6 && data.v6 ? data.v6 : data;
 	const loading = createFilm( {
 		canvas,
 		width: window.innerWidth,
@@ -41,8 +45,9 @@ export async function goLive( { railAt, onProgress, onLate } ) {
 		onProgress,
 		look: data.look || {},
 		urls: {
-			model: mobile ? data.modelMobile : data.model,
+			model: mobile ? set.modelMobile : set.model,
 			sky: mobile ? data.skyMobile : data.sky,
+			skyBand: set.skyBand && ! mobile ? set.skyBand : undefined,
 			shadow: data.shadow,
 			asphalt: data.asphalt,
 		},

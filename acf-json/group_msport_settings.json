@@ -1,0 +1,434 @@
+{
+    "key": "group_msport_settings",
+    "title": "M6 Settings",
+    "fields": [
+        {
+            "key": "field_msport_tab_opt_header",
+            "label": "Header",
+            "name": "",
+            "aria_label": "",
+            "type": "tab",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placement": "left",
+            "endpoint": 0,
+            "selected": 0
+        },
+        {
+            "key": "field_msport_opt_wordmark",
+            "label": "Wordmark",
+            "name": "opt_wordmark",
+            "aria_label": "",
+            "type": "text",
+            "instructions": "Text in the top left corner instead of a logo.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "M6",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_msport_opt_header_cta_label",
+            "label": "Header button",
+            "name": "opt_header_cta_label",
+            "aria_label": "",
+            "type": "text",
+            "instructions": "Scrolls to the POWER chapter.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "Hear the V10",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_msport_opt_menu_label",
+            "label": "Menu button",
+            "name": "opt_menu_label",
+            "aria_label": "",
+            "type": "text",
+            "instructions": "The button that opens the menu on phones.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "Menu",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_msport_opt_close_label",
+            "label": "Close label",
+            "name": "opt_close_label",
+            "aria_label": "",
+            "type": "text",
+            "instructions": "Closes the menu and the detail panel.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "Close",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_msport_opt_skip_label",
+            "label": "Skip link",
+            "name": "opt_skip_label",
+            "aria_label": "",
+            "type": "text",
+            "instructions": "Appears on the first Tab press.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "Skip to content",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_msport_opt_nav_label",
+            "label": "Chapter menu name",
+            "name": "opt_nav_label",
+            "aria_label": "",
+            "type": "text",
+            "instructions": "Not shown; screen readers announce the chapter rail by this name.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "Chapters",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_msport_tab_opt_footer",
+            "label": "Developer and credits",
+            "name": "",
+            "aria_label": "",
+            "type": "tab",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placement": "left",
+            "endpoint": 0,
+            "selected": 0
+        },
+        {
+            "key": "field_msport_opt_dev_name",
+            "label": "Developer name",
+            "name": "opt_dev_name",
+            "aria_label": "",
+            "type": "text",
+            "instructions": "Footer credit.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_msport_opt_dev_url",
+            "label": "Developer link",
+            "name": "opt_dev_url",
+            "aria_label": "",
+            "type": "url",
+            "instructions": "Portfolio or Upwork profile.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "https://"
+        },
+        {
+            "key": "field_msport_opt_dev_prefix",
+            "label": "Text before the developer name",
+            "name": "opt_dev_prefix",
+            "aria_label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "Page by",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_msport_opt_credits_label",
+            "label": "Credits button",
+            "name": "opt_credits_label",
+            "aria_label": "",
+            "type": "text",
+            "instructions": "Opens the list of credits in the footer.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "Photo and sound credits",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_msport_opt_credits",
+            "label": "Photo and sound credits",
+            "name": "opt_credits",
+            "aria_label": "",
+            "type": "textarea",
+            "instructions": "One credit per line.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "rows": 8,
+            "placeholder": "",
+            "new_lines": ""
+        },
+        {
+            "key": "field_msport_tab_opt_sound",
+            "label": "Sound",
+            "name": "",
+            "aria_label": "",
+            "type": "tab",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placement": "left",
+            "endpoint": 0,
+            "selected": 0
+        },
+        {
+            "key": "field_msport_opt_sound_file",
+            "label": "V10 recording",
+            "name": "opt_sound_file",
+            "aria_label": "",
+            "type": "file",
+            "instructions": "MP3. If empty, the recording shipped with the theme is used.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "id",
+            "library": "all",
+            "min_size": "",
+            "max_size": "",
+            "mime_types": "mp3"
+        },
+        {
+            "key": "field_msport_opt_rpm_curve",
+            "label": "Rev curve",
+            "name": "opt_rpm_curve",
+            "aria_label": "",
+            "type": "textarea",
+            "instructions": "Built by tools/audio/rpm-curve.mjs: JSON [[seconds, rpm], …]. The needle follows it while the recording plays.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "rows": 4,
+            "placeholder": "",
+            "new_lines": ""
+        },
+        {
+            "key": "field_msport_tab_opt_meta",
+            "label": "Search and 404",
+            "name": "",
+            "aria_label": "",
+            "type": "tab",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placement": "left",
+            "endpoint": 0,
+            "selected": 0
+        },
+        {
+            "key": "field_msport_opt_meta_description",
+            "label": "Meta description",
+            "name": "opt_meta_description",
+            "aria_label": "",
+            "type": "textarea",
+            "instructions": "One sentence for search engines.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "rows": 2,
+            "placeholder": "",
+            "new_lines": ""
+        },
+        {
+            "key": "field_msport_opt_404_title",
+            "label": "404 heading",
+            "name": "opt_404_title",
+            "aria_label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "You hit the limiter.",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_msport_opt_404_text",
+            "label": "404 text",
+            "name": "opt_404_text",
+            "aria_label": "",
+            "type": "textarea",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "This page does not exist.",
+            "maxlength": "",
+            "rows": 2,
+            "placeholder": "",
+            "new_lines": ""
+        },
+        {
+            "key": "field_msport_opt_404_button",
+            "label": "404 button",
+            "name": "opt_404_button",
+            "aria_label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "Back to the M6",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "options_page",
+                "operator": "==",
+                "value": "msport-settings"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "Site-wide texts and files.",
+    "show_in_rest": 0,
+    "modified": 1795544178
+}

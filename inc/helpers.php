@@ -53,6 +53,21 @@ function msport_front( $name, $fallback = '' ) {
 }
 
 /**
+ * True/false field on the front page that defaults to on (a missing toggle never hides a chapter).
+ *
+ * @param string $name Field name.
+ * @return bool
+ */
+function msport_front_flag( $name ) {
+	if ( ! function_exists( 'get_field' ) ) {
+		return true;
+	}
+	$front_id = (int) get_option( 'page_on_front' );
+	$value    = get_field( $name, $front_id ? $front_id : false );
+	return null === $value ? true : (bool) $value;
+}
+
+/**
  * Cache-busting version for a theme file: file time while WP_DEBUG is on, theme version otherwise.
  *
  * @param string $relative Path inside the theme.

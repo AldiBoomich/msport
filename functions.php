@@ -15,3 +15,6 @@ require MSPORT_DIR . '/inc/helpers.php';
 require MSPORT_DIR . '/inc/setup.php';
 require MSPORT_DIR . '/inc/cleanup.php';
 require MSPORT_DIR . '/inc/assets.php';
+require MSPORT_DIR . '/inc/acf.php';
+require MSPORT_DIR . '/inc/template-tags.php';
+require MSPORT_DIR . '/inc/chapters.php';

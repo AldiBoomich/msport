@@ -1,0 +1,1968 @@
+{
+    "key": "group_msport_front",
+    "title": "M6 front page",
+    "fields": [
+        {
+            "key": "field_msport_tab_hero",
+            "label": "Hero",
+            "name": "",
+            "aria_label": "",
+            "type": "tab",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placement": "left",
+            "endpoint": 0,
+            "selected": 0
+        },
+        {
+            "key": "field_msport_hero_show",
+            "label": "Show chapter",
+            "name": "hero_show",
+            "aria_label": "",
+            "type": "true_false",
+            "instructions": "Turn off to hide this chapter (the chapter rail skips it too).",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "33",
+                "class": "",
+                "id": ""
+            },
+            "message": "",
+            "default_value": 1,
+            "ui": 1,
+            "ui_on_text": "Shown",
+            "ui_off_text": "Hidden"
+        },
+        {
+            "key": "field_msport_hero_nav",
+            "label": "Name in the chapter rail",
+            "name": "hero_nav",
+            "aria_label": "",
+            "type": "text",
+            "instructions": "One or two words.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "33",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "Start",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_msport_hero_anchor",
+            "label": "Anchor ID",
+            "name": "hero_anchor",
+            "aria_label": "",
+            "type": "text",
+            "instructions": "A link \"#top\" scrolls here. Lowercase letters, numbers and dashes only.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "33",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "top",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_msport_hero_wordmark",
+            "label": "Big wordmark",
+            "name": "hero_wordmark",
+            "aria_label": "",
+            "type": "text",
+            "instructions": "Large model name behind the headline, for example \"M6\".",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "M6",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_msport_hero_title",
+            "label": "Heading",
+            "name": "hero_title",
+            "aria_label": "",
+            "type": "textarea",
+            "instructions": "The only main heading of the page (h1). One line per line of the heading.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "rows": 3,
+            "placeholder": "",
+            "new_lines": ""
+        },
+        {
+            "key": "field_msport_hero_lead",
+            "label": "Lead",
+            "name": "hero_lead",
+            "aria_label": "",
+            "type": "textarea",
+            "instructions": "One or two sentences under the heading.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "rows": 3,
+            "placeholder": "",
+            "new_lines": ""
+        },
+        {
+            "key": "field_msport_hero_cta_label",
+            "label": "Button label",
+            "name": "hero_cta_label",
+            "aria_label": "",
+            "type": "text",
+            "instructions": "The button scrolls to the POWER chapter. Name the action.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "Hear the V10",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_msport_hero_image",
+            "label": "Car, desktop",
+            "name": "hero_image",
+            "aria_label": "",
+            "type": "image",
+            "instructions": "Cut-out car on a transparent background (PNG or WebP), at least 2560 px wide. It stands on the studio backdrop.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "id",
+            "library": "all",
+            "min_width": "",
+            "min_height": "",
+            "min_size": "",
+            "max_width": "",
+            "max_height": "",
+            "max_size": "",
+            "mime_types": "jpg,jpeg,png,webp,avif",
+            "preview_size": "medium"
+        },
+        {
+            "key": "field_msport_hero_image_mobile",
+            "label": "Car, phone",
+            "name": "hero_image_mobile",
+            "aria_label": "",
+            "type": "image",
+            "instructions": "Optional. A cut-out framed for a tall phone screen. If empty, the desktop image is used.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "id",
+            "library": "all",
+            "min_width": "",
+            "min_height": "",
+            "min_size": "",
+            "max_width": "",
+            "max_height": "",
+            "max_size": "",
+            "mime_types": "jpg,jpeg,png,webp,avif",
+            "preview_size": "medium"
+        },
+        {
+            "key": "field_msport_tab_profile",
+            "label": "Profile",
+            "name": "",
+            "aria_label": "",
+            "type": "tab",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placement": "left",
+            "endpoint": 0,
+            "selected": 0
+        },
+        {
+            "key": "field_msport_profile_show",
+            "label": "Show chapter",
+            "name": "profile_show",
+            "aria_label": "",
+            "type": "true_false",
+            "instructions": "Turn off to hide this chapter (the chapter rail skips it too).",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "33",
+                "class": "",
+                "id": ""
+            },
+            "message": "",
+            "default_value": 1,
+            "ui": 1,
+            "ui_on_text": "Shown",
+            "ui_off_text": "Hidden"
+        },
+        {
+            "key": "field_msport_profile_nav",
+            "label": "Name in the chapter rail",
+            "name": "profile_nav",
+            "aria_label": "",
+            "type": "text",
+            "instructions": "One or two words.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "33",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "Profile",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_msport_profile_anchor",
+            "label": "Anchor ID",
+            "name": "profile_anchor",
+            "aria_label": "",
+            "type": "text",
+            "instructions": "A link \"#profile\" scrolls here. Lowercase letters, numbers and dashes only.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "33",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "profile",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_msport_profile_image",
+            "label": "Side profile",
+            "name": "profile_image",
+            "aria_label": "",
+            "type": "image",
+            "instructions": "Cut-out car seen exactly from the side, transparent background, at least 2560 px wide.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "id",
+            "library": "all",
+            "min_width": "",
+            "min_height": "",
+            "min_size": "",
+            "max_width": "",
+            "max_height": "",
+            "max_size": "",
+            "mime_types": "jpg,jpeg,png,webp,avif",
+            "preview_size": "medium"
+        },
+        {
+            "key": "field_msport_profile_ghost",
+            "label": "Big number behind the car",
+            "name": "profile_ghost",
+            "aria_label": "",
+            "type": "text",
+            "instructions": "Decorative, not read aloud. For example \"8250\".",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "8250",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_msport_profile_figures",
+            "label": "Figures",
+            "name": "profile_figures",
+            "aria_label": "",
+            "type": "repeater",
+            "instructions": "Three or four true numbers. Value without the unit.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "layout": "table",
+            "pagination": 0,
+            "min": 0,
+            "max": 4,
+            "collapsed": "",
+            "button_label": "Add figure",
+            "rows_per_page": 20,
+            "sub_fields": [
+                {
+                    "key": "field_msport_profile_figures__value",
+                    "label": "Value",
+                    "name": "value",
+                    "aria_label": "",
+                    "type": "text",
+                    "instructions": "For example \"507\" or \"4.6\".",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_msport_profile_figures"
+                },
+                {
+                    "key": "field_msport_profile_figures__unit",
+                    "label": "Unit",
+                    "name": "unit",
+                    "aria_label": "",
+                    "type": "text",
+                    "instructions": "For example \"PS\", \"rpm\", \"s\", \"km/h\".",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_msport_profile_figures"
+                },
+                {
+                    "key": "field_msport_profile_figures__label",
+                    "label": "Label",
+                    "name": "label",
+                    "aria_label": "",
+                    "type": "text",
+                    "instructions": "For example \"0–100 km/h\".",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_msport_profile_figures"
+                }
+            ]
+        },
+        {
+            "key": "field_msport_tab_design",
+            "label": "Design",
+            "name": "",
+            "aria_label": "",
+            "type": "tab",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placement": "left",
+            "endpoint": 0,
+            "selected": 0
+        },
+        {
+            "key": "field_msport_design_show",
+            "label": "Show chapter",
+            "name": "design_show",
+            "aria_label": "",
+            "type": "true_false",
+            "instructions": "Turn off to hide this chapter (the chapter rail skips it too).",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "33",
+                "class": "",
+                "id": ""
+            },
+            "message": "",
+            "default_value": 1,
+            "ui": 1,
+            "ui_on_text": "Shown",
+            "ui_off_text": "Hidden"
+        },
+        {
+            "key": "field_msport_design_nav",
+            "label": "Name in the chapter rail",
+            "name": "design_nav",
+            "aria_label": "",
+            "type": "text",
+            "instructions": "One or two words.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "33",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "Design",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_msport_design_anchor",
+            "label": "Anchor ID",
+            "name": "design_anchor",
+            "aria_label": "",
+            "type": "text",
+            "instructions": "A link \"#design\" scrolls here. Lowercase letters, numbers and dashes only.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "33",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "design",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_msport_design_title",
+            "label": "Heading",
+            "name": "design_title",
+            "aria_label": "",
+            "type": "textarea",
+            "instructions": "One line per line of the heading (press Enter for a new line). Short: 2–4 words per line.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "rows": 3,
+            "placeholder": "",
+            "new_lines": ""
+        },
+        {
+            "key": "field_msport_design_lead",
+            "label": "Lead",
+            "name": "design_lead",
+            "aria_label": "",
+            "type": "textarea",
+            "instructions": "One or two sentences.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "rows": 3,
+            "placeholder": "",
+            "new_lines": ""
+        },
+        {
+            "key": "field_msport_design_image",
+            "label": "Car",
+            "name": "design_image",
+            "aria_label": "",
+            "type": "image",
+            "instructions": "Cut-out car, three-quarter view, transparent background, at least 2560 px wide. The hotspots sit on this picture.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "id",
+            "library": "all",
+            "min_width": "",
+            "min_height": "",
+            "min_size": "",
+            "max_width": "",
+            "max_height": "",
+            "max_size": "",
+            "mime_types": "jpg,jpeg,png,webp,avif",
+            "preview_size": "medium"
+        },
+        {
+            "key": "field_msport_design_hotspots",
+            "label": "Hotspots",
+            "name": "design_hotspots",
+            "aria_label": "",
+            "type": "repeater",
+            "instructions": "Points on the car. X and Y are the position on the picture in % (0 = left / top, 100 = right / bottom). Open the page to check where a point lands.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "layout": "block",
+            "pagination": 0,
+            "min": 0,
+            "max": 6,
+            "collapsed": "field_msport_design_hotspots__label",
+            "button_label": "Add hotspot",
+            "rows_per_page": 20,
+            "sub_fields": [
+                {
+                    "key": "field_msport_design_hotspots__x",
+                    "label": "X, %",
+                    "name": "x",
+                    "aria_label": "",
+                    "type": "number",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "min": 0,
+                    "max": 100,
+                    "step": 0.1,
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_msport_design_hotspots"
+                },
+                {
+                    "key": "field_msport_design_hotspots__y",
+                    "label": "Y, %",
+                    "name": "y",
+                    "aria_label": "",
+                    "type": "number",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "min": 0,
+                    "max": 100,
+                    "step": 0.1,
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_msport_design_hotspots"
+                },
+                {
+                    "key": "field_msport_design_hotspots__label",
+                    "label": "Label",
+                    "name": "label",
+                    "aria_label": "",
+                    "type": "text",
+                    "instructions": "Shown next to the point, 1–3 words.",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_msport_design_hotspots"
+                },
+                {
+                    "key": "field_msport_design_hotspots__title",
+                    "label": "Panel heading",
+                    "name": "title",
+                    "aria_label": "",
+                    "type": "text",
+                    "instructions": "Heading of the detail panel.",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_msport_design_hotspots"
+                },
+                {
+                    "key": "field_msport_design_hotspots__text",
+                    "label": "Panel text",
+                    "name": "text",
+                    "aria_label": "",
+                    "type": "textarea",
+                    "instructions": "Two or three sentences.",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "rows": 4,
+                    "placeholder": "",
+                    "new_lines": "",
+                    "parent_repeater": "field_msport_design_hotspots"
+                },
+                {
+                    "key": "field_msport_design_hotspots__image",
+                    "label": "Detail photo",
+                    "name": "image",
+                    "aria_label": "",
+                    "type": "image",
+                    "instructions": "Landscape 3:2, at least 1200 × 800 px.",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "return_format": "id",
+                    "library": "all",
+                    "min_width": "",
+                    "min_height": "",
+                    "min_size": "",
+                    "max_width": "",
+                    "max_height": "",
+                    "max_size": "",
+                    "mime_types": "jpg,jpeg,png,webp,avif",
+                    "preview_size": "medium",
+                    "parent_repeater": "field_msport_design_hotspots"
+                }
+            ]
+        },
+        {
+            "key": "field_msport_tab_power",
+            "label": "V10 / POWER",
+            "name": "",
+            "aria_label": "",
+            "type": "tab",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placement": "left",
+            "endpoint": 0,
+            "selected": 0
+        },
+        {
+            "key": "field_msport_power_show",
+            "label": "Show chapter",
+            "name": "power_show",
+            "aria_label": "",
+            "type": "true_false",
+            "instructions": "Turn off to hide this chapter (the chapter rail skips it too).",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "33",
+                "class": "",
+                "id": ""
+            },
+            "message": "",
+            "default_value": 1,
+            "ui": 1,
+            "ui_on_text": "Shown",
+            "ui_off_text": "Hidden"
+        },
+        {
+            "key": "field_msport_power_nav",
+            "label": "Name in the chapter rail",
+            "name": "power_nav",
+            "aria_label": "",
+            "type": "text",
+            "instructions": "One or two words.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "33",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "V10",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_msport_power_anchor",
+            "label": "Anchor ID",
+            "name": "power_anchor",
+            "aria_label": "",
+            "type": "text",
+            "instructions": "A link \"#power\" scrolls here. Lowercase letters, numbers and dashes only.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "33",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "power",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_msport_power_title",
+            "label": "Heading",
+            "name": "power_title",
+            "aria_label": "",
+            "type": "textarea",
+            "instructions": "One line per line of the heading (press Enter for a new line). Short: 2–4 words per line.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "rows": 3,
+            "placeholder": "",
+            "new_lines": ""
+        },
+        {
+            "key": "field_msport_power_lead",
+            "label": "Lead",
+            "name": "power_lead",
+            "aria_label": "",
+            "type": "textarea",
+            "instructions": "Two or three sentences about the engine.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "rows": 3,
+            "placeholder": "",
+            "new_lines": ""
+        },
+        {
+            "key": "field_msport_power_image",
+            "label": "Engine photo",
+            "name": "power_image",
+            "aria_label": "",
+            "type": "image",
+            "instructions": "Landscape 3:2.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "id",
+            "library": "all",
+            "min_width": "",
+            "min_height": "",
+            "min_size": "",
+            "max_width": "",
+            "max_height": "",
+            "max_size": "",
+            "mime_types": "jpg,jpeg,png,webp,avif",
+            "preview_size": "medium"
+        },
+        {
+            "key": "field_msport_power_specs",
+            "label": "Engine facts",
+            "name": "power_specs",
+            "aria_label": "",
+            "type": "repeater",
+            "instructions": "Short facts next to the tachometer.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "layout": "table",
+            "pagination": 0,
+            "min": 0,
+            "max": 6,
+            "collapsed": "",
+            "button_label": "Add fact",
+            "rows_per_page": 20,
+            "sub_fields": [
+                {
+                    "key": "field_msport_power_specs__label",
+                    "label": "Label",
+                    "name": "label",
+                    "aria_label": "",
+                    "type": "text",
+                    "instructions": "For example \"Displacement\".",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_msport_power_specs"
+                },
+                {
+                    "key": "field_msport_power_specs__value",
+                    "label": "Value",
+                    "name": "value",
+                    "aria_label": "",
+                    "type": "text",
+                    "instructions": "For example \"4,999\".",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_msport_power_specs"
+                },
+                {
+                    "key": "field_msport_power_specs__unit",
+                    "label": "Unit",
+                    "name": "unit",
+                    "aria_label": "",
+                    "type": "text",
+                    "instructions": "For example \"cc\".",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_msport_power_specs"
+                }
+            ]
+        },
+        {
+            "key": "field_msport_power_from",
+            "label": "Output in P400",
+            "name": "power_from",
+            "aria_label": "",
+            "type": "number",
+            "instructions": "Shown before POWER is pressed.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "33",
+                "class": "",
+                "id": ""
+            },
+            "default_value": 400,
+            "min": "",
+            "max": "",
+            "step": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_msport_power_to",
+            "label": "Output in P500",
+            "name": "power_to",
+            "aria_label": "",
+            "type": "number",
+            "instructions": "Shown after POWER is pressed.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "33",
+                "class": "",
+                "id": ""
+            },
+            "default_value": 507,
+            "min": "",
+            "max": "",
+            "step": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_msport_power_unit",
+            "label": "Output unit",
+            "name": "power_unit",
+            "aria_label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "33",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "PS",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_msport_power_mode_off",
+            "label": "Mode name, before",
+            "name": "power_mode_off",
+            "aria_label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "33",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "P400",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_msport_power_mode_on",
+            "label": "Mode name, after",
+            "name": "power_mode_on",
+            "aria_label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "33",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "P500",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_msport_power_button_label",
+            "label": "Button label",
+            "name": "power_button_label",
+            "aria_label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "33",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "POWER",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_msport_power_hint",
+            "label": "Hint",
+            "name": "power_hint",
+            "aria_label": "",
+            "type": "text",
+            "instructions": "Shown next to the button before the first press.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "Press POWER. Sound on.",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_msport_power_idle",
+            "label": "Idle, rpm",
+            "name": "power_idle",
+            "aria_label": "",
+            "type": "number",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "33",
+                "class": "",
+                "id": ""
+            },
+            "default_value": 800,
+            "min": "",
+            "max": "",
+            "step": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_msport_power_redline",
+            "label": "Redline, rpm",
+            "name": "power_redline",
+            "aria_label": "",
+            "type": "number",
+            "instructions": "Start of the red zone.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "33",
+                "class": "",
+                "id": ""
+            },
+            "default_value": 8250,
+            "min": "",
+            "max": "",
+            "step": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_msport_power_scale_max",
+            "label": "Scale end, rpm",
+            "name": "power_scale_max",
+            "aria_label": "",
+            "type": "number",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "33",
+                "class": "",
+                "id": ""
+            },
+            "default_value": 9000,
+            "min": "",
+            "max": "",
+            "step": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_msport_tab_drive",
+            "label": "Drive",
+            "name": "",
+            "aria_label": "",
+            "type": "tab",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placement": "left",
+            "endpoint": 0,
+            "selected": 0
+        },
+        {
+            "key": "field_msport_drive_show",
+            "label": "Show chapter",
+            "name": "drive_show",
+            "aria_label": "",
+            "type": "true_false",
+            "instructions": "Turn off to hide this chapter (the chapter rail skips it too).",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "33",
+                "class": "",
+                "id": ""
+            },
+            "message": "",
+            "default_value": 1,
+            "ui": 1,
+            "ui_on_text": "Shown",
+            "ui_off_text": "Hidden"
+        },
+        {
+            "key": "field_msport_drive_nav",
+            "label": "Name in the chapter rail",
+            "name": "drive_nav",
+            "aria_label": "",
+            "type": "text",
+            "instructions": "One or two words.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "33",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "Drive",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_msport_drive_anchor",
+            "label": "Anchor ID",
+            "name": "drive_anchor",
+            "aria_label": "",
+            "type": "text",
+            "instructions": "A link \"#drive\" scrolls here. Lowercase letters, numbers and dashes only.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "33",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "drive",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_msport_drive_title",
+            "label": "Heading",
+            "name": "drive_title",
+            "aria_label": "",
+            "type": "textarea",
+            "instructions": "One line per line of the heading (press Enter for a new line). Short: 2–4 words per line.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "rows": 3,
+            "placeholder": "",
+            "new_lines": ""
+        },
+        {
+            "key": "field_msport_drive_text",
+            "label": "Text",
+            "name": "drive_text",
+            "aria_label": "",
+            "type": "textarea",
+            "instructions": "Two or three sentences. A blank line starts a new paragraph.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "rows": 5,
+            "placeholder": "",
+            "new_lines": ""
+        },
+        {
+            "key": "field_msport_drive_photos",
+            "label": "Photos",
+            "name": "drive_photos",
+            "aria_label": "",
+            "type": "repeater",
+            "instructions": "Three or four photos for the collage. The first one is the biggest.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "layout": "table",
+            "pagination": 0,
+            "min": 0,
+            "max": 4,
+            "collapsed": "",
+            "button_label": "Add photo",
+            "rows_per_page": 20,
+            "sub_fields": [
+                {
+                    "key": "field_msport_drive_photos__image",
+                    "label": "Photo",
+                    "name": "image",
+                    "aria_label": "",
+                    "type": "image",
+                    "instructions": "At least 1600 px on the long side.",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "return_format": "id",
+                    "library": "all",
+                    "min_width": "",
+                    "min_height": "",
+                    "min_size": "",
+                    "max_width": "",
+                    "max_height": "",
+                    "max_size": "",
+                    "mime_types": "jpg,jpeg,png,webp,avif",
+                    "preview_size": "medium",
+                    "parent_repeater": "field_msport_drive_photos"
+                },
+                {
+                    "key": "field_msport_drive_photos__caption",
+                    "label": "Caption",
+                    "name": "caption",
+                    "aria_label": "",
+                    "type": "text",
+                    "instructions": "Short, for example \"SMG III lever\".",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_msport_drive_photos"
+                }
+            ]
+        },
+        {
+            "key": "field_msport_tab_specs",
+            "label": "Spec sheet",
+            "name": "",
+            "aria_label": "",
+            "type": "tab",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placement": "left",
+            "endpoint": 0,
+            "selected": 0
+        },
+        {
+            "key": "field_msport_specs_show",
+            "label": "Show chapter",
+            "name": "specs_show",
+            "aria_label": "",
+            "type": "true_false",
+            "instructions": "Turn off to hide this chapter (the chapter rail skips it too).",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "33",
+                "class": "",
+                "id": ""
+            },
+            "message": "",
+            "default_value": 1,
+            "ui": 1,
+            "ui_on_text": "Shown",
+            "ui_off_text": "Hidden"
+        },
+        {
+            "key": "field_msport_specs_nav",
+            "label": "Name in the chapter rail",
+            "name": "specs_nav",
+            "aria_label": "",
+            "type": "text",
+            "instructions": "One or two words.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "33",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "Spec sheet",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_msport_specs_anchor",
+            "label": "Anchor ID",
+            "name": "specs_anchor",
+            "aria_label": "",
+            "type": "text",
+            "instructions": "A link \"#specs\" scrolls here. Lowercase letters, numbers and dashes only.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "33",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "specs",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_msport_specs_title",
+            "label": "Heading",
+            "name": "specs_title",
+            "aria_label": "",
+            "type": "textarea",
+            "instructions": "One line per line of the heading (press Enter for a new line). Short: 2–4 words per line.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "rows": 3,
+            "placeholder": "",
+            "new_lines": ""
+        },
+        {
+            "key": "field_msport_specs_tabs",
+            "label": "Tabs",
+            "name": "specs_tabs",
+            "aria_label": "",
+            "type": "repeater",
+            "instructions": "One tab per group: Engine, Gearbox, Chassis, Dimensions.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "layout": "block",
+            "pagination": 0,
+            "min": 0,
+            "max": 6,
+            "collapsed": "field_msport_specs_tabs__label",
+            "button_label": "Add tab",
+            "rows_per_page": 20,
+            "sub_fields": [
+                {
+                    "key": "field_msport_specs_tabs__label",
+                    "label": "Tab name",
+                    "name": "label",
+                    "aria_label": "",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_msport_specs_tabs"
+                },
+                {
+                    "key": "field_msport_specs_tabs__image",
+                    "label": "Photo",
+                    "name": "image",
+                    "aria_label": "",
+                    "type": "image",
+                    "instructions": "Landscape 3:2.",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "return_format": "id",
+                    "library": "all",
+                    "min_width": "",
+                    "min_height": "",
+                    "min_size": "",
+                    "max_width": "",
+                    "max_height": "",
+                    "max_size": "",
+                    "mime_types": "jpg,jpeg,png,webp,avif",
+                    "preview_size": "medium",
+                    "parent_repeater": "field_msport_specs_tabs"
+                },
+                {
+                    "key": "field_msport_specs_tabs__rows",
+                    "label": "Rows",
+                    "name": "rows",
+                    "aria_label": "",
+                    "type": "repeater",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "layout": "table",
+                    "pagination": 0,
+                    "min": 0,
+                    "max": 0,
+                    "collapsed": "",
+                    "button_label": "Add row",
+                    "rows_per_page": 20,
+                    "sub_fields": [
+                        {
+                            "key": "field_msport_specs_tabs__rows__label",
+                            "label": "Label",
+                            "name": "label",
+                            "aria_label": "",
+                            "type": "text",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "maxlength": "",
+                            "placeholder": "",
+                            "prepend": "",
+                            "append": "",
+                            "parent_repeater": "field_msport_specs_tabs__rows"
+                        },
+                        {
+                            "key": "field_msport_specs_tabs__rows__value",
+                            "label": "Value",
+                            "name": "value",
+                            "aria_label": "",
+                            "type": "text",
+                            "instructions": "With the unit, for example \"520 Nm at 6,100 rpm\".",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "maxlength": "",
+                            "placeholder": "",
+                            "prepend": "",
+                            "append": "",
+                            "parent_repeater": "field_msport_specs_tabs__rows"
+                        }
+                    ],
+                    "parent_repeater": "field_msport_specs_tabs"
+                }
+            ]
+        },
+        {
+            "key": "field_msport_tab_heritage",
+            "label": "Heritage",
+            "name": "",
+            "aria_label": "",
+            "type": "tab",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placement": "left",
+            "endpoint": 0,
+            "selected": 0
+        },
+        {
+            "key": "field_msport_heritage_show",
+            "label": "Show chapter",
+            "name": "heritage_show",
+            "aria_label": "",
+            "type": "true_false",
+            "instructions": "Turn off to hide this chapter (the chapter rail skips it too).",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "33",
+                "class": "",
+                "id": ""
+            },
+            "message": "",
+            "default_value": 1,
+            "ui": 1,
+            "ui_on_text": "Shown",
+            "ui_off_text": "Hidden"
+        },
+        {
+            "key": "field_msport_heritage_nav",
+            "label": "Name in the chapter rail",
+            "name": "heritage_nav",
+            "aria_label": "",
+            "type": "text",
+            "instructions": "One or two words.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "33",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "Heritage",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_msport_heritage_anchor",
+            "label": "Anchor ID",
+            "name": "heritage_anchor",
+            "aria_label": "",
+            "type": "text",
+            "instructions": "A link \"#heritage\" scrolls here. Lowercase letters, numbers and dashes only.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "33",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "heritage",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_msport_heritage_title",
+            "label": "Heading",
+            "name": "heritage_title",
+            "aria_label": "",
+            "type": "textarea",
+            "instructions": "One line per line of the heading (press Enter for a new line). Short: 2–4 words per line.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "rows": 3,
+            "placeholder": "",
+            "new_lines": ""
+        },
+        {
+            "key": "field_msport_heritage_text",
+            "label": "Text",
+            "name": "heritage_text",
+            "aria_label": "",
+            "type": "textarea",
+            "instructions": "Two or three sentences.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "rows": 4,
+            "placeholder": "",
+            "new_lines": ""
+        },
+        {
+            "key": "field_msport_heritage_then_image",
+            "label": "Then: photo",
+            "name": "heritage_then_image",
+            "aria_label": "",
+            "type": "image",
+            "instructions": "The ancestor, shown in black and white.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "id",
+            "library": "all",
+            "min_width": "",
+            "min_height": "",
+            "min_size": "",
+            "max_width": "",
+            "max_height": "",
+            "max_size": "",
+            "mime_types": "jpg,jpeg,png,webp,avif",
+            "preview_size": "medium"
+        },
+        {
+            "key": "field_msport_heritage_then_caption",
+            "label": "Then: caption",
+            "name": "heritage_then_caption",
+            "aria_label": "",
+            "type": "text",
+            "instructions": "For example \"M635CSi, 1983\".",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_msport_heritage_now_image",
+            "label": "Now: photo",
+            "name": "heritage_now_image",
+            "aria_label": "",
+            "type": "image",
+            "instructions": "Optional. If empty, the hero car is used.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "id",
+            "library": "all",
+            "min_width": "",
+            "min_height": "",
+            "min_size": "",
+            "max_width": "",
+            "max_height": "",
+            "max_size": "",
+            "mime_types": "jpg,jpeg,png,webp,avif",
+            "preview_size": "medium"
+        },
+        {
+            "key": "field_msport_heritage_now_caption",
+            "label": "Now: caption",
+            "name": "heritage_now_caption",
+            "aria_label": "",
+            "type": "text",
+            "instructions": "For example \"M6, 2005\".",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_msport_tab_outro",
+            "label": "Outro",
+            "name": "",
+            "aria_label": "",
+            "type": "tab",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placement": "left",
+            "endpoint": 0,
+            "selected": 0
+        },
+        {
+            "key": "field_msport_outro_show",
+            "label": "Show chapter",
+            "name": "outro_show",
+            "aria_label": "",
+            "type": "true_false",
+            "instructions": "Turn off to hide this chapter (the chapter rail skips it too).",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "33",
+                "class": "",
+                "id": ""
+            },
+            "message": "",
+            "default_value": 1,
+            "ui": 1,
+            "ui_on_text": "Shown",
+            "ui_off_text": "Hidden"
+        },
+        {
+            "key": "field_msport_outro_nav",
+            "label": "Name in the chapter rail",
+            "name": "outro_nav",
+            "aria_label": "",
+            "type": "text",
+            "instructions": "One or two words.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "33",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "Contact",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_msport_outro_anchor",
+            "label": "Anchor ID",
+            "name": "outro_anchor",
+            "aria_label": "",
+            "type": "text",
+            "instructions": "A link \"#contact\" scrolls here. Lowercase letters, numbers and dashes only.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "33",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "contact",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_msport_outro_title",
+            "label": "Heading",
+            "name": "outro_title",
+            "aria_label": "",
+            "type": "textarea",
+            "instructions": "Big closing heading. One line per line; the lines are set in steps.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "rows": 3,
+            "placeholder": "",
+            "new_lines": ""
+        },
+        {
+            "key": "field_msport_outro_text",
+            "label": "Text",
+            "name": "outro_text",
+            "aria_label": "",
+            "type": "textarea",
+            "instructions": "One or two sentences about who built this page.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "rows": 3,
+            "placeholder": "",
+            "new_lines": ""
+        },
+        {
+            "key": "field_msport_outro_cta_label",
+            "label": "Button label",
+            "name": "outro_cta_label",
+            "aria_label": "",
+            "type": "text",
+            "instructions": "Links to the developer link from M6 Settings.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "Get in touch",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "page_type",
+                "operator": "==",
+                "value": "front_page"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "acf_after_title",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": [
+        "the_content",
+        "excerpt",
+        "discussion",
+        "comments",
+        "slug",
+        "author",
+        "format",
+        "featured_image",
+        "categories",
+        "tags",
+        "send-trackbacks"
+    ],
+    "active": true,
+    "description": "Every chapter of the M6 page (docs/CONTENT-MODEL.md).",
+    "show_in_rest": 0,
+    "modified": 1795544178
+}

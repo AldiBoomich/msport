@@ -8,7 +8,8 @@ const TOOLS = path.dirname(decodeURIComponent(new URL(import.meta.url).pathname)
 const THEME3D = 'C:/Users/aaldi/Local Sites/msport/app/public/wp-content/themes/msport/assets/3d';
 const HDRI = 'C:/Users/aaldi/Local Sites/msport/3d-source/hdri'; // 4K night HDRIs (too big for the theme)
 const SKY = process.env.SKY_DIR || THEME3D + '/env'; // packed panoramas (hdr-pack.mjs)
-const mounts = { '/hdri/': HDRI + '/', '/sky/': SKY + '/', '/env/': THEME3D + '/env/', '/tex/': THEME3D + '/textures/', '/src/': THEME3D + '/source/', '/theme3d/': THEME3D + '/', '/node_modules/': TOOLS + '/node_modules/', '/': TOOLS + '/' };
+const MODELS = 'C:/Users/aaldi/Local Sites/msport/3d-source/models'; // model builds not (yet) in the theme
+const mounts = { '/models/': MODELS + '/', '/envweb/': MODELS + '/../env-web/', '/hdri/': HDRI + '/', '/sky/': SKY + '/', '/env/': THEME3D + '/env/', '/tex/': THEME3D + '/textures/', '/src/': THEME3D + '/source/', '/theme3d/': THEME3D + '/', '/node_modules/': TOOLS + '/node_modules/', '/': TOOLS + '/' };
 const types = { '.html': 'text/html', '.js': 'text/javascript', '.mjs': 'text/javascript', '.glb': 'model/gltf-binary', '.hdr': 'application/octet-stream', '.jpg': 'image/jpeg', '.png': 'image/png', '.webp': 'image/webp', '.wasm': 'application/wasm', '.json': 'application/json' };
 const server = http.createServer((req, res) => {
   const u = decodeURIComponent(req.url.split('?')[0]);

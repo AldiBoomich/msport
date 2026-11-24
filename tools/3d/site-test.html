@@ -1,7 +1,7 @@
 <!doctype html>
 <!-- Renders one frame of the site scene (film-scene.js) the way shot.mjs renders the viewer, so the two can be
      compared pixel for pixel: node shot.mjs out.png "page=site-test.html&p=0&ft=0.5&w=1280&h=720"
-     Extra knobs: sound=1 (haze while the V10 plays), paint=%23502a18 gloss=0.08 speed=1.5 (the admin's look fields) -->
+     Extra knobs: model=/models/m6-e63-v6.glb, sound=1 (haze while the V10 plays), paint=%23502a18 gloss=0.08 speed=1.5 (the admin's look fields) -->
 <html><head><meta charset="utf-8"><style>html,body{margin:0;background:#14171B;overflow:hidden}canvas{display:block;width:100vw;height:100vh}</style>
 <script type="importmap">{"imports":{"three":"/node_modules/three/build/three.module.js","three/addons/":"/node_modules/three/examples/jsm/"}}</script>
 </head><body><canvas id="c"></canvas>
@@ -12,8 +12,9 @@ const W = +(q.get('w') || 1600), H = +(q.get('h') || 900), DPR = +(q.get('dpr') 
 const t0 = performance.now();
 const film = await createFilm({ canvas: document.getElementById('c'), width: W, height: H, dpr: DPR,
   samples: +(q.get('samples') ?? 4), quality: { bloom: q.get('bloom') !== '0', wet: q.get('wet') !== '0', fxLights: q.get('fxl') !== '0', blurWheels: q.get('wb') !== '0', grain: q.get('grain') !== '0' },
+  tune: { reflect: q.get('refl') !== null ? +q.get('refl') : undefined, carbonSpec: q.get('cspec') !== null ? +q.get('cspec') : undefined, roadEnv: q.get('renv') !== null ? +q.get('renv') : undefined, contrast: q.get('con') !== null ? +q.get('con') : undefined, lampEnv: q.get('lenv') !== null ? +q.get('lenv') : undefined, tone: q.get('tone') || undefined, exposure: q.get('exp') !== null ? +q.get('exp') : undefined, ring: q.get('ring') !== null ? +q.get('ring') : undefined, skyCap: q.get('cap') !== null ? +q.get('cap') : undefined, formers: q.get('formers') !== null ? +q.get('formers') : undefined, sky: q.get('sky_k') !== null ? +q.get('sky_k') : undefined, fog: q.get('fog') === '0' ? false : undefined, dome: q.get('dome') === '0' ? false : undefined },
   look: { paint: q.get('paint') || undefined, gloss: q.get('gloss') !== null ? +q.get('gloss') : undefined, speed: q.get('speed') !== null ? +q.get('speed') : undefined },
-  urls: { model: '/theme3d/m6-e63-v3.glb', sky: q.get('sky') || '/sky/shanghai-bund-4k', shadow: '/tex/car-shadow.png',
+  urls: { model: q.get('model') || '/theme3d/m6-e63-v3.glb', sky: q.get('sky') || '/sky/shanghai-bund-4k', skyBand: q.get('band') || undefined, shadow: '/tex/car-shadow.png',
     asphalt: { diff: '/tex/asphalt_track_diff_1k.jpg', nor: '/tex/asphalt_track_nor_gl_1k.jpg', rough: '/tex/asphalt_track_rough_1k.jpg' } } });
 const ready = Math.round(performance.now() - t0);
 window.__film = film;

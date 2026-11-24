@@ -1,6 +1,6 @@
 /**
  * HTML overlays that play with the film (DESIGN.md → Chapters 3 and 8), driven by the same rail state as
- * the camera, so they match the picture whether it is the live scene, the video or the pinned stills.
+ * the camera, so they match the picture whether it is the live scene or the pinned stills.
  *
  * - V10: the tachometer needle and readout follow the rev curve (tools/3d/chapter-timeline.js, rescaled
  *   to the idle / redline set in the admin); the red zone lights up once the needle is in it, flashes once

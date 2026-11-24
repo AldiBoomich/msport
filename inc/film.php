@@ -6,9 +6,9 @@
  *   film (no reduced motion, no Save-Data): chapters become tall scroll zones with a pinned frame, so nothing
  *   jumps later. Without it the page is the plain static version.
  * - assets/js/film/boot.js (script module, built by tools/build) runs Lenis and the scroll → camera mapping,
- *   and after the hero still has painted loads either the live Three.js scene or, on phones and on
- *   computers whose graphics cannot hold it at full quality, the same film pre-rendered as video.
- * - Settings for the scene and the video files are printed as JSON (#msport-film-data).
+ *   and loads the live Three.js scene on every screen (no video: user's decision, 2026-11-24) behind a
+ *   preloader (msport_film_loader()); where the scene cannot run, the preloader goes and the stills stay.
+ * - Settings for the scene are printed as JSON (#msport-film-data).
  *
  * @package msport
  */
@@ -29,14 +29,15 @@ function msport_film_enabled() {
 }
 
 /**
- * Early head: switch the layout to film mode before the first paint.
+ * Early head: switch the layout to film mode before the first paint, and show the preloader
+ * (`film-loading`) until boot.js has the scene or gives up; 15 s at most, should the module never run.
  */
 function msport_film_head() {
 	if ( ! msport_film_enabled() ) {
 		return;
 	}
 	wp_print_inline_script_tag(
-		"(function(d){var c=navigator.connection;if(!matchMedia('(prefers-reduced-motion: reduce)').matches&&!(c&&c.saveData)){d.classList.add('film');}})(document.documentElement);"
+		"(function(d){var c=navigator.connection;if(!matchMedia('(prefers-reduced-motion: reduce)').matches&&!(c&&c.saveData)){d.classList.add('film','film-loading');setTimeout(function(){d.classList.remove('film-loading');},15000);}})(document.documentElement);"
 	);
 }
 add_action( 'wp_head', 'msport_film_head', 2 );
@@ -66,22 +67,34 @@ function msport_film_file( $name, $fallback ) {
 }
 
 /**
- * URL of a pre-rendered video in assets/video/ with its file time as the version, so a re-render reaches
- * browsers that cached the old file.
- *
- * @param string $file File name in assets/video/.
- * @return string
+ * The preloader: covers the page while the 3D scene loads (shown by the `film-loading` class only, so
+ * reduced motion, Save-Data and no-JS visitors never see it). The rev gauge runs 0 → redline with the
+ * download (boot.js → createGauge).
  */
-function msport_film_video( $file ) {
-	$path = MSPORT_DIR . '/assets/video/' . $file;
-	$url  = MSPORT_URI . '/assets/video/' . $file;
-	return file_exists( $path ) ? add_query_arg( 'ver', filemtime( $path ), $url ) : $url;
+function msport_film_loader() {
+	if ( ! msport_film_enabled() ) {
+		return;
+	}
+	$redline = 8250;
+	?>
+	<div class="film-loader" data-film-loader data-max="<?php echo esc_attr( $redline ); ?>" role="status" aria-live="polite">
+		<div class="film-loader__inner">
+			<p class="film-loader__mark"><?php echo esc_html( msport_option( 'opt_wordmark', __( 'M6 E63', 'msport' ) ) ); ?></p>
+			<p class="film-loader__rpm" aria-hidden="true"><span data-film-loader-rpm>0</span> <span class="film-loader__unit"><?php echo esc_html_x( 'rpm', 'preloader gauge unit', 'msport' ); ?></span></p>
+			<div class="film-loader__gauge" aria-hidden="true">
+				<span class="film-loader__bar" data-film-loader-bar></span>
+				<span class="film-loader__red"></span>
+			</div>
+			<span class="screen-reader-text"><?php esc_html_e( 'Loading the 3D film', 'msport' ); ?></span>
+		</div>
+	</div>
+	<?php
 }
+add_action( 'wp_body_open', 'msport_film_loader' );
 
 /**
- * Scene settings for boot.js: model, environment, textures, the look fields of the "3D scene" tab (paint
- * colour, gloss, driving speed: live scene only) and the pre-rendered film (tools/3d/video.mjs →
- * video-pack.mjs): `film` is scrubbed by the scroll, `loops` holds the idle loops.
+ * Scene settings for boot.js: model, environment, textures and the look fields of the "3D scene" tab
+ * (paint colour, gloss, driving speed).
  */
 function msport_film_data() {
 	if ( ! msport_film_enabled() ) {
@@ -101,16 +114,6 @@ function msport_film_data() {
 			'rough' => $base . 'textures/asphalt_track_rough_1k.jpg',
 		),
 		'look'        => msport_film_look(),
-		'video'       => array(
-			'land' => array(
-				'film'  => msport_film_video( 'film-1080.mp4' ),
-				'loops' => msport_film_video( 'film-1080-loops.mp4' ),
-			),
-			'port' => array(
-				'film'  => msport_film_video( 'film-portrait.mp4' ),
-				'loops' => msport_film_video( 'film-portrait-loops.mp4' ),
-			),
-		),
 	);
 	printf(
 		'<script type="application/json" id="msport-film-data">%s</script>' . "\n",
@@ -120,8 +123,7 @@ function msport_film_data() {
 add_action( 'wp_footer', 'msport_film_data', 5 );
 
 /**
- * The look fields, validated; a field left empty is not sent, so the scene keeps the look the stills and
- * the video were rendered with.
+ * The look fields, validated; a field left empty is not sent, so the scene keeps its default look.
  *
  * @return array{paint?: string, gloss?: float, speed?: float}
  */

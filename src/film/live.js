@@ -2,14 +2,15 @@
  * The live Three.js scene (a separate chunk, loaded by boot.js after the hero still has painted).
  *
  * Returns the film (tools/3d/film-scene.js) once its first frame is drawn, or null when this device
- * should stay on the stills: no WebGL2 / software rendering, no settings, or the scene took longer than
- * 6 s to load (DESIGN.md → 3D / WebGL → Fallback).
+ * should stay on the stills: no WebGL2 / software rendering, no settings, or a failed load (DESIGN.md →
+ * 3D / WebGL → Fallback). onProgress( 0…1 ) feeds the preloader; onLate() fires when the load passes
+ * LOAD_LIMIT (slow network): the page drops the preloader for the stills and the scene fades in when ready.
  */
 import { createFilm } from '../../tools/3d/film-scene.js';
 
-const LOAD_LIMIT = 6000;
+const LOAD_LIMIT = 10000;
 
-export async function goLive( { railAt } ) {
+export async function goLive( { railAt, onProgress, onLate } ) {
 	const probe = document.createElement( 'canvas' ).getContext( 'webgl2', { failIfMajorPerformanceCaveat: true } );
 	if ( ! probe ) {
 		return null;
@@ -37,6 +38,7 @@ export async function goLive( { railAt } ) {
 		height: window.innerHeight,
 		dpr,
 		adaptive: true,
+		onProgress,
 		look: data.look || {},
 		urls: {
 			model: mobile ? data.modelMobile : data.model,
@@ -45,16 +47,13 @@ export async function goLive( { railAt } ) {
 			asphalt: data.asphalt,
 		},
 	} );
-	let timer = 0;
-	const late = new Promise( ( resolve ) => {
-		timer = setTimeout( () => resolve( null ), LOAD_LIMIT );
-	} );
+	const timer = setTimeout( () => onLate?.(), LOAD_LIMIT );
 	performance.mark( 'msport-film-load' );
-	const film = await Promise.race( [ loading, late ] );
+	const film = await loading.catch( () => null );
 	performance.mark( 'msport-film-ready' );
 	clearTimeout( timer );
 	if ( ! film ) {
-		loading.then( ( f ) => f.dispose() ).catch( () => {} ).finally( () => canvas.remove() );
+		canvas.remove();
 		return null;
 	}
 

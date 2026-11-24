@@ -63,7 +63,7 @@ const withWorldPos = sh => {
  * @param {number} o.height  CSS px
  * @param {number} o.dpr     device pixel ratio to render at (already capped by the caller)
  */
-export async function createFilm({ canvas, urls, width, height, dpr = 1, samples = 4, quality = {}, adaptive = false, look = {} }) {
+export async function createFilm({ canvas, urls, width, height, dpr = 1, samples = 4, quality = {}, adaptive = false, look = {}, onProgress = null }) {
   const Q = { bloom: true, wet: true, ...quality };
   let W = width, H = height;
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: false, alpha: false, powerPreference: 'high-performance' });
@@ -82,11 +82,16 @@ export async function createFilm({ canvas, urls, width, height, dpr = 1, samples
     if (srgb) t.colorSpace = THREE.SRGBColorSpace;
     return t;
   });
+  // onProgress (the page's preloader): share loaded, weighted by size: the model ~2.2 MB (streamed, so it
+  // moves smoothly), the panorama ~1 MB, the textures small
+  const part = [0, 0, 0, 0, 0, 0], weight = [0.3, 0.55, 0.03, 0.04, 0.04, 0.04];
+  const report = () => onProgress?.(Math.min(1, part.reduce((a, v, i) => a + v * weight[i], 0)));
+  const track = (i, p) => p.then(v => { part[i] = 1; report(); return v; });
   const [sky, gltf, shadowTex, diff, nor, rough] = await Promise.all([
-    loadCitySky(urls.sky),
-    loader.loadAsync(urls.model),
-    tl.loadAsync(urls.shadow),
-    roadTex(urls.asphalt.diff, true), roadTex(urls.asphalt.nor), roadTex(urls.asphalt.rough),
+    track(0, loadCitySky(urls.sky)),
+    track(1, loader.loadAsync(urls.model, e => { if (e.total) { part[1] = Math.min(0.99, e.loaded / e.total); report(); } })),
+    track(2, tl.loadAsync(urls.shadow)),
+    track(3, roadTex(urls.asphalt.diff, true)), track(4, roadTex(urls.asphalt.nor)), track(5, roadTex(urls.asphalt.rough)),
   ]);
   const roadMaps = [diff, nor, rough];
 

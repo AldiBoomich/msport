@@ -681,42 +681,95 @@ html.film .chapter--film > .chapter__inner.split {
 	transition: opacity 400ms linear;
 }
 
-/* The video version of the film (phones, weak graphics): the scrubbed film, the idle loop over it
-   (fades in when the scroll rests in a chapter) and a light grain, since the video is rendered without. */
-.film-video {
+/* Preloader (inc/film.php): covers the page while the 3D scene loads; the head script adds `film-loading`
+   and boot.js takes it away once the first live frame is drawn (or the stills stay). The rev bar fills
+   with the download; the last stretch is the red zone. */
+.film-loader {
 	position: fixed;
 	inset: 0;
-	z-index: -1;
-	display: block;
-	width: 100%;
-	height: 100%;
-	object-fit: cover;
-	pointer-events: none;
-}
-
-.film-video--loop {
+	z-index: 100;
+	display: none;
+	place-items: center;
+	background: var(--c-ground);
 	opacity: 0;
-	transition: opacity 250ms linear;
+	visibility: hidden;
+	transition:
+		opacity 500ms var(--ease-ui),
+		visibility 0s linear 500ms;
 }
 
-.film-video--loop.is-on {
+html.film .film-loader {
+	display: grid;
+}
+
+html.film-loading .film-loader {
 	opacity: 1;
-	transition-duration: 400ms;
+	visibility: visible;
+	transition: none;
 }
 
-.film-grain {
-	position: fixed;
-	inset: -128px;
-	z-index: -1;
-	pointer-events: none;
-	animation: film-grain 400ms steps(1) infinite;
+.film-loader__inner {
+	display: grid;
+	gap: var(--s-3);
+	width: min(36rem, 100% - 2 * var(--s-6));
 }
 
-@keyframes film-grain {
-	0% { transform: translate(0, 0); }
-	25% { transform: translate(-37px, 53px); }
-	50% { transform: translate(61px, -19px); }
-	75% { transform: translate(-83px, -71px); }
+.film-loader__mark {
+	margin: 0;
+	font-size: var(--fs-small);
+	font-weight: 750;
+	font-stretch: var(--wdth-display);
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var(--c-muted);
+}
+
+.film-loader__rpm {
+	margin: 0;
+	font-size: var(--fs-number-l);
+	font-weight: 800;
+	font-stretch: var(--wdth-display);
+	font-variant-numeric: tabular-nums;
+	letter-spacing: -0.02em;
+	line-height: 1;
+	color: var(--c-ink);
+}
+
+.film-loader__unit {
+	font-size: var(--fs-small);
+	font-weight: 400;
+	font-stretch: var(--wdth-text);
+	letter-spacing: 0;
+	color: var(--c-muted);
+}
+
+.film-loader__gauge {
+	position: relative;
+	height: 3px;
+	overflow: hidden;
+	background: var(--c-line);
+}
+
+.film-loader__bar {
+	position: absolute;
+	inset: 0;
+	background: var(--c-action);
+	transform: scaleX(0);
+	transform-origin: left;
+}
+
+/* the red zone, always marked: the last 500 rpm (7,750 → 8,250); the bronze bar fills up to it */
+.film-loader__red {
+	position: absolute;
+	inset-block: 0;
+	right: 0;
+	width: 6.06%;
+	background: var(--c-redline);
+}
+
+/* the hero entrance waits under the preloader */
+html.film-loading .chapter--hero .chapter__panel > * {
+	animation-play-state: paused;
 }
 
 html.film.is-live .chapter__media {

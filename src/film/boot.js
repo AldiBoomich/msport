@@ -6,22 +6,18 @@
  * - Scroll → camera: each chapter has a hold (its text frame is pinned, the camera rests on the chapter's
  *   key, ft runs 0…1) and a leg (the next frame slides in, the camera travels to the next key).
  *   The geometry comes from the layout itself (main.css → 8.0), measured on load and resize.
- * - After the hero still has painted, the film loads. Now always as video (LIVE below is false); with LIVE
- *   the Three.js scene (live.js, a separate chunk) loads on desktops and the stills fade out over its first frame.
- * - Phones, and computers whose graphics cannot run the scene or hold it at ~50 fps in its first frames,
- *   get the same film pre-rendered as video (video.js): it fades in over the stills or the live canvas.
- *   If neither can run, the pinned stills stay: the film plays as pictures.
+ * - The Three.js scene (live.js, a separate chunk) loads straight away on every screen, behind a preloader
+ *   whose rev gauge follows the download; when its first frame is drawn the preloader fades out (after 10 s
+ *   it gives way to the stills and the scene fades in over them later). Weak graphics lower their own
+ *   quality step by step (film-scene.js). Where it cannot run (software rendering, a failed load) the
+ *   preloader goes and the pinned stills stay: the film plays as pictures.
  * - The HTML overlays (tachometer, figures, gear readout: overlays.js) follow the same rail state in every
- *   one of those modes. The live scene also hears the V10 player: the heat haze grows while it plays.
+ *   modes (live scene or stills). The live scene also hears the V10 player: the heat haze grows while it plays.
  */
 import Lenis from 'lenis';
 import { createOverlays } from './overlays.js';
 
 const root = document.documentElement;
-
-// The live Three.js scene is off (user's decision, 2026-11-24): every screen gets the path-traced Cycles film
-// as video, the same car as the chapter stills. live.js stays in the build; true brings it back on desktops.
-const LIVE = false;
 
 // field prefix (inc/chapters.php) → key on the camera rail (tools/3d/chapters.js)
 const RAIL = { hero: 0, front: 1, rev: 2, wheels: 3, gills: 4, roof: 5, sound: 6, smg: 7, spec: 8, outro: 9 };
@@ -115,33 +111,15 @@ function start() {
 	const overlays = createOverlays();
 	const sound = document.getElementById( 'm6-sound' );
 	let film = null;
-	let video = null;
 	let last = performance.now();
-	// live scene speed check: the median of drawn frames 6…17, then of every next 90 (0.1 s clamps a
-	// background tab; the median ignores single hitches)
-	let drawn = 0;
-	let times = [];
-	const median = ( a ) => a.slice().sort( ( x, y ) => x - y )[ a.length >> 1 ];
 	const tick = ( now ) => {
-		const dt = Math.min( 0.1, ( now - last ) / 1000 );
+		const dt = Math.min( 0.1, ( now - last ) / 1000 ); // 0.1 s clamps a background tab
 		last = now;
 		lenis.raf( now );
 		const rail = railAt( window.scrollY );
 		overlays.update( rail );
-		if ( video ) {
-			video.update( rail, now );
-		} else if ( film ) {
-			const draw = ! hidden();
-			film.frame( { ...rail, dt, draw, sound: !! sound && ! sound.paused } );
-			if ( draw && ++drawn > 5 && ! switching ) {
-				times.push( dt );
-				if ( times.length >= ( drawn < 30 ? 12 : 90 ) ) {
-					if ( median( times ) > ( drawn < 30 ? 0.022 : 0.025 ) ) {
-						toVideo().catch( () => {} ); // no video: the live scene stays (its own quality steps)
-					}
-					times = [];
-				}
-			}
+		if ( film ) {
+			film.frame( { ...rail, dt, draw: ! hidden(), sound: !! sound && ! sound.paused } );
 		}
 		requestAnimationFrame( tick );
 	};
@@ -159,70 +137,75 @@ function start() {
 	window.addEventListener( 'resize', onResize );
 	new ResizeObserver( onResize ).observe( document.body );
 
-	// ---- the live scene, after the hero still has painted
-	const hero = document.querySelector( '.chapter--hero .chapter__still' );
-	const afterLcp = () => new Promise( ( resolve ) => {
-		const go = () => ( window.requestIdleCallback ? requestIdleCallback( resolve, { timeout: 1500 } ) : setTimeout( resolve, 200 ) );
-		if ( ! hero || hero.complete ) {
-			go();
-		} else {
-			hero.addEventListener( 'load', go, { once: true } );
-			hero.addEventListener( 'error', go, { once: true } );
-		}
-	} );
+	// ---- the live scene, loaded straight away behind the preloader (inc/film.php prints it; the head script
+	// adds `film-loading` and takes it away itself after 15 s, should this module never run)
+	const gauge = createGauge( document.querySelector( '[data-film-loader]' ) );
+	const ready = () => {
+		gauge.set( 1 );
+		setTimeout( () => root.classList.remove( 'film-loading' ), 350 ); // let the needle reach the top
+	};
 	const showFilm = () => {
 		root.classList.add( 'is-live' );
 		setTimeout( () => root.classList.add( 'is-live-done' ), 450 );
 	};
 	const stay = ( error ) => {
 		// eslint-disable-next-line no-console
-		console.warn( 'msport film: staying on stills.', error );
+		console.warn( 'msport film: staying on stills.', error ?? '' );
+		root.classList.remove( 'film-loading' );
 	};
 
-	// the video version: over the stills, or over the live canvas (which then fades out and is freed)
-	let switching = false;
-	const toVideo = () => {
-		switching = true;
-		const canvas = document.querySelector( '.film-canvas' );
-		return import( './video.js' )
-			.then( ( m ) => m.goVideo( { railAt, before: canvas } ) )
-			.then( ( v ) => {
-				if ( ! v ) {
-					return;
-				}
-				video = v;
-				root.classList.add( 'is-video' );
-				if ( film ) {
-					const old = film;
-					film = null;
-					canvas.classList.add( 'is-gone' );
-					setTimeout( () => {
-						old.dispose();
-						canvas.remove();
-					}, 450 );
-				} else {
-					showFilm();
-				}
-			} );
-	};
-
-	// phones always get the video: the live scene would cost their battery and resolution
-	const phone = window.matchMedia( '(pointer: coarse)' ).matches && Math.min( screen.width, screen.height ) < 820;
-	afterLcp()
-		.then( () => {
-			if ( phone || ! LIVE ) {
-				return toVideo();
+	// every screen gets the live scene (user's decision, 2026-11-24: no video); weak graphics step their own
+	// quality down (film-scene.js → adaptive). Software rendering or a failed load: the stills stay. A slow
+	// load (10 s): the preloader gives way to the stills and the scene fades in over them when it is ready.
+	gauge.set( 0.04 );
+	import( './live.js' )
+		.then( ( m ) => {
+			gauge.set( 0.1 );
+			return m.goLive( { railAt, onProgress: ( f ) => gauge.set( 0.1 + 0.8 * f ), onLate: () => root.classList.remove( 'film-loading' ) } );
+		} )
+		.then( ( f ) => {
+			if ( ! f ) {
+				return stay();
 			}
-			return import( './live.js' )
-				.then( ( m ) => m.goLive( { railAt, hero } ) )
-				.catch( () => null )
-				.then( ( f ) => {
-					if ( ! f ) {
-						return toVideo();
-					}
-					film = f;
-					showFilm();
-				} );
+			film = f;
+			showFilm();
+			ready();
 		} )
 		.catch( stay );
+}
+
+/**
+ * The preloader's rev gauge: the bar and the rpm figure ease towards the share loaded (0…1 → 0…8,250 rpm).
+ *
+ * @param {HTMLElement|null} el
+ * @return {{set: (f: number) => void}}
+ */
+function createGauge( el ) {
+	if ( ! el ) {
+		return { set: () => {} };
+	}
+	const bar = el.querySelector( '[data-film-loader-bar]' );
+	const rpm = el.querySelector( '[data-film-loader-rpm]' );
+	const max = Number( el.dataset.max ) || 8250;
+	const fmt = new Intl.NumberFormat( document.documentElement.lang || 'en' );
+	let shown = 0;
+	let target = 0;
+	let raf = 0;
+	const step = () => {
+		shown += ( target - shown ) * 0.18;
+		if ( Math.abs( target - shown ) < 0.002 ) {
+			shown = target;
+		}
+		bar.style.transform = `scaleX(${ shown.toFixed( 4 ) })`;
+		rpm.textContent = fmt.format( Math.round( ( shown * max ) / 10 ) * 10 );
+		raf = shown === target ? 0 : requestAnimationFrame( step );
+	};
+	return {
+		set( f ) {
+			target = Math.max( target, Math.min( 1, f ) );
+			if ( ! raf ) {
+				raf = requestAnimationFrame( step );
+			}
+		},
+	};
 }

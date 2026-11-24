@@ -31,7 +31,7 @@
 - Tokens only from `:root` (defined in DESIGN.md). No new colours, sizes or radii outside the contract.
 - Brand / copyright: not a concern in this project at all. The BMW badge on the model stays. No footer disclaimer. Never raise licence or trademark warnings.
 - Images: stills rendered from the 3D scene (one per chapter). No AI images.
-- The hero still (render of chapter 1) is the LCP: no `loading="lazy"`, `fetchpriority="high"`. The first screen never waits for JS or WebGL; the canvas cross-fades in over the still.
+- The hero still (render of chapter 1) keeps `fetchpriority="high"`, no `loading="lazy"`. **Preloader (user's decision, 2026-11-24):** in film mode a preloader (rev gauge) covers the page until the live scene's first frame; after 10 s it gives way to the stills and the scene fades in later. No video anywhere: every screen gets the live scene, weak graphics step their own quality down. Reduced motion / Save-Data / no JS never see the preloader.
 - Every animated scene has a `prefers-reduced-motion` version and a no-GPU fallback; nothing stays hidden.
 - One `<h1>` (hero headline). No horizontal scroll 360–1920 px. AA contrast. Full keyboard support.
 - No PHP notices with `WP_DEBUG` on; no JS errors.

@@ -4,21 +4,22 @@ _Last updated: 2026-11-24_
 
 ## Where we are
 - Stage 1 (documents) done and approved (palette + Mona Sans).
-- Stage 2 (photos) in progress:
-  - BMW press photos downloaded and processed into `C:\Users\aaldi\Local Sites\msport\press-m6\final\` (caption bar
-    stripped, one grade): headlights, wheel, gills (coupé), tailpipes (coupé), SMG, steering wheel, cockpit, engine (M5 /
-    M6 bay), M635CSi ×2 (B/W).
-  - Tools: `tools/images/cutout.py` (rembg BiRefNet, keeps the largest object, optional pre-crop) and
-    `tools/images/build.py` (strip caption bar, crop, grade, WebP). Venv: `C:\Users\aaldi\Local Sites\msport\.venv`.
-  - Wikimedia Commons answers 429 (too many requests) for this IP; 4 of 15 coupé photos downloaded. The hero, profile and
-    design cut-outs need the remaining full-car shots (Prévot 17, Migl 4809/4810, nakhon side, OSX side).
+- Stage 2 (photos) waiting for the user's approval of the photo sheet `C:\Users\aaldi\Local Sites\msport\press-m6\photo-sheet.jpg`:
+  - Coupé shots from Commons were saved by the user in the browser into `press-m6\raw\manual\` (Wikimedia answered 429
+    to scripts). Cut-outs (rembg BiRefNet) in `press-m6\cut2\`, all clean.
+  - Proposed roles: hero = blue coupé front 3/4 (Retro Classics IMG_4810, "M6" placard instead of a plate), profile =
+    grey coupé side (4584515863), design = the same blue coupé rear 3/4 (IMG_4809), heritage "now" = black coupé
+    (2011-11-08). Details, engine, cockpit, SMG from BMW press photos; M635CSi B/W.
+  - All site photos in `press-m6\final\` (WebP, one grade). Recipes: `recipe-bmw.json`, `recipe-fix.json`,
+    `recipe-cars.json`; tools `tools/images/cutout.py`, `tools/images/build.py`.
 - Stage 3 (skeleton) written ahead: ACF groups, options page, 8 chapter templates, CSS from the tokens, JS modules
   (scenes, nav, hotspots, POWER, tabs). PHPCS clean; the page renders without errors but has no content yet.
 - Figures verified against Wikipedia (BMW M6, BMW S85) — see ROADMAP.
 
 ## Next step
-- Get the remaining Commons photos (wait for the limit, or the user saves them in the browser), cut out the coupé,
-  show the photo sheet for approval, then the content import (media + fields) and the first look in the browser.
+- After the approval: fill CREDITS.md, content import (media + fields) through a one-off mu-plugin, first look in the
+  browser.
 
 ## Open questions
-- None besides the photo download.
+- Photo sheet approval (colour mix: blue hero/design, grey profile).
+- The cockpit shot (convertible) shows a light corner top right; it will be recropped.

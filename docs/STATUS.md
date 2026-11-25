@@ -130,10 +130,18 @@ _Last updated: 2026-11-25_
   light ink on dark photos inside day chapters. Titles a step smaller in a wider column (two lines instead of four).
 - Phones: V10 heading on its own shade, the cockpit framed on the wheel, heritage years under the photos, detail cards
   as a sideways strip.
-- Known details of the AI shots: an M logo on the caliper and a spoke (wheel), a repeated N in the SMG gate.
 - Checks: check.mjs 1920/1440/768/390/360 + reduced motion 0 FAIL (1 WARN, hotspot labels, intended); motion.mjs gpu +
   nogpu + mobile no warnings; PHPCS 0 errors (1 old naming warning); line endings of 8 files normalised to LF.
 
+## AI tells removed from the round-2 shots (2026-11-25)
+- Checked all 11 shots close up. Fixed (sources `press-m6/gemini/*-fix.jpg`, recipe `recipe-round2-fix.json`, the
+  earlier web files kept in `press-m6/final/r2-before-fix/`; media #352, #353, #356, #357 rebuilt in place):
+  - wheel: the M logos on a spoke and on the caliper removed (Gemini edit of the same photo);
+  - SMG knob: the doubled N in the shift pattern (Gemini edit);
+  - steering: the speedometer read 220, 260, 260 -> 220, 240, 260 (hand retouch, `press-m6/retouch-r2.py`);
+  - tailpipes: the smeared badge on the boot lid painted out (hand retouch, same script).
+- Still open: `r2-03-engine` (the "BMW M Power" lettering upside down on the left plenum, a malformed M logo, a "V10"
+  badge, gibberish on the warning label). The Gemini daily image limit was reached; resets 2026-11-26 00:06.
+
 ## Open questions
-- Not committed yet: waiting for the user's word.
 - Optional: a short video loop for the hero; og:image / SEO plugin.

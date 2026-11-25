@@ -102,5 +102,21 @@ _Last updated: 2026-11-25_
   the value (long values no longer broke mid-figure, e.g. "7,750 / rpm").
 - Checks: check.mjs 1440/768/390/360 + reduced motion 0 FAIL, phones 0 WARN; JS 13.5 KB.
 
+## Premium pass after the reference comparison (2026-11-25)
+- Compared with Porsche 911 Turbo S / Ferrari 812 GTS / Koenigsegg at 1440x900 (same scroll points). Gaps: photos of
+  different cars, images boxed in the container, every title heavy stepped caps, the same layout in every chapter,
+  a solid header with filled buttons, a muddy grey day ground, little motion.
+- Done in code: transparent header over the hero (solid past it, solid without JS); `msport_cta()` link-button (label +
+  thin ring with play / chevron) in the header, hero and outro; chapter titles at weight 500 flush left (stepped only for
+  the hero name and the outro); night `#0D0E10`, day `#F1F2F3` (AA re-measured); V10 = engine bay full screen with the
+  title and the sound button on it; drive = cockpit full screen, then title + text in one row and a large tall + wide
+  pair; design photo edge to edge; heritage pair edge to edge with the years on the photos; full-bleed photos open from
+  an inset rounded card (`.bleed`, scenes.js `--rv`).
+- Checks: check.mjs 1440/1200/768/390/360 + reduced motion 0 FAIL (1 WARN, hotspot labels — intended); motion.mjs gpu +
+  nogpu 60 fps, no long tasks; scan-theme clean; PHPCS clean; JS 14.6 KB.
+- Photos: `press-m6/gemini/PROMPTS-ROUND2.md` — 11 shots of the same Black Sapphire M6 to replace every other car
+  (profile, front 3/4, engine, cockpit, SMG, wheel, details, heritage "now"), plus an optional video loop. Waiting for
+  the user to generate them.
+
 ## Open questions
-- None.
+- The round-2 Gemini shots (the user generates them; then cut-out / studio finish / import).

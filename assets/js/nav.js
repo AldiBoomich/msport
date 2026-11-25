@@ -1,7 +1,7 @@
 /**
  * Chapter rail and the phone menu.
  * - The rail marks the chapter under the middle of the screen (aria-current) and switches its ink on day chapters.
- * - The header button hides while the hero shows the same button.
+ * - The header is transparent over the hero and solid past it; its button hides while the hero shows the same one.
  * - On phones the "Menu" button opens the same list full screen: Esc and a link click close it, focus returns.
  */
 export function initNav() {
@@ -10,16 +10,23 @@ export function initNav() {
 	if ( ! rail ) {
 		return;
 	}
-	// The header button hides while the same button is on the first screen (no duplicate "Hear the V10").
+	// The header is type on the photo while the hero is under it, a solid bar past it (.is-scrolled); its button hides
+	// while the same button is on the first screen (no duplicate "Hear the V10").
+	const hero = document.querySelector( '.hero' );
 	const heroCta = document.querySelector( '.hero__cta' );
-	const headerCta = document.querySelector( '.site-header__cta' );
-	if ( heroCta && headerCta ) {
+	const header = document.querySelector( '[data-header]' );
+	{
 		let ticking = false;
 		const update = () => {
 			ticking = false;
-			const r = heroCta.getBoundingClientRect();
-			const onScreen = r.bottom > 0 && r.top < window.innerHeight && window.scrollY < window.innerHeight * 0.2;
-			document.documentElement.classList.toggle( 'is-hero-cta', onScreen );
+			const h = header ? header.offsetHeight : 64;
+			const overHero = hero ? hero.getBoundingClientRect().bottom > h : window.scrollY < 8;
+			document.documentElement.classList.toggle( 'is-scrolled', ! overHero );
+			if ( heroCta ) {
+				const r = heroCta.getBoundingClientRect();
+				const onScreen = r.bottom > 0 && r.top < window.innerHeight && window.scrollY < window.innerHeight * 0.2;
+				document.documentElement.classList.toggle( 'is-hero-cta', onScreen );
+			}
 		};
 		window.addEventListener( 'scroll', () => {
 			if ( ! ticking ) {

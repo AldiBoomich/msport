@@ -50,5 +50,5 @@ $msport_close    = msport_option( 'opt_close_label', __( 'Close', 'msport' ) );
 		</nav>
 	<?php endif; ?>
 
-	<a class="btn btn--light btn--small site-header__cta" href="<?php echo esc_url( msport_chapter_url( 'power' ) ); ?>"><?php echo esc_html( msport_option( 'opt_header_cta_label', __( 'Hear the V10', 'msport' ) ) ); ?></a>
+	<?php msport_cta( msport_chapter_url( 'power' ), msport_option( 'opt_header_cta_label', __( 'Hear the V10', 'msport' ) ), 'play', 'site-header__cta' ); ?>
 </header>

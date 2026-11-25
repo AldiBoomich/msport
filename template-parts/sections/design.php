@@ -16,7 +16,7 @@ $msport_close = msport_option( 'opt_close_label', __( 'Close', 'msport' ) );
 ?>
 <section id="<?php echo esc_attr( $msport_c['anchor'] ); ?>" class="ch ch--day design" data-chapter aria-labelledby="design-title">
 	<div class="container design__head">
-		<h2 id="design-title" class="h2 stepped"><?php echo msport_lines( msport_front( 'design_title', __( 'Design', 'msport' ) ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped in msport_lines(). ?></h2>
+		<h2 id="design-title" class="h2"><?php echo msport_lines( msport_front( 'design_title', __( 'Design', 'msport' ) ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped in msport_lines(). ?></h2>
 		<p class="lead design__lead"><?php echo esc_html( msport_front( 'design_lead' ) ); ?></p>
 	</div>
 

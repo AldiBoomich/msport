@@ -39,14 +39,14 @@ Rejected defaults:
 ## Color (roles → values; contrast measured 2026-11-24)
 | Token | Value | Role | Contrast |
 |---|---|---|---|
-| `--c-night` | `#16181B` | night chapters, page ground | – |
-| `--c-night-2` | `#202328` | raised surfaces at night (panels, photo placeholders, ghost numbers) | – |
-| `--c-day` | `#E7E8EA` | day chapters (studio floor) | – |
-| `--c-day-2` | `#D8DADD` | day panels (hotspot detail panel, cards) | – |
+| `--c-night` | `#0D0E10` | night chapters, page ground (matches the black of the studio shots) | – |
+| `--c-night-2` | `#17191C` | raised surfaces at night (panels, photo placeholders, ghost numbers) | – |
+| `--c-day` | `#F1F2F3` | day chapters, near white (Ferrari-like; matches the light studio floor) | – |
+| `--c-day-2` | `#E3E5E8` | day panels (hotspot detail panel, cards) | – |
 | `--c-ink` | `#121316` | text on day | 15.2 on day, 13.3 on day-2 |
 | `--c-ink-inverse` | `#F0F0EE` | text on night | 15.6 on night, 13.8 on night-2 |
-| `--c-muted-night` | `#A1A5AC` | secondary text on night | 7.2 / 6.4 |
-| `--c-muted-day` | `#575B62` | secondary text on day | 5.6 / 4.9 |
+| `--c-muted-night` | `#A1A5AC` | secondary text on night | 7.8 / 7.1 |
+| `--c-muted-day` | `#575B62` | secondary text on day | 6.1 / 5.4 |
 | `--c-amber` | `#FF7A1F` | the engine only: the progress ring of the V10 recording | 6.8 on night; **never on day** (2.1) |
 | `--c-m-light`, `--c-m-dark`, `--c-m-red` | `#0066B1`, `#003D78`, `#E22718` | the three BMW M stripes, only in the profile ghost badge, mixed 45% into night | decorative |
 | `--c-line-night` | `rgb(240 240 238 / .14)` | hairlines at night | – |
@@ -58,14 +58,15 @@ grounds), not amber. `::selection` = amber on night.
 ## Type
 - **One family: Mona Sans** (GitHub, SIL OFL 1.1), variable, self-hosted `assets/fonts/mona-sans-vf.woff2`
   (subset Latin, axes `wdth` 75–125, `wght` 350–800, 102 KB). Its width axis gives three voices:
-  - **Wide** (`font-stretch: 125%`, 700, caps): headlines (h1, h2), set in stepped lines.
+  - **Wide** (`font-stretch: 125%`, caps): the model name in the hero and the closing line at 800, set in stepped
+    lines; chapter titles (h2) at 500, flush left — quiet, like Ferrari, so the photos carry the page.
   - **Normal** (100%): body and UI.
   - **Condensed** (75%, 500–600, `tabular-nums`): big figures (507, 8,250, 4.6).
 - Scale:
   - body 17px / 1.6, weight 400;
   - small 14px / 1.45;
   - h3 22px / 1.25, weight 600, normal width;
-  - h2 `clamp(2rem, 1.1rem + 3vw, 3.75rem)` / 1.0, wide caps, tracking 0;
+  - h2 `clamp(2rem, 1.2rem + 2.9vw, 3.875rem)` / 1.02, wide caps, weight 500, tracking -0.005em;
   - display `clamp(3.5rem, 1rem + 6.4vw, 8.5rem)` / 0.9, wide caps 800: the model name in the hero (the h1), Koenigsegg-like;
   - h1 token `clamp(2.25rem, 1rem + 3.6vw, 4.75rem)` / 0.95, wide caps (plain pages);
   - figures `clamp(3.5rem, 1.5rem + 7vw, 8.5rem)` / 0.9, condensed;
@@ -97,7 +98,9 @@ grounds), not amber. `::selection` = amber on night.
   2. **Scroll, hero → profile:** the hero car fades and scales down, the side profile rises over the ghost "8250"; the
      figures appear one by one at the end of the scene (sticky, scrubbed by scroll position).
   3. **Signature, the V10 sound** (described above).
-- Responses (not moments): hotspot zoom + panel, tab wipe, a slight drift of the drive collage (≤ 40px).
+- Responses (not moments): hotspot zoom + panel, tab wipe, a slight drift of the drive pair (≤ 40px).
+- Full-bleed photos (V10 engine, drive cockpit) open from an inset rounded card to the full screen as they come in,
+  the photo settling from a 10% zoom (scrubbed, `--rv`; Porsche-like). Reduced motion / no JS: simply open.
 - Hovers only for `(hover: hover) and (pointer: fine)`. Only `transform` and `opacity` animate.
 - Reduced motion: no pinning, drift or zoom. The scene becomes a stacked layout. The hotspot panel fades in. The engine
   photo lights up without the slow zoom; the sound plays on press. Nothing is hidden.
@@ -117,10 +120,15 @@ grounds), not amber. `::selection` = amber on night.
 - Sources: `CREDITS.md`. Studio shots generated with Gemini (user's decision 2026-11-25), one look for all of them (see the prompts file).
 
 ## Components
-- **Header:** wordmark "M6" left, "Hear the V10" right (scrolls to the V10 chapter; hidden while the hero shows the same button), menu on phones. 64px, solid
-  `--c-night`. One line at every width: under 400px the menu button shows only its bars (the word stays for screen readers).
+- **Header:** wordmark "M6" left, "Hear the V10" right (scrolls to the V10 chapter; hidden while the hero shows the same
+  button), menu on phones. 64px. Transparent over the hero (type on the photo, as on all three references), solid
+  `--c-night` past it; solid without JS. One line at every width: under 400px the menu button shows only its bars and
+  the header link only its ring (the words stay for screen readers).
 - **Chapter rail** (≥ 1200px): a dot per chapter on the left edge; the current one shows its name. Links, keyboard
   reachable.
+- **Link-button** (`msport_cta()`): the label and a thin 36px ring (52px large) with a glyph — play for the way to the
+  sound, a chevron for any other way on; the ring fills with the ink on hover, active `scale(.94)`. Used for the
+  header, hero and outro actions instead of filled boxes (Ferrari / Koenigsegg).
 - **Buttons:** primary = solid ink of the chapter (inverse ink on night, ink on day) with the opposite text colour;
   secondary = 1px outline. Height 48px, padding 0 24px, `--r-control`. States: hover (lighter by 8%), active
   `scale(.98)`, `:focus-visible` 2px ring + 3px offset, disabled 40% opacity.
@@ -143,10 +151,12 @@ grounds), not amber. `::selection` = amber on night.
 2. **Profile** (night): the shape of the car and four true figures (507 PS, 8,250 rpm, 4.6 s, 250 km/h).
 3. **Design** (day): the details enthusiasts look for (carbon roof, gills, four tailpipes, 19-inch wheels and brakes,
    headlights), explored by hotspots.
-4. **V10** (night): the signature, the engine photo with the sound; the engine facts under it.
-5. **Drive** (day): SMG III, the M Drive button, the cockpit, the head-up display.
+4. **V10** (night): the signature — the engine bay fills the screen with the title on it and the sound button; the
+   engine facts under it.
+5. **Drive** (day): the cockpit fills the screen; the title and text in one row; SMG III and the M wheel as a large
+   editorial pair (tall + wide).
 6. **Spec sheet** (night): engine, gearbox, chassis, dimensions in tabs.
-7. **Heritage** (day): M635CSi (1983) to M6 (2005).
+7. **Heritage** (day): M635CSi (1983) to M6 (2005), the pair edge to edge with the years on the photos.
 8. **Outro** (night): a big stepped headline, the developer link, credits.
 
 ## Copy rules

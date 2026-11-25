@@ -41,7 +41,7 @@ $msport_mobile = (int) msport_front( 'hero_image_mobile', 0 );
 		<div class="container hero__copy">
 			<h1 id="hero-title" class="hero__title stepped"><?php echo msport_lines( msport_front( 'hero_title', __( "BMW\nM6", 'msport' ) ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped in msport_lines(). ?></h1>
 			<p class="lead hero__lead"><?php echo esc_html( msport_front( 'hero_lead' ) ); ?></p>
-			<a class="btn btn--light hero__cta" href="<?php echo esc_url( msport_chapter_url( 'power' ) ); ?>"><?php echo esc_html( msport_front( 'hero_cta_label', __( 'Hear the V10', 'msport' ) ) ); ?></a>
+			<?php msport_cta( msport_chapter_url( 'power' ), msport_front( 'hero_cta_label', __( 'Hear the V10', 'msport' ) ), 'play', 'cta--large hero__cta' ); ?>
 		</div>
 		<div class="hero__veil" aria-hidden="true"></div>
 	</div>

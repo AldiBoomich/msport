@@ -16,7 +16,7 @@ $msport_url = msport_option( 'opt_dev_url' );
 		<div class="outro__side">
 			<p class="lead outro__text"><?php echo esc_html( msport_front( 'outro_text' ) ); ?></p>
 			<?php if ( $msport_url ) : ?>
-				<a class="btn btn--light" href="<?php echo esc_url( $msport_url ); ?>"><?php echo esc_html( msport_front( 'outro_cta_label', __( 'Get in touch', 'msport' ) ) ); ?></a>
+				<?php msport_cta( $msport_url, msport_front( 'outro_cta_label', __( 'Get in touch', 'msport' ) ), 'chevron', 'cta--large' ); ?>
 			<?php endif; ?>
 		</div>
 	</div>

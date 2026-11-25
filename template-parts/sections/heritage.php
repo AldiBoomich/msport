@@ -1,7 +1,7 @@
 <?php
 /**
- * Chapter 7, heritage (day): then and now as a matched pair — the ancestor in black and white, the E63 in colour,
- * the same frame and the same three-quarter angle, the years set large under them.
+ * Chapter 7, heritage (day): then and now as a matched pair edge to edge, each half of the screen — the ancestor in
+ * black and white, the E63 in colour, the same frame and the same three-quarter angle, the years set large on them.
  *
  * @package msport
  */
@@ -18,12 +18,12 @@ $msport_pair = array(
 );
 ?>
 <section id="<?php echo esc_attr( $msport_c['anchor'] ); ?>" class="ch ch--day heritage" data-chapter aria-labelledby="heritage-title">
-	<div class="container heritage__grid">
-		<div class="heritage__copy">
-			<h2 id="heritage-title" class="h2 stepped"><?php echo msport_lines( msport_front( 'heritage_title', __( 'Heritage', 'msport' ) ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped in msport_lines(). ?></h2>
-			<div class="heritage__text"><?php echo msport_paragraphs( msport_front( 'heritage_text' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped in msport_paragraphs(). ?></div>
-		</div>
+	<div class="container heritage__copy">
+		<h2 id="heritage-title" class="h2"><?php echo msport_lines( msport_front( 'heritage_title', __( 'Heritage', 'msport' ) ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped in msport_lines(). ?></h2>
+		<div class="heritage__text"><?php echo msport_paragraphs( msport_front( 'heritage_text' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped in msport_paragraphs(). ?></div>
+	</div>
 
+	<div class="heritage__pair">
 		<?php foreach ( $msport_pair as $msport_key => $msport_item ) : ?>
 			<?php
 			if ( ! $msport_item[0] ) {
@@ -38,7 +38,7 @@ $msport_pair = array(
 						'msport-wide',
 						array(
 							'class' => 'heritage__img',
-							'sizes' => '(min-width: 62em) 50vw, 100vw',
+							'sizes' => '(min-width: 48em) 50vw, 100vw',
 						)
 					);
 					?>

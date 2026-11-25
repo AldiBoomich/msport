@@ -3,6 +3,8 @@
  * sticky stage (0 when the section top meets the viewport top, 1 when its end does) goes to the CSS variable --p, and
  * its entry (0 when the section top meets the viewport bottom, 1 when it reaches the top) goes to --in.
  * The drive collage gets --sp (-1 … 1: the section crossing the viewport) for a slight drift of its photos.
+ * Full-bleed photos [data-reveal] get --rv (0 when their top meets the viewport bottom, 1 when it is near the top): the
+ * frame opens from an inset rounded card to the full screen (Porsche-like).
  * One rAF per scroll frame; sections off screen are skipped. Reduced motion: nothing is written (CSS keeps it static).
  */
 export function initScenes( reduced ) {
@@ -10,6 +12,7 @@ export function initScenes( reduced ) {
 	const collage = document.querySelector( '.collage' );
 	const drift = collage ? [ ...collage.querySelectorAll( '[data-drift]' ) ] : [];
 	drift.forEach( ( el ) => el.style.setProperty( '--d', el.dataset.drift ) );
+	const reveals = [ ...document.querySelectorAll( '[data-reveal]' ) ];
 
 	let queued = false;
 	let vh = window.innerHeight;
@@ -29,6 +32,11 @@ export function initScenes( reduced ) {
 			const entry = Math.min( 1, Math.max( 0, 1 - r.top / vh ) );
 			s.style.setProperty( '--p', p.toFixed( 4 ) );
 			s.style.setProperty( '--in', entry.toFixed( 4 ) );
+		}
+		for ( const el of reveals ) {
+			const r = el.getBoundingClientRect();
+			const rv = Math.min( 1, Math.max( 0, ( vh - r.top ) / ( vh * 0.85 ) ) );
+			el.style.setProperty( '--rv', rv.toFixed( 4 ) );
 		}
 		if ( collage ) {
 			const r = collage.getBoundingClientRect();
@@ -57,6 +65,7 @@ export function initScenes( reduced ) {
 			s.style.removeProperty( '--in' );
 		} );
 		collage?.style.removeProperty( '--sp' );
+		reveals.forEach( ( el ) => el.style.removeProperty( '--rv' ) );
 		queue();
 	} );
 	update();

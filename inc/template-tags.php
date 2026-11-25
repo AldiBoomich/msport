@@ -150,3 +150,29 @@ function msport_anchor( $prefix, $fallback ) {
 	$anchor = sanitize_title( (string) msport_front( $prefix . '_anchor', $fallback ) );
 	return $anchor ? $anchor : $fallback;
 }
+
+/**
+ * The link-button of the site (Ferrari / Koenigsegg-like): the label and a thin ring with a glyph after it. The ring
+ * fills on hover. "play" marks the way to the V10 recording, "chevron" any other way on.
+ *
+ * @param string $url   Link target.
+ * @param string $label Visible label.
+ * @param string $icon  "play" or "chevron".
+ * @param string $class Extra classes.
+ * @return void
+ */
+function msport_cta( $url, $label, $icon = 'chevron', $class = '' ) {
+	$paths = array(
+		'play'    => 'M9.5 7.2v9.6l7.6-4.8z',
+		'chevron' => 'M10 7l5 5-5 5',
+	);
+	$icon  = isset( $paths[ $icon ] ) ? $icon : 'chevron';
+	printf(
+		'<a class="%1$s" href="%2$s"><span class="cta__text">%3$s</span><span class="cta__ring" aria-hidden="true"><svg class="cta__icon cta__icon--%4$s" viewBox="0 0 24 24" focusable="false"><path d="%5$s"/></svg></span></a>',
+		esc_attr( trim( 'cta ' . $class ) ),
+		esc_url( $url ),
+		esc_html( $label ),
+		esc_attr( $icon ),
+		esc_attr( $paths[ $icon ] )
+	);
+}

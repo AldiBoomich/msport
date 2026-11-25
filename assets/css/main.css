@@ -7,10 +7,10 @@
 
 /* 1 Tokens ---------------------------------------------------------------------------------------------------- */
 :root {
-	--c-night: #16181b;
-	--c-night-2: #202328;
-	--c-day: #e7e8ea;
-	--c-day-2: #d8dadd;
+	--c-night: #0d0e10;
+	--c-night-2: #17191c;
+	--c-day: #f1f2f3;
+	--c-day-2: #e3e5e8;
 	--c-ink: #121316;
 	--c-ink-inverse: #f0f0ee;
 	--c-muted-night: #a1a5ac;
@@ -26,7 +26,7 @@
 	--fs-body: 1.0625rem; /* 17px */
 	--fs-small: 0.875rem; /* 14px */
 	--fs-h3: 1.375rem; /* 22px */
-	--fs-h2: clamp(2rem, 1.1rem + 3vw, 3.75rem);
+	--fs-h2: clamp(2rem, 1.2rem + 2.9vw, 3.875rem);
 	--fs-h1: clamp(2.25rem, 1rem + 3.6vw, 4.75rem);
 	--fs-fig: clamp(3.5rem, 1.5rem + 7vw, 8.5rem);
 	--fs-ghost: clamp(10rem, 30vw, 30rem);
@@ -151,7 +151,9 @@ p:last-child { margin-bottom: 0; }
 	text-wrap: balance;
 }
 .h1 { font-size: var(--fs-h1); line-height: 0.95; }
-.h2 { font-size: var(--fs-h2); line-height: 1; }
+/* Chapter titles speak quietly (Ferrari-like): wide caps at a medium weight; the heavy display weight is kept for the
+   model name in the hero and the closing line. */
+.h2 { font-size: var(--fs-h2); font-weight: 500; line-height: 1.02; letter-spacing: -0.005em; }
 .h3 { font-size: var(--fs-h3); line-height: 1.25; font-weight: 600; margin: 0 0 var(--s-3); }
 
 .lead { max-width: 52ch; font-size: var(--fs-body); }
@@ -211,6 +213,42 @@ p:last-child { margin-bottom: 0; }
 	.btn--ghost:hover { background: color-mix(in oklab, currentColor 8%, transparent); }
 }
 
+/* The link-button (msport_cta): label + a thin ring with a glyph, Ferrari / Koenigsegg-like instead of a filled box.
+   The ring fills with the ink on hover; the glyph takes the chapter background (--cta-on). */
+.cta {
+	--cta-ring: 36px;
+	--cta-on: var(--c-night);
+	display: inline-flex;
+	align-items: center;
+	gap: var(--s-3);
+	min-height: 44px;
+	font-size: 0.9375rem;
+	font-weight: 500;
+	text-decoration: none;
+	white-space: nowrap;
+}
+.ch--day .cta { --cta-on: var(--c-day); }
+.cta__ring {
+	display: grid;
+	place-items: center;
+	flex: none;
+	width: var(--cta-ring);
+	height: var(--cta-ring);
+	border-radius: 50%;
+	border: 1px solid color-mix(in oklab, currentColor 55%, transparent);
+	transition: background-color var(--dur-hover) ease, border-color var(--dur-hover) ease, color var(--dur-hover) ease, transform var(--dur-press) var(--ease-out);
+}
+.cta__icon { width: 40%; height: 40%; }
+.cta__icon--play { fill: currentColor; }
+.cta__icon--chevron { fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.cta:active .cta__ring { transform: scale(0.94); }
+.cta--large { --cta-ring: 52px; gap: var(--s-4); font-size: var(--fs-body); }
+
+@media (hover: hover) and (pointer: fine) {
+	.cta:hover .cta__ring { background: currentColor; border-color: currentColor; }
+	.cta:hover .cta__icon { color: var(--cta-on); }
+}
+
 /* 7 Header + rail --------------------------------------------------------------------------------------------- */
 .site-header {
 	position: fixed;
@@ -221,12 +259,16 @@ p:last-child { margin-bottom: 0; }
 	align-items: center;
 	gap: var(--s-4);
 	padding-inline: var(--gutter);
-	background: var(--c-night);
 	color: var(--c-ink-inverse);
+	background: var(--c-night);
 	border-bottom: 1px solid var(--c-line-night);
+	transition: background-color var(--dur-ui) ease, border-color var(--dur-ui) ease;
 }
+/* Over the hero the header is just type on the photo (all three references); past it (nav.js .is-scrolled), a solid
+   night bar. Without JS it stays solid. */
+.js:not(.is-scrolled):not(.is-menu-open) .site-header { background: transparent; border-bottom-color: transparent; }
 
-.site-header__cta { transition: opacity var(--dur-ui) ease, visibility 0s linear 0s, background-color var(--dur-hover) ease, transform var(--dur-press) var(--ease-out); }
+.site-header__cta { transition: opacity var(--dur-ui) ease, visibility 0s linear 0s; }
 .is-hero-cta .site-header__cta { opacity: 0; visibility: hidden; transition: opacity var(--dur-ui) ease, visibility 0s linear var(--dur-ui); }
 
 .wordmark { font-size: 1.25rem; text-decoration: none; margin-right: auto; }
@@ -250,7 +292,8 @@ p:last-child { margin-bottom: 0; }
 @media (max-width: 24.99em) {
 	.site-header { gap: var(--s-2); }
 	.menu-toggle { min-width: 44px; justify-content: center; }
-	.menu-toggle [data-menu-label] { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+	.menu-toggle [data-menu-label],
+	.site-header__cta .cta__text { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
 }
 
 .rail { display: none; }
@@ -438,7 +481,7 @@ p:last-child { margin-bottom: 0; }
 	.hero .line { overflow: clip; padding-bottom: 0.08em; margin-bottom: -0.08em; }
 	.hero .line__in { animation: line-rise 900ms var(--ease-out) both; animation-delay: calc(200ms + var(--i) * 70ms); }
 	.hero__lead,
-	.hero__copy .btn { animation: fade-in 700ms var(--ease-out) 500ms both; }
+	.hero__cta { animation: fade-in 700ms var(--ease-out) 500ms both; }
 }
 
 @keyframes lights-up { from { opacity: 0.85; } to { opacity: 0; } }
@@ -531,21 +574,21 @@ p:last-child { margin-bottom: 0; }
 	.design__head { grid-template-columns: 5fr 7fr; align-items: end; }
 }
 
-.design__stage { position: relative; margin-top: var(--s-8); }
+.design__stage { position: relative; margin-top: var(--s-6); }
 
+/* The studio shot runs edge to edge (Ferrari-like); a photo melts into the chapter at the top and bottom. */
 .design__frame {
 	position: relative;
-	width: min(94vw, 1480px);
-	margin-inline: auto;
+	width: 100vw;
+	margin-inline: calc(50% - 50vw);
 	transform-origin: var(--zx, 50%) var(--zy, 50%);
 	transition: transform var(--dur-panel-out) var(--ease-out);
 }
 .design__img { width: 100%; }
 /* A studio photo (not a cut-out): its edges melt into the chapter background. */
-.is-photo > img,
 .is-photo > .design__img {
-	-webkit-mask-image: radial-gradient(ellipse 74% 80% at 50% 52%, #000 58%, transparent 100%);
-	mask-image: radial-gradient(ellipse 74% 80% at 50% 52%, #000 58%, transparent 100%);
+	-webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 16%, #000 84%, transparent 100%);
+	mask-image: linear-gradient(to bottom, transparent 0%, #000 16%, #000 84%, transparent 100%);
 }
 
 .hotspot {
@@ -620,14 +663,8 @@ p:last-child { margin-bottom: 0; }
 @keyframes pulse { from { transform: scale(1); opacity: 0.7; } to { transform: scale(1.7); opacity: 0; } }
 
 /* Phones: the car is a third of the desktop size, so the point is too — a 24 px dot in a 44 px tap area (labels are
-   off here, the panel names the detail). The car takes the full screen width; a studio photo melts into the chapter
-   at the top and bottom (the side edges are the screen edges). */
+   off here, the panel names the detail). */
 @media (max-width: 47.99em) {
-	.design__frame { width: 100vw; margin-inline: calc(50% - 50vw); }
-	.design__frame.is-photo > .design__img {
-		-webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 18%, #000 80%, transparent 100%);
-		mask-image: linear-gradient(to bottom, transparent 0%, #000 18%, #000 80%, transparent 100%);
-	}
 	.hotspot { justify-content: center; min-width: 44px; height: 44px; transform: translate(-50%, -50%); }
 	.hotspot__dot { width: 24px; height: 24px; border-width: 1.5px; }
 	.hotspot__dot::after { inset: 7px; }
@@ -695,56 +732,63 @@ p:last-child { margin-bottom: 0; }
 	.is-detail-open .design__frame { transform: scale(1.5); }
 }
 
-/* 12 V10 ------------------------------------------------------------------------------------------------------ */
-/* The engine and its sound: the engine bay large, the sound button on the photo; the photo lights up while it plays. */
-.power { padding-block: var(--s-10) var(--s-9); }
-
-.power__head { display: grid; gap: var(--s-5); }
-.power__lead { margin: 0; }
-@media (min-width: 62em) {
-	.power__head { grid-template-columns: 7fr 5fr; gap: var(--s-8); align-items: end; }
-	.power__lead { justify-self: end; max-width: 40ch; }
-}
-
-.engine {
+/* Full-bleed photo (V10, drive): the frame fills the screen; as it comes in it opens from an inset rounded card and the
+   photo settles from a slight zoom (scenes.js --rv, Porsche-like). Without JS or with reduced motion it is simply open. */
+.bleed { --rv: 1; position: relative; }
+.js .bleed { --rv: 0; }
+.bleed__frame {
 	position: relative;
-	isolation: isolate;
-	margin-top: var(--s-8);
 	overflow: hidden;
-	border-radius: var(--r-media);
-	background: var(--c-night-2);
+	min-height: 100svh;
+	clip-path: inset(calc((1 - var(--rv)) * 6svh) calc((1 - var(--rv)) * 5vw) round calc((1 - var(--rv)) * 24px));
 }
-.engine__frame { aspect-ratio: 4 / 5; }
-@media (min-width: 48em) {
-	.engine__frame { aspect-ratio: 16 / 9; }
-}
-.engine__img {
-	display: block;
+.bleed__img {
+	position: absolute;
+	inset: 0;
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
-	object-position: 50% 38%;
-	filter: brightness(0.62) saturate(0.8);
-	transition: filter 1200ms var(--ease-out), transform 1600ms var(--ease-out);
+	transform: scale(calc(1.1 - var(--rv) * 0.1));
 }
-.engine::after {
-	content: "";
+
+/* 12 V10 ------------------------------------------------------------------------------------------------------ */
+/* The engine and its sound: the engine bay fills the screen with the heading on it, the sound button bottom left;
+   the photo lights up while it plays. */
+.power { padding-bottom: var(--s-9); }
+
+.engine { isolation: isolate; }
+.engine__img {
+	object-position: 50% 40%;
+	filter: brightness(0.6) saturate(0.85);
+	transition: filter 1200ms var(--ease-out);
+}
+.engine__shade {
 	position: absolute;
 	inset: 0;
 	pointer-events: none;
 	background:
-		linear-gradient(to top, rgb(10 11 13 / 0.78) 0%, rgb(10 11 13 / 0.3) 32%, transparent 55%),
-		linear-gradient(to right, rgb(10 11 13 / 0.35) 0%, transparent 45%);
+		linear-gradient(to bottom, rgb(13 14 16 / 0.82) 0%, rgb(13 14 16 / 0.35) 30%, transparent 50%),
+		linear-gradient(to top, rgb(13 14 16 / 0.85) 0%, rgb(13 14 16 / 0.3) 26%, transparent 46%),
+		linear-gradient(to right, rgb(13 14 16 / 0.4) 0%, transparent 50%);
+	transition: opacity 1200ms var(--ease-out);
 }
 .is-playing .engine__img { filter: brightness(1) saturate(1); }
-@media (prefers-reduced-motion: no-preference) {
-	.is-playing .engine__img { transform: scale(1.03); }
-}
+.is-playing .engine__shade { opacity: 0.7; }
 
-.engine__sound { position: absolute; left: var(--s-5); bottom: var(--s-5); right: var(--s-5); z-index: 1; }
-@media (min-width: 48em) {
-	.engine__sound { left: var(--s-7); bottom: var(--s-7); right: auto; }
+.engine__over {
+	position: relative;
+	z-index: 1;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	gap: var(--s-8);
+	min-height: 100svh;
+	padding-block: calc(var(--header) + var(--s-8)) var(--s-8);
 }
+.power__head { display: grid; gap: var(--s-5); justify-items: start; }
+.power__lead { margin: 0; max-width: 42ch; color: color-mix(in oklab, var(--c-ink-inverse) 82%, transparent); }
+
+.engine__sound { position: relative; }
 .js .engine__audio { display: none; }
 .engine__audio { width: min(100%, 360px); }
 
@@ -804,7 +848,7 @@ p:last-child { margin-bottom: 0; }
 	display: grid;
 	grid-template-columns: repeat(2, 1fr);
 	gap: var(--s-5) var(--s-6);
-	margin-top: var(--s-8);
+	margin-top: var(--s-7);
 	margin-bottom: 0;
 	padding-top: var(--s-5);
 	border-top: 1px solid var(--c-line-night);
@@ -817,29 +861,39 @@ p:last-child { margin-bottom: 0; }
 }
 
 /* 13 Drive ---------------------------------------------------------------------------------------------------- */
-.drive { padding-block: var(--s-10); overflow: clip; }
-.drive__grid { display: grid; gap: var(--s-8); }
-.drive__text { margin-top: var(--s-5); max-width: 52ch; color: var(--c-muted-day); }
-
-@media (min-width: 62em) {
-	.drive__grid { grid-template-columns: 4fr 8fr; align-items: start; }
-	.drive__copy { position: sticky; top: calc(var(--header) + var(--s-7)); }
+/* The cockpit fills the screen; below it the copy on the left and a large pair of photos that drift apart slightly. */
+.drive { padding-bottom: var(--s-10); overflow: clip; }
+.drive__bleed { margin: 0; }
+.drive__img { object-position: 50% 55%; }
+.drive__bleed-caption {
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: var(--s-6);
+	z-index: 1;
+	font-size: var(--fs-small);
+	color: var(--c-ink-inverse);
+	text-shadow: 0 1px 12px rgb(0 0 0 / 0.5);
 }
 
-.collage { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(12, 1fr); gap: var(--s-5); }
-.collage__item { transform: translate3d(0, calc(var(--d, 0) * var(--sp, 0) * 400px), 0); }
-.collage__item--1 { grid-column: 1 / 8; grid-row: 1 / 3; }
-.collage__item--2 { grid-column: 8 / 13; grid-row: 1; margin-top: var(--s-9); }
-.collage__item--3 { grid-column: 6 / 13; grid-row: 3; margin-top: calc(-1 * var(--s-9)); }
-.collage__item--4 { grid-column: 1 / 6; grid-row: 3 / 5; margin-top: var(--s-7); }
-.collage__img { width: 100%; border-radius: var(--r-media); object-fit: cover; }
-.collage__item--1 .collage__img { aspect-ratio: 4 / 5; }
-.collage__item:not(.collage__item--1) .collage__img { aspect-ratio: 3 / 2; }
-.collage__caption { margin-top: var(--s-2); font-size: var(--fs-small); color: var(--c-muted-day); }
+.drive__grid { display: grid; gap: var(--s-8); margin-top: var(--s-9); }
+.drive__copy { display: grid; gap: var(--s-5); }
+.drive__text { max-width: 52ch; color: var(--c-muted-day); }
+@media (min-width: 62em) {
+	.drive__copy { grid-template-columns: 5fr 7fr; gap: var(--s-8); align-items: end; }
+}
 
-@media (max-width: 47.99em) {
-	.collage { grid-template-columns: 1fr; }
-	.collage__item { grid-column: 1 !important; grid-row: auto !important; margin-top: 0 !important; }
+/* A tall frame and a wide one, bottoms offset (editorial pair). */
+.collage { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s-6); }
+.collage__item { transform: translate3d(0, calc(var(--d, 0) * var(--sp, 0) * 400px), 0); }
+.collage__img { width: 100%; object-fit: cover; border-radius: var(--r-media); }
+.collage__item:nth-child(odd) .collage__img { aspect-ratio: 4 / 5; }
+.collage__item:nth-child(even) .collage__img { aspect-ratio: 3 / 2; }
+.collage__caption { margin-top: var(--s-3); font-size: var(--fs-small); color: var(--c-muted-day); }
+
+@media (min-width: 48em) {
+	.collage { grid-template-columns: 5fr 7fr; gap: var(--s-7); align-items: end; }
+	.collage__item:nth-child(even) { margin-bottom: var(--s-10); }
 }
 
 /* 14 Spec sheet ----------------------------------------------------------------------------------------------- */
@@ -936,50 +990,59 @@ p:last-child { margin-bottom: 0; }
 }
 
 /* 15 Heritage ------------------------------------------------------------------------------------------------- */
-/* Then and now as a matched pair: the same 16:9 frame, the same angle, the years set large under them. */
-.heritage { padding-block: var(--s-9); }
-.heritage__grid { display: grid; gap: var(--s-7); }
-.heritage__text { margin-top: var(--s-5); max-width: 52ch; color: var(--c-muted-day); }
-.heritage__item { margin: 0; }
-.heritage__frame { overflow: hidden; background: var(--c-day-2); }
+/* Then and now as a matched pair edge to edge: each half of the screen, the same frame and angle, the years set large
+   on the photos. */
+.heritage { padding-top: var(--s-10); }
+.heritage__copy { display: grid; gap: var(--s-5); margin-bottom: var(--s-8); }
+.heritage__text { max-width: 52ch; color: var(--c-muted-day); }
+@media (min-width: 62em) {
+	.heritage__copy { grid-template-columns: 5fr 7fr; gap: var(--s-8); align-items: end; }
+}
+
+.heritage__pair { display: grid; gap: 2px; background: var(--c-day); }
+@media (min-width: 48em) {
+	.heritage__pair { grid-template-columns: 1fr 1fr; }
+}
+.heritage__item { position: relative; margin: 0; overflow: hidden; background: var(--c-night); }
+.heritage__frame { overflow: hidden; }
 .heritage__img {
 	display: block;
 	width: 100%;
-	aspect-ratio: 16 / 9;
+	aspect-ratio: 4 / 3;
 	object-fit: cover;
 	transition: transform var(--dur-reveal) var(--ease-out);
 }
 .heritage__then .heritage__img { object-position: 50% 68%; filter: grayscale(1) contrast(1.05); }
 .heritage__now .heritage__img { object-position: 50% 62%; }
+.heritage__item::after {
+	content: "";
+	position: absolute;
+	inset: 50% 0 0;
+	pointer-events: none;
+	background: linear-gradient(to top, rgb(13 14 16 / 0.72), transparent);
+}
 .heritage__caption {
+	position: absolute;
+	z-index: 1;
+	left: var(--gutter);
+	right: var(--gutter);
+	bottom: var(--s-6);
 	display: flex;
 	align-items: baseline;
 	gap: var(--s-4);
-	margin-top: var(--s-4);
-	padding-top: var(--s-4);
-	border-top: 1px solid var(--c-line-day);
-	font-size: var(--fs-small);
-	color: var(--c-muted-day);
+	color: var(--c-ink-inverse);
 }
 .heritage__year {
-	font-size: var(--fs-h2);
+	font-size: clamp(3rem, 1.5rem + 4.6vw, 6.5rem);
 	font-stretch: 75%;
 	font-weight: 600;
-	line-height: 0.9;
+	line-height: 0.85;
 	font-variant-numeric: tabular-nums;
-	color: var(--c-ink);
 }
-.heritage__name { font-size: var(--fs-body); font-weight: 500; color: var(--c-ink); }
+.heritage__name { font-size: var(--fs-body); font-weight: 500; }
 
 @media (hover: hover) and (pointer: fine) {
 	.heritage__item:hover .heritage__img { transform: scale(1.03); }
-}
-
-@media (min-width: 62em) {
-	/* Heading and text on one row, then / now side by side below at the same weight. */
-	.heritage__grid { grid-template-columns: 1fr 1fr; column-gap: var(--s-7); }
-	.heritage__copy { grid-column: 1 / -1; display: grid; grid-template-columns: 5fr 7fr; gap: var(--s-8); align-items: end; margin-bottom: var(--s-5); }
-	.heritage__text { margin-top: 0; }
 }
 
 /* 16 Outro ---------------------------------------------------------------------------------------------------- */
@@ -1021,4 +1084,5 @@ body:not(.home) main { max-width: calc(var(--measure) + 2 * var(--gutter)); marg
 	.profile { --p: 1 !important; --in: 1 !important; }
 	.collage__item { transform: none; }
 	.is-detail-open .design__frame { transform: none; }
+	.bleed { --rv: 1 !important; }
 }

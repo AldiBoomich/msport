@@ -13,7 +13,7 @@ $msport_tabs = is_array( $msport_tabs ) ? array_values( $msport_tabs ) : array()
 ?>
 <section id="<?php echo esc_attr( $msport_c['anchor'] ); ?>" class="ch ch--night specs" data-chapter aria-labelledby="specs-title">
 	<div class="container">
-		<h2 id="specs-title" class="h2 stepped"><?php echo msport_lines( msport_front( 'specs_title', __( 'Spec sheet', 'msport' ) ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped in msport_lines(). ?></h2>
+		<h2 id="specs-title" class="h2"><?php echo msport_lines( msport_front( 'specs_title', __( 'Spec sheet', 'msport' ) ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped in msport_lines(). ?></h2>
 
 		<?php if ( $msport_tabs ) : ?>
 			<div class="tabs" data-tabs>

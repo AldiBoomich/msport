@@ -78,5 +78,11 @@ _Last updated: 2026-11-25_
 - The user sent three more photos, saved in `press-m6/raw/user/`; the only real M6 among them:
   `m6-silver-front34-wet-track.jpg` (1395 × 635).
 
+## Spec sheet "Dimensions" = the silver M6 (2026-11-25, user's choice)
+- The silver M6 cut out (`press-m6/cut4/`), studio finish with `recipe-studio4.json` (smoked glass hides the driver,
+  plate removed with the new `"plate_fill": "sides"` mode of `studio.py`: each row blended from the bumper left and
+  right of the plate), media #346 `m6-specs-m6-silver.webp` (1462 × 554, alpha). `specs_tabs_4_image` 333 -> 346;
+  the profile keeps #333. Checked at 1440 / 390: 0 FAIL.
+
 ## Open questions
-- Where the new M6 photo goes (see the reply in chat).
+- None.

@@ -7,6 +7,7 @@ Recipe: {"src_dir": "...", "out_dir": "...", "items": [{
     "src": "car.png", "out": "car-studio",
     "glass": [[[x, y], ...], ...],      polygons in % of the cut-out; darkened to smoked glass
     "plate": [[x, y], ...],             polygon in %; filled with the colour around it
+    "plate_fill": "sides",              optional: blend each row from the body left and right of the plate
     "fade_left": 0.0,                   0…1: part of the width (from the left) that falls off into the dark
     "shadow": 1.0,                      shadow strength
     "contacts": [[x, y], ...]           optional tyre contact points in %; found automatically when missing
@@ -89,8 +90,21 @@ def main():
         if it.get("plate"):
             m = poly_mask((w, h), it["plate"], 1.5)
             ring = (poly_mask((w, h), it["plate"], 18) > 0.02) & (m < 0.02) & (a > 0.9)
-            colour = np.median(rgb[ring], 0)
-            rgb = rgb * (1 - m[..., None]) + colour * m[..., None]
+            if it.get("plate_fill") == "sides":
+                # Each row is blended from the body just left and right of the plate, so the bumper shading and the
+                # edge of an intake carry on through it (a single median colour shows as a flat patch).
+                ys, xs = np.nonzero(m > 0.02)
+                y0, y1, x0, x1 = max(0, ys.min() - 4), min(h, ys.max() + 5), xs.min(), xs.max()
+                left = np.median(rgb[y0:y1, max(0, x0 - 22):max(1, x0 - 6)], 1)
+                right = np.median(rgb[y0:y1, min(w - 1, x1 + 6):min(w, x1 + 22)], 1)
+                left, right = (np.stack([ndimage.gaussian_filter1d(s[:, c], 1.5) for c in range(3)], -1) for s in (left, right))
+                t = np.clip((np.arange(w) - x0) / max(1, x1 - x0), 0, 1)
+                fill = rgb.copy()
+                fill[y0:y1] = left[:, None, :] * (1 - t)[None, :, None] + right[:, None, :] * t[None, :, None]
+                rgb = rgb * (1 - m[..., None]) + fill * m[..., None]
+            else:
+                colour = np.median(rgb[ring], 0)
+                rgb = rgb * (1 - m[..., None]) + colour * m[..., None]
 
         fade = float(it.get("fade_left", 0))
         if fade:

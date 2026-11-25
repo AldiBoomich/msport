@@ -294,6 +294,31 @@
             "preview_size": "medium"
         },
         {
+            "key": "field_msport_profile_backdrop",
+            "label": "Studio behind the side profile",
+            "name": "profile_backdrop",
+            "aria_label": "",
+            "type": "image",
+            "instructions": "Optional. The same photo as the side profile, whole (not cut out), in the same frame: the studio and the floor under the car. The badge stands between the two.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "id",
+            "library": "all",
+            "min_width": "",
+            "min_height": "",
+            "min_size": "",
+            "max_width": "",
+            "max_height": "",
+            "max_size": "",
+            "mime_types": "jpg,jpeg,png,webp,avif",
+            "preview_size": "medium"
+        },
+        {
             "key": "field_msport_profile_ghost",
             "label": "Big badge behind the car",
             "name": "profile_ghost",
@@ -1724,6 +1749,31 @@
             "new_lines": ""
         },
         {
+            "key": "field_msport_outro_image",
+            "label": "Closing photo",
+            "name": "outro_image",
+            "aria_label": "",
+            "type": "image",
+            "instructions": "Optional. A dark studio shot, landscape 16:9, at least 2560 px wide. It runs edge to edge under the heading.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "id",
+            "library": "all",
+            "min_width": "",
+            "min_height": "",
+            "min_size": "",
+            "max_width": "",
+            "max_height": "",
+            "max_size": "",
+            "mime_types": "jpg,jpeg,png,webp,avif",
+            "preview_size": "medium"
+        },
+        {
             "key": "field_msport_outro_cta_label",
             "label": "Button label",
             "name": "outro_cta_label",
@@ -1774,5 +1824,5 @@
     "active": true,
     "description": "Every chapter of the M6 page (docs/CONTENT-MODEL.md).",
     "show_in_rest": 0,
-    "modified": 1795555933
+    "modified": 1795625294
 }

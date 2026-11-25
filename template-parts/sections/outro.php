@@ -1,6 +1,6 @@
 <?php
 /**
- * Chapter 8, outro (night): a big stepped heading and the way to the developer.
+ * Chapter 8, outro (night): a big stepped heading, the way to the developer, and the car once more, edge to edge.
  *
  * @package msport
  */
@@ -9,6 +9,7 @@ defined( 'ABSPATH' ) || exit;
 
 $msport_c   = $args;
 $msport_url = msport_option( 'opt_dev_url' );
+$msport_img = (int) msport_front( 'outro_image', 0 );
 ?>
 <section id="<?php echo esc_attr( $msport_c['anchor'] ); ?>" class="ch ch--night outro" data-chapter aria-labelledby="outro-title">
 	<div class="container outro__inner">
@@ -20,4 +21,18 @@ $msport_url = msport_option( 'opt_dev_url' );
 			<?php endif; ?>
 		</div>
 	</div>
+	<?php if ( $msport_img ) : ?>
+		<figure class="outro__media">
+			<?php
+			msport_the_image(
+				$msport_img,
+				'msport-wide',
+				array(
+					'class' => 'outro__img',
+					'sizes' => '(min-width: 48em) 100vw, 150vw',
+				)
+			);
+			?>
+		</figure>
+	<?php endif; ?>
 </section>

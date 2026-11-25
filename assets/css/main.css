@@ -26,10 +26,10 @@
 	--fs-body: 1.0625rem; /* 17px */
 	--fs-small: 0.875rem; /* 14px */
 	--fs-h3: 1.375rem; /* 22px */
-	--fs-h2: clamp(2rem, 1.2rem + 2.9vw, 3.875rem);
+	--fs-h2: clamp(1.875rem, 1.1rem + 2.3vw, 3.25rem);
 	--fs-h1: clamp(2.25rem, 1rem + 3.6vw, 4.75rem);
 	--fs-fig: clamp(3.5rem, 1.5rem + 7vw, 8.5rem);
-	--fs-ghost: clamp(10rem, 30vw, 30rem);
+	--fs-ghost: clamp(7rem, min(27vw, 42svh), 30rem);
 	--fs-display: clamp(3.5rem, 1rem + 6.4vw, 8.5rem);
 
 	--s-1: 4px; --s-2: 8px; --s-3: 12px; --s-4: 16px; --s-5: 24px; --s-6: 32px;
@@ -266,7 +266,13 @@ p:last-child { margin-bottom: 0; }
 }
 /* Over the hero the header is just type on the photo (all three references); past it (nav.js .is-scrolled), a solid
    night bar. Without JS it stays solid. */
-.js:not(.is-scrolled):not(.is-menu-open) .site-header { background: transparent; border-bottom-color: transparent; }
+.js:not(.is-scrolled):not(.is-menu-open) .site-header {
+	background: linear-gradient(to bottom, rgb(13 14 16 / 0.55), transparent);
+	border-bottom-color: transparent;
+}
+/* Over a day chapter the bar is day too (nav.js .head-day). */
+.head-day:not(.is-menu-open) .site-header { background: var(--c-day); color: var(--c-ink); border-bottom-color: var(--c-line-day); }
+.head-day:not(.is-menu-open) .site-header .cta { --cta-on: var(--c-day); }
 
 .site-header__cta { transition: opacity var(--dur-ui) ease, visibility 0s linear 0s; }
 .is-hero-cta .site-header__cta { opacity: 0; visibility: hidden; transition: opacity var(--dur-ui) ease, visibility 0s linear var(--dur-ui); }
@@ -370,7 +376,7 @@ p:last-child { margin-bottom: 0; }
 	}
 }
 
-/* nav.js sets .tone-day on <html> while a day chapter is behind the rail. */
+/* nav.js sets .tone-day on <html> while a day chapter (not a dark photo in it) is behind the rail. */
 .tone-day .rail { --rail-ink: var(--c-ink); }
 
 /* 8 Studio + scenes ------------------------------------------------------------------------------------------- */
@@ -383,13 +389,13 @@ p:last-child { margin-bottom: 0; }
 
 /* 9 Hero ------------------------------------------------------------------------------------------------------ */
 /* Koenigsegg-like: full-bleed studio photo, model name large on the left, the action on the right. */
-.hero { --p: 0; --scene-h: 140svh; }
+.hero { --p: 0; --scene-h: 125svh; }
 
 .hero__media {
 	position: absolute;
 	inset: 0;
 	transform: scale(calc(1 + var(--p) * 0.08));
-	opacity: calc(1 - var(--p) * 0.6);
+	opacity: calc(1 - var(--p) * 0.45);
 }
 .hero__media picture,
 .hero__img { width: 100%; height: 100%; }
@@ -498,11 +504,30 @@ p:last-child { margin-bottom: 0; }
 	background: radial-gradient(ellipse 58% 46% at 50% 44%, color-mix(in oklab, var(--c-ink-inverse) 7%, var(--c-night)) 0%, transparent 74%);
 }
 
+/* The set: the studio photo, the badge, the cut-out car, all in one frame (the photo's own). */
+.profile__set {
+	position: absolute;
+	left: 50%;
+	top: 10svh;
+	width: min(98vw, 148svh);
+	aspect-ratio: 2752 / 1428;
+	transform: translate(-50%, calc((1 - var(--in)) * 10svh));
+	opacity: clamp(0, var(--in) * 1.5 - 0.2, 1);
+}
+.profile__set > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
+/* The studio melts into the night on every side: only the light on the wall and the floor under the car remain. */
+.profile__studio {
+	-webkit-mask-image: linear-gradient(to right, transparent 0%, #000 16%, #000 84%, transparent 100%), linear-gradient(to bottom, transparent 0%, #000 22%, #000 72%, transparent 100%);
+	mask-image: linear-gradient(to right, transparent 0%, #000 16%, #000 84%, transparent 100%), linear-gradient(to bottom, transparent 0%, #000 22%, #000 72%, transparent 100%);
+	-webkit-mask-composite: source-in;
+	mask-composite: intersect;
+}
+
 /* The ghost badge behind the car: "M6" in the BMW M badge manner (wide, heavy, slanted, the three M stripes). */
 .profile__ghost {
 	position: absolute;
 	left: 50%;
-	top: 33%;
+	top: 25%;
 	margin: 0;
 	display: flex;
 	align-items: center;
@@ -523,15 +548,6 @@ p:last-child { margin-bottom: 0; }
 .m-stripes i:nth-child(1) { background: color-mix(in oklab, var(--c-m-light) 45%, var(--c-night)); }
 .m-stripes i:nth-child(2) { background: color-mix(in oklab, var(--c-m-dark) 45%, var(--c-night)); }
 .m-stripes i:nth-child(3) { background: color-mix(in oklab, var(--c-m-red) 45%, var(--c-night)); }
-
-.profile__car {
-	position: absolute;
-	left: 50%;
-	top: 52%;
-	width: min(80vw, 1200px);
-	transform: translate(-50%, calc(-62% + (1 - var(--in)) * 45svh));
-	opacity: clamp(0, (var(--in) - 0.15) * 2, 1);
-}
 
 .figs {
 	position: absolute;
@@ -561,8 +577,7 @@ p:last-child { margin-bottom: 0; }
 }
 
 @media (max-width: 47.99em) {
-	.profile__car { width: 108vw; top: 45%; }
-	.profile__ghost { top: 34%; }
+	.profile__set { top: 21svh; width: 112vw; }
 }
 
 /* 11 Design + hotspots ---------------------------------------------------------------------------------------- */
@@ -571,7 +586,7 @@ p:last-child { margin-bottom: 0; }
 .design__lead { margin: 0; }
 
 @media (min-width: 62em) {
-	.design__head { grid-template-columns: 5fr 7fr; align-items: end; }
+	.design__head { grid-template-columns: 7fr 5fr; gap: var(--s-8); align-items: end; }
 }
 
 .design__stage { position: relative; margin-top: var(--s-6); }
@@ -671,6 +686,61 @@ p:last-child { margin-bottom: 0; }
 	.hotspot__label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; padding: 0; }
 }
 
+/* The details as a mosaic of large photos (Porsche-like cards): wide + narrow, then narrow + wide; the name and a ring
+   on the photo, the whole photo is the button. Phones: a strip that swipes sideways. */
+.cards { position: relative; z-index: 1; list-style: none; margin-block: var(--s-7) 0; display: grid; gap: var(--s-5); transition: opacity var(--dur-ui) ease; }
+.is-zoomed .cards { opacity: 0; }
+.card {
+	position: relative;
+	display: block;
+	width: 100%;
+	height: 100%;
+	padding: 0;
+	border: 0;
+	border-radius: var(--r-media);
+	overflow: hidden;
+	background: var(--c-night-2);
+	color: var(--c-ink-inverse);
+	text-align: left;
+	cursor: pointer;
+}
+.card__img { width: 100%; height: 100%; object-fit: cover; transition: transform var(--dur-reveal) var(--ease-out); }
+.card::after { content: ""; position: absolute; inset: 45% 0 0; background: linear-gradient(to top, rgb(13 14 16 / 0.82), transparent); pointer-events: none; }
+.card__label {
+	position: absolute;
+	z-index: 1;
+	inset: auto var(--s-5) var(--s-5);
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--s-4);
+	font-size: var(--fs-h3);
+	font-weight: 500;
+	line-height: 1.25;
+}
+.card__ring { position: relative; flex: none; width: 36px; height: 36px; border: 1px solid color-mix(in oklab, currentColor 55%, transparent); border-radius: 50%; transition: background-color var(--dur-hover) ease, color var(--dur-hover) ease; }
+.card__ring::before,
+.card__ring::after { content: ""; position: absolute; left: 50%; top: 50%; width: 12px; height: 1.5px; margin: -0.75px 0 0 -6px; background: currentColor; }
+.card__ring::after { transform: rotate(90deg); }
+.card:active .card__ring { transform: scale(0.94); }
+@media (hover: hover) and (pointer: fine) {
+	.card:hover .card__img { transform: scale(1.03); }
+	.card:hover .card__ring { background: var(--c-ink-inverse); color: var(--c-ink); }
+}
+@media (min-width: 48em) {
+	.cards { grid-template-columns: repeat(12, 1fr); grid-auto-rows: clamp(300px, 34vw, 540px); }
+	.cards__item { grid-column: span 7; }
+	.cards__item:nth-child(4n + 2),
+	.cards__item:nth-child(4n + 3) { grid-column: span 5; }
+}
+@media (max-width: 47.99em) {
+	.cards { grid-auto-flow: column; grid-auto-columns: 82vw; gap: var(--s-3); overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: var(--gutter); scrollbar-width: none; overscroll-behavior-x: contain; }
+	.cards::-webkit-scrollbar { display: none; }
+	.cards__item { aspect-ratio: 4 / 5; scroll-snap-align: start; }
+	.card:focus-visible { outline-offset: -4px; }
+	.card__label { inset-inline: var(--s-4); bottom: var(--s-4); font-size: 1.125rem; }
+}
+
 /* Details without JS: a grid of cards under the car. */
 .details {
 	display: grid;
@@ -721,7 +791,7 @@ p:last-child { margin-bottom: 0; }
 	visibility: visible;
 	transition: transform var(--dur-panel) var(--ease-out), visibility 0s;
 }
-.is-detail-open .design__frame {
+.is-zoomed .design__frame {
 	transform: translateX(var(--zshift, -18vw)) scale(1.7);
 	transition: transform var(--dur-panel) var(--ease-out);
 }
@@ -729,7 +799,7 @@ p:last-child { margin-bottom: 0; }
 
 @media (max-width: 47.99em) {
 	.js .details { top: auto; height: 72svh; width: 100vw; padding: var(--s-6) var(--gutter); transform: translateY(100%); }
-	.is-detail-open .design__frame { transform: scale(1.5); }
+	.is-zoomed .design__frame { transform: scale(1.5); }
 }
 
 /* Full-bleed photo (V10, drive): the frame fills the screen; as it comes in it opens from an inset rounded card and the
@@ -758,8 +828,8 @@ p:last-child { margin-bottom: 0; }
 
 .engine { isolation: isolate; }
 .engine__img {
-	object-position: 50% 40%;
-	filter: brightness(0.6) saturate(0.85);
+	object-position: 12% 50%;
+	filter: brightness(0.86);
 	transition: filter 1200ms var(--ease-out);
 }
 .engine__shade {
@@ -767,12 +837,20 @@ p:last-child { margin-bottom: 0; }
 	inset: 0;
 	pointer-events: none;
 	background:
-		linear-gradient(to bottom, rgb(13 14 16 / 0.82) 0%, rgb(13 14 16 / 0.35) 30%, transparent 50%),
-		linear-gradient(to top, rgb(13 14 16 / 0.85) 0%, rgb(13 14 16 / 0.3) 26%, transparent 46%),
-		linear-gradient(to right, rgb(13 14 16 / 0.4) 0%, transparent 50%);
+		linear-gradient(to top, rgb(13 14 16 / 0.8) 0%, transparent 30%),
+		linear-gradient(to right, rgb(13 14 16 / 0.72) 0%, rgb(13 14 16 / 0.3) 38%, transparent 62%);
 	transition: opacity 1200ms var(--ease-out);
 }
-.is-playing .engine__img { filter: brightness(1) saturate(1); }
+/* Portrait phones: the engine fills the frame, so the heading needs its own shade at the top. */
+@media (max-width: 47.99em) {
+	.engine__img { object-position: 66% 50%; }
+	.engine__shade {
+		background:
+			linear-gradient(to bottom, rgb(13 14 16 / 0.94) 0%, rgb(13 14 16 / 0.82) 42%, transparent 66%),
+			linear-gradient(to top, rgb(13 14 16 / 0.85) 0%, transparent 34%);
+	}
+}
+.is-playing .engine__img { filter: brightness(1.18); }
 .is-playing .engine__shade { opacity: 0.7; }
 
 .engine__over {
@@ -786,7 +864,7 @@ p:last-child { margin-bottom: 0; }
 	padding-block: calc(var(--header) + var(--s-8)) var(--s-8);
 }
 .power__head { display: grid; gap: var(--s-5); justify-items: start; }
-.power__lead { margin: 0; max-width: 42ch; color: color-mix(in oklab, var(--c-ink-inverse) 82%, transparent); }
+.power__lead { margin: 0; max-width: 38ch; color: color-mix(in oklab, var(--c-ink-inverse) 82%, transparent); }
 
 .engine__sound { position: relative; }
 .js .engine__audio { display: none; }
@@ -865,6 +943,7 @@ p:last-child { margin-bottom: 0; }
 .drive { padding-bottom: var(--s-10); overflow: clip; }
 .drive__bleed { margin: 0; }
 .drive__img { object-position: 50% 55%; }
+@media (max-width: 47.99em) { .drive__img { object-position: 31% 55%; } }
 .drive__bleed-caption {
 	position: absolute;
 	left: 0;
@@ -880,7 +959,7 @@ p:last-child { margin-bottom: 0; }
 .drive__copy { display: grid; gap: var(--s-5); }
 .drive__text { max-width: 52ch; color: var(--c-muted-day); }
 @media (min-width: 62em) {
-	.drive__copy { grid-template-columns: 5fr 7fr; gap: var(--s-8); align-items: end; }
+	.drive__copy { grid-template-columns: 7fr 5fr; gap: var(--s-8); align-items: end; }
 }
 
 /* A tall frame and a wide one, bottoms offset (editorial pair). */
@@ -888,7 +967,7 @@ p:last-child { margin-bottom: 0; }
 .collage__item { transform: translate3d(0, calc(var(--d, 0) * var(--sp, 0) * 400px), 0); }
 .collage__img { width: 100%; object-fit: cover; border-radius: var(--r-media); }
 .collage__item:nth-child(odd) .collage__img { aspect-ratio: 4 / 5; }
-.collage__item:nth-child(even) .collage__img { aspect-ratio: 3 / 2; }
+.collage__item:nth-child(even) .collage__img { aspect-ratio: 5 / 4; }
 .collage__caption { margin-top: var(--s-3); font-size: var(--fs-small); color: var(--c-muted-day); }
 
 @media (min-width: 48em) {
@@ -941,7 +1020,7 @@ p:last-child { margin-bottom: 0; }
 	.tabs__title { grid-column: 1 / -1; }
 }
 
-.tabs__img { width: 100%; aspect-ratio: 3 / 2; object-fit: cover; }
+.tabs__img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; object-position: 50% 38%; border-radius: var(--r-media); }
 /* A cut-out car is shown whole, standing in the frame (its shadow is in the file). */
 .tabs__media--cut { background: radial-gradient(60% 55% at 50% 50%, color-mix(in oklab, var(--c-ink-inverse) 16%, var(--c-night)) 0%, transparent 72%); }
 .tabs__media--cut .tabs__img { object-fit: contain; object-position: 50% 80%; border-radius: 0; }
@@ -996,7 +1075,7 @@ p:last-child { margin-bottom: 0; }
 .heritage__copy { display: grid; gap: var(--s-5); margin-bottom: var(--s-8); }
 .heritage__text { max-width: 52ch; color: var(--c-muted-day); }
 @media (min-width: 62em) {
-	.heritage__copy { grid-template-columns: 5fr 7fr; gap: var(--s-8); align-items: end; }
+	.heritage__copy { grid-template-columns: 7fr 5fr; gap: var(--s-8); align-items: end; }
 }
 
 .heritage__pair { display: grid; gap: 2px; background: var(--c-day); }
@@ -1008,11 +1087,11 @@ p:last-child { margin-bottom: 0; }
 .heritage__img {
 	display: block;
 	width: 100%;
-	aspect-ratio: 4 / 3;
+	aspect-ratio: 16 / 10;
 	object-fit: cover;
 	transition: transform var(--dur-reveal) var(--ease-out);
 }
-.heritage__then .heritage__img { object-position: 50% 68%; filter: grayscale(1) contrast(1.05); }
+.heritage__then .heritage__img { object-position: 50% 80%; filter: grayscale(1) contrast(1.05); }
 .heritage__now .heritage__img { object-position: 50% 62%; }
 .heritage__item::after {
 	content: "";
@@ -1032,6 +1111,11 @@ p:last-child { margin-bottom: 0; }
 	gap: var(--s-4);
 	color: var(--c-ink-inverse);
 }
+/* Phones: the photos are small, so the year stands under each of them instead of on the car. */
+@media (max-width: 47.99em) {
+	.heritage__item::after { content: none; }
+	.heritage__caption { position: static; padding: var(--s-4) var(--gutter) var(--s-5); }
+}
 .heritage__year {
 	font-size: clamp(3rem, 1.5rem + 4.6vw, 6.5rem);
 	font-stretch: 75%;
@@ -1046,13 +1130,28 @@ p:last-child { margin-bottom: 0; }
 }
 
 /* 16 Outro ---------------------------------------------------------------------------------------------------- */
-.outro { padding-block: var(--s-11) var(--s-9); }
-.outro__inner { display: grid; gap: var(--s-8); }
+.outro { padding-block: var(--s-11) 0; overflow: clip; }
+.outro__inner { position: relative; z-index: 1; display: grid; gap: var(--s-8); }
 .outro__title { font-size: clamp(2.75rem, 1rem + 7vw, 9rem); line-height: 0.92; }
 .outro__side { display: grid; gap: var(--s-6); justify-items: start; }
 
 @media (min-width: 62em) {
 	.outro__inner { grid-template-columns: 8fr 4fr; align-items: end; }
+}
+
+/* The car once more: edge to edge, the studio melts into the night above and below it. */
+.outro__media { margin: calc(-1 * var(--s-8)) 0 0; pointer-events: none; }
+.outro__img {
+	width: 100%;
+	aspect-ratio: 16 / 8.2;
+	object-fit: cover;
+	object-position: 50% 60%;
+	-webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 26%, #000 80%, transparent 100%);
+	mask-image: linear-gradient(to bottom, transparent 0%, #000 26%, #000 80%, transparent 100%);
+}
+@media (max-width: 47.99em) {
+	.outro__media { margin-top: 0; }
+	.outro__img { width: 112vw; max-width: none; margin-left: -6vw; aspect-ratio: 16 / 9; }
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -1083,6 +1182,6 @@ body:not(.home) main { max-width: calc(var(--measure) + 2 * var(--gutter)); marg
 	.hero { --p: 0 !important; }
 	.profile { --p: 1 !important; --in: 1 !important; }
 	.collage__item { transform: none; }
-	.is-detail-open .design__frame { transform: none; }
+	.is-zoomed .design__frame { transform: none; }
 	.bleed { --rv: 1 !important; }
 }

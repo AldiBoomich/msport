@@ -19,6 +19,7 @@ outside the theme: `C:\Users\aaldi\Local Sites\msport\press-m6\`.
 | detail-gills, detail-tailpipes | Wikimedia Commons, "BMW M6 E63 - Flickr - Alexandre Prévot (16) / (13)" | Alexandre Prévot, CC BY-SA 2.0 |
 | detail-wheel, drive-cockpit, drive-smg, drive-wheel, power-engine-bay | BMW Group press archive, BMW M6 Convertible (06/2006): P0024696, P0024698, P0024702, P0024700, P0024703 | © BMW AG |
 | specs-m6-silver (2026-11-25) | BMW M6 Coupé (E63) press photo on a wet track, supplied by the user (cut out, studio shadow, smoked glass, plate removed) | © BMW AG |
+| m6-r2-* (2026-11-25; every current photo except hero-car, design-car and heritage-m635csi) | Generated with Gemini (studio shots of one car) | – |
 | power-engine | BMW Group press archive, BMW M5 Touring engine (11/2006): P0032290 | © BMW AG |
 | heritage-m635csi | BMW Group press archive, BMW M635CSi (05/2012): P90095008 | © BMW AG |
 

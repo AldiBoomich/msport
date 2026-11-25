@@ -11,13 +11,13 @@ the chapter rail; default = prefix).
 | Chapter | Fields |
 |---|---|
 | Hero `hero_` | `title` (textarea, one line per headline line; the only `<h1>`), `lead` (textarea), `cta_label` (text), `image` (image: car cut-out, 21:9, ≥ 2560px), `image_mobile` (image, 4:5, optional) |
-| Profile `profile_` | `image` (image: side-profile cut-out, ≥ 2560px wide), `ghost` (text, "8250", decorative), `figures` (repeater: `value`, `unit`, `label`) |
+| Profile `profile_` | `image` (image: side-profile cut-out, ≥ 2560px wide), `backdrop` (image: the same photo whole, same frame; the studio and floor behind the car, optional), `ghost` (text, "8250", decorative), `figures` (repeater: `value`, `unit`, `label`) |
 | Design `design_` | `title` (textarea), `lead` (textarea), `image` (image: 3/4 cut-out), `hotspots` (repeater: `x` and `y` in % of the image, `label` (short, shown on hover), `title`, `text` (textarea), `image` (detail photo, 3:2)) |
 | V10 `power_` | `title` (textarea), `lead` (textarea), `image` (engine photo, the sound button sits on it), `specs` (repeater: `label`, `value`, `unit`), `button_label` (text, "Hear the V10"), `hint` (text, the note under the label) |
 | Drive `drive_` | `title` (textarea), `text` (textarea), `photos` (repeater: `image`, `caption`) — 3 or 4 rows |
 | Spec sheet `specs_` | `title` (textarea), `tabs` (repeater: `label`, `image`, `rows` (repeater: `label`, `value`)) |
 | Heritage `heritage_` | `title` (textarea), `text` (textarea), `then_image`, `then_caption`, `now_image`, `now_caption` |
-| Outro `outro_` | `title` (textarea, one line per stepped line), `text` (textarea), `cta_label` (text; the link goes to the developer URL from M6 Settings) |
+| Outro `outro_` | `title` (textarea, one line per stepped line), `text` (textarea), `image` (image: closing studio shot, 16:9, optional), `cta_label` (text; the link goes to the developer URL from M6 Settings) |
 
 ## M6 Settings (options page, prefix `opt_`)
 | Field | Use |

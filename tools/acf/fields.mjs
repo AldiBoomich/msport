@@ -66,6 +66,7 @@ const front = {
     f.tab('profile', 'Profile'),
     ...common('profile', 'profile', 'Profile'),
     f.image('profile_image', 'Side profile', 'Cut-out car seen exactly from the side, transparent background, at least 2560 px wide.'),
+    f.image('profile_backdrop', 'Studio behind the side profile', 'Optional. The same photo as the side profile, whole (not cut out), in the same frame: the studio and the floor under the car. The badge stands between the two.'),
     f.text('profile_ghost', 'Big badge behind the car', 'Decorative, not read aloud; set in the BMW M badge manner with the three M stripes. For example "M6".', 'M6'),
     f.repeater('profile_figures', 'Figures', 'Three or four true numbers. Value without the unit.', [
       f.text('value', 'Value', 'For example "507" or "4.6".'),
@@ -131,6 +132,7 @@ const front = {
     ...common('outro', 'contact', 'Contact'),
     title('outro', 'Big closing heading. One line per line; the lines are set in steps.'),
     f.area('outro_text', 'Text', 'One or two sentences about who built this page.'),
+    f.image('outro_image', 'Closing photo', 'Optional. A dark studio shot, landscape 16:9, at least 2560 px wide. It runs edge to edge under the heading.'),
     f.text('outro_cta_label', 'Button label', 'Links to the developer link from M6 Settings.', 'Get in touch'),
   ],
   location: [[{ param: 'page_type', operator: '==', value: 'front_page' }]],

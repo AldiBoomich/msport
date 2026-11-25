@@ -49,7 +49,7 @@ $msport_first  = array_shift( $msport_photos );
 							<?php
 							msport_the_image(
 								$msport_photo['image'],
-								0 === $msport_i % 2 ? 'msport-tall' : 'msport-panel',
+								0 === $msport_i % 2 ? 'msport-tall' : 'msport-wide',
 								array(
 									'class' => 'collage__img',
 									'sizes' => 0 === $msport_i % 2 ? '(min-width: 48em) 40vw, 90vw' : '(min-width: 48em) 56vw, 90vw',

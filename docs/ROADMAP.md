@@ -44,5 +44,5 @@ Plan approved 2026-11-24. References: Porsche 911 Turbo S, Ferrari 812 GTS, Koen
 ## 6. Premium pass (after comparing with the references, 2026-11-25)
 - [x] Transparent header, link-buttons with a ring, quieter chapter titles, near-white day / deeper night
 - [x] Full-bleed V10 and drive photos opening from an inset card; design and heritage edge to edge
-- [ ] One photo shoot: the round-2 Gemini shots of the same Black Sapphire M6 (`press-m6/gemini/PROMPTS-ROUND2.md`)
+- [x] One photo shoot: the round-2 Gemini shots of the same Black Sapphire M6 (`press-m6/gemini/PROMPTS-ROUND2.md`), on the site 2026-11-25
 - [ ] Optional: a short video loop for the hero

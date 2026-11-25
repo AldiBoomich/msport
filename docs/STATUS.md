@@ -70,7 +70,7 @@ _Last updated: 2026-11-25_
   itself (acf.php:116), not from the theme.
 
 ## Next step
-- Project complete. Possible extras: a Gemini front three-quarter shot; og:image / SEO plugin.
+- The user looks at the new photos on the site; then commit + push. Possible extras: hero video loop, og:image.
 
 ## Cleanup (2026-11-25, user's go-ahead)
 - Deleted 134 orphan files (13 MB) in uploads/2026/11: earlier versions of the four car photos with no media record.
@@ -118,5 +118,22 @@ _Last updated: 2026-11-25_
   (profile, front 3/4, engine, cockpit, SMG, wheel, details, heritage "now"), plus an optional video loop. Waiting for
   the user to generate them.
 
+## One photo shoot: the round-2 shots are on the site (2026-11-25)
+- Generated in the user's Gemini chat through Chrome (Claude typed the prompts), 11 shots of the same Black Sapphire M6:
+  `press-m6/gemini/r2-01…r2-11`; site versions `press-m6/final/r2/` (recipe `recipe-round2.json`), media #347–358. Old
+  media are untouched; the old field values are in `press-m6/fields-backup-before-r2.json`.
+- Profile = three layers in one frame: the studio photo, the ghost badge, the car cut out on the same canvas
+  (`tools/images/layer.py`). New fields `profile_backdrop`, `outro_image`.
+- Design: the details also as a mosaic of large photo cards (Porsche-like) that open the same panel without the zoom.
+- V10: less dimming, the heading in the shadow on the left. Outro: the front three-quarter shot edge to edge.
+- Header: see-through over the photos, day tone over day chapters, solid when text would run under it. The rail takes a
+  light ink on dark photos inside day chapters. Titles a step smaller in a wider column (two lines instead of four).
+- Phones: V10 heading on its own shade, the cockpit framed on the wheel, heritage years under the photos, detail cards
+  as a sideways strip.
+- Known details of the AI shots: an M logo on the caliper and a spoke (wheel), a repeated N in the SMG gate.
+- Checks: check.mjs 1920/1440/768/390/360 + reduced motion 0 FAIL (1 WARN, hotspot labels, intended); motion.mjs gpu +
+  nogpu + mobile no warnings; PHPCS 0 errors (1 old naming warning); line endings of 8 files normalised to LF.
+
 ## Open questions
-- The round-2 Gemini shots (the user generates them; then cut-out / studio finish / import).
+- Not committed yet: waiting for the user's word.
+- Optional: a short video loop for the hero; og:image / SEO plugin.

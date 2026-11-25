@@ -1,7 +1,8 @@
 <?php
 /**
  * Chapter 3, design (day): the car with hotspots. A hotspot opens its detail; with JS the details become a panel on
- * the right and the car zooms into the point (hotspots.js); without JS they are a list under the car.
+ * the right and the car zooms into the point (hotspots.js); without JS they are a list under the car. Under the car the
+ * same details as a mosaic of large photos (Porsche-like cards): a press opens the same panel, without the zoom.
  *
  * @package msport
  */
@@ -43,6 +44,32 @@ $msport_close = msport_option( 'opt_close_label', __( 'Close', 'msport' ) );
 		<?php endif; ?>
 
 		<?php if ( $msport_spots ) : ?>
+			<ul class="container cards js-only" role="list">
+				<?php foreach ( $msport_spots as $msport_i => $msport_spot ) : ?>
+					<?php
+					if ( empty( $msport_spot['image'] ) ) {
+						continue;
+					}
+					?>
+					<li class="cards__item">
+						<button class="card" type="button" aria-expanded="false" aria-controls="detail-<?php echo (int) $msport_i; ?>" data-hotspot data-nozoom>
+							<?php
+							msport_the_image(
+								$msport_spot['image'],
+								'msport-wide',
+								array(
+									'class' => 'card__img',
+									'alt'   => '',
+									'sizes' => '(min-width: 48em) 54vw, 82vw',
+								)
+							);
+							?>
+							<span class="card__label"><span class="card__title"><?php echo esc_html( $msport_spot['title'] ?? '' ); ?></span><span class="card__ring" aria-hidden="true"></span></span>
+						</button>
+					</li>
+				<?php endforeach; ?>
+			</ul>
+
 			<div class="details" data-details>
 				<?php foreach ( $msport_spots as $msport_i => $msport_spot ) : ?>
 					<article id="detail-<?php echo (int) $msport_i; ?>" class="detail" aria-labelledby="detail-title-<?php echo (int) $msport_i; ?>" data-detail tabindex="-1">

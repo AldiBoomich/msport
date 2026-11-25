@@ -66,11 +66,11 @@ grounds), not amber. `::selection` = amber on night.
   - body 17px / 1.6, weight 400;
   - small 14px / 1.45;
   - h3 22px / 1.25, weight 600, normal width;
-  - h2 `clamp(2rem, 1.2rem + 2.9vw, 3.875rem)` / 1.02, wide caps, weight 500, tracking -0.005em;
+  - h2 `clamp(1.875rem, 1.1rem + 2.3vw, 3.25rem)` / 1.02, wide caps, weight 500, tracking -0.005em;
   - display `clamp(3.5rem, 1rem + 6.4vw, 8.5rem)` / 0.9, wide caps 800: the model name in the hero (the h1), Koenigsegg-like;
   - h1 token `clamp(2.25rem, 1rem + 3.6vw, 4.75rem)` / 0.95, wide caps (plain pages);
   - figures `clamp(3.5rem, 1.5rem + 7vw, 8.5rem)` / 0.9, condensed;
-  - ghost badge `clamp(10rem, 30vw, 30rem)`: "M6" behind the profile car (Porsche's "turbo S" idea) in the BMW M badge
+  - ghost badge `clamp(7rem, min(27vw, 42svh), 30rem)`: "M6" behind the profile car (Porsche's "turbo S" idea) in the BMW M badge
     manner — wide 125% 800, slanted −14°, the three M stripes before it, dim (ink-inverse 14% in night), `aria-hidden`.
     The BMW M typeface is not available; Mona Sans wide + slant is the stand-in.
 - Measure: body 60–65ch; headlines `text-wrap: balance`; paragraphs `text-wrap: pretty`.
@@ -117,12 +117,15 @@ grounds), not amber. `::selection` = amber on night.
 - **Heritage:** BMW press photos of the M635CSi (E24), black and white.
 - Ratios: hero full-bleed on desktop; on portrait phones the landscape shot is a band about twice the screen width
   (the whole car fills the width) between the name and the lead, melting into the night at top and bottom; drive collage 4:5 and 3:2; detail panel 3:2.
+- **One shoot (2026-11-25):** every current photo except the M635CSi is the same black M6 in the dark or the light studio
+  (heritage: on a road). The profile is three layers in one frame: studio photo, badge, cut-out car.
 - Sources: `CREDITS.md`. Studio shots generated with Gemini (user's decision 2026-11-25), one look for all of them (see the prompts file).
 
 ## Components
 - **Header:** wordmark "M6" left, "Hear the V10" right (scrolls to the V10 chapter; hidden while the hero shows the same
-  button), menu on phones. 64px. Transparent over the hero (type on the photo, as on all three references), solid
-  `--c-night` past it; solid without JS. One line at every width: under 400px the menu button shows only its bars and
+  button), menu on phones. 64px. Over the photos (hero, profile, V10, cockpit) type on a light shade;
+  elsewhere a solid bar in the tone of the chapter under it (night or day), also when text would run under it; solid
+  without JS. One line at every width: under 400px the menu button shows only its bars and
   the header link only its ring (the words stay for screen readers).
 - **Chapter rail** (≥ 1200px): a dot per chapter on the left edge; the current one shows its name. Links, keyboard
   reachable.
@@ -136,6 +139,9 @@ grounds), not amber. `::selection` = amber on night.
   extends into a pill with the label. Opens the **detail panel**: right 40% (full width on phones), `--c-day-2`, title,
   text, a 3:2 photo, a Close button. Esc closes, focus returns. Phones: a 24px circle in a 44px tap area, no label
   (the panel names the detail); the design photo runs the full screen width.
+- **Detail cards:** under the design car, the same details as a 7/5 + 5/7 mosaic of large photos (`--r-media`), the name
+  and a plus ring on the photo; the whole card is a button that opens the detail panel (no zoom). Phones: a strip that
+  swipes sideways.
 - **Tabs (spec sheet):** `role="tablist"`, arrow keys move between tabs; the underline of the active tab; rows as a
   definition list with tabular numbers.
 - **V10 chapter (reworked again 2026-11-25: the tachometer is gone):** heading + lead in one row; the engine bay as one

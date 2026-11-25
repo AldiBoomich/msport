@@ -33,10 +33,10 @@ $msport_tabs = is_array( $msport_tabs ) ? array_values( $msport_tabs ) : array()
 								<?php
 								msport_the_image(
 									$msport_tab['image'],
-									$msport_cut ? 'msport-wide' : 'msport-panel',
+									'msport-wide',
 									array(
 										'class' => 'tabs__img',
-										'sizes' => '(min-width: 62em) 50vw, 100vw',
+										'sizes' => '(min-width: 62em) 54vw, 100vw',
 									)
 								);
 								?>

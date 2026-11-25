@@ -1,6 +1,6 @@
 /**
  * Design hotspots (Ferrari-like): a hotspot opens its detail in the panel on the right while the car zooms into the
- * point. Close: the Close button, Esc, a click outside the panel. Focus moves into the panel and back to the hotspot.
+ * point; a photo card [data-nozoom] opens the same panel without the zoom. Close: the Close button, Esc, a click outside the panel. Focus moves into the panel and back to the hotspot.
  * Reduced motion: the panel opens without the zoom (CSS).
  */
 export function initHotspots() {
@@ -23,7 +23,7 @@ export function initHotspots() {
 		}
 		const spot = current;
 		current = null;
-		root.classList.remove( 'is-detail-open' );
+		root.classList.remove( 'is-detail-open', 'is-zoomed' );
 		spot.setAttribute( 'aria-expanded', 'false' );
 		panel.setAttribute( 'aria-hidden', 'true' );
 		if ( returnFocus ) {
@@ -38,6 +38,8 @@ export function initHotspots() {
 		}
 		spots.forEach( ( s ) => s.setAttribute( 'aria-expanded', String( s === spot ) ) );
 		panel.querySelectorAll( '[data-detail]' ).forEach( ( d ) => d.classList.toggle( 'is-active', d === detail ) );
+
+		root.classList.toggle( 'is-zoomed', ! spot.hasAttribute( 'data-nozoom' ) );
 
 		// Zoom origin = the point; shift so the point lands in the middle of the space left of the panel.
 		const x = parseFloat( spot.style.getPropertyValue( '--x' ) ) || 50;

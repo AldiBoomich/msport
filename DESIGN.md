@@ -112,12 +112,13 @@ grounds), not amber. `::selection` = amber on night.
 - **Details, cockpit, engine:** official BMW Group press photos (BMW M6 Convertible 06/2006 set: same engine, SMG,
   wheels and cockpit; cropped so no soft top shows), plus the engine of the BMW M5.
 - **Heritage:** BMW press photos of the M635CSi (E24), black and white.
-- Ratios: hero cut-out 21:9 desktop / 4:5 phone; drive collage 4:5 and 3:2; detail panel 3:2.
+- Ratios: hero full-bleed on desktop; on portrait phones the landscape shot is a band about twice the screen width
+  (the whole car fills the width) between the name and the lead, melting into the night at top and bottom; drive collage 4:5 and 3:2; detail panel 3:2.
 - Sources: `CREDITS.md`. Studio shots generated with Gemini (user's decision 2026-11-25), one look for all of them (see the prompts file).
 
 ## Components
 - **Header:** wordmark "M6" left, "Hear the V10" right (scrolls to the V10 chapter; hidden while the hero shows the same button), menu on phones. 64px, solid
-  `--c-night`.
+  `--c-night`. One line at every width: under 400px the menu button shows only its bars (the word stays for screen readers).
 - **Chapter rail** (≥ 1200px): a dot per chapter on the left edge; the current one shows its name. Links, keyboard
   reachable.
 - **Buttons:** primary = solid ink of the chapter (inverse ink on night, ink on day) with the opposite text colour;
@@ -125,7 +126,8 @@ grounds), not amber. `::selection` = amber on night.
   `scale(.98)`, `:focus-visible` 2px ring + 3px offset, disabled 40% opacity.
 - **Hotspot:** a 40px circle (`button`, `aria-expanded`), a 12px dot inside with a slow pulse; on hover or focus it
   extends into a pill with the label. Opens the **detail panel**: right 40% (full width on phones), `--c-day-2`, title,
-  text, a 3:2 photo, a Close button. Esc closes, focus returns.
+  text, a 3:2 photo, a Close button. Esc closes, focus returns. Phones: a 24px circle in a 44px tap area, no label
+  (the panel names the detail); the design photo runs the full screen width.
 - **Tabs (spec sheet):** `role="tablist"`, arrow keys move between tabs; the underline of the active tab; rows as a
   definition list with tabular numbers.
 - **V10 chapter (reworked again 2026-11-25: the tachometer is gone):** heading + lead in one row; the engine bay as one

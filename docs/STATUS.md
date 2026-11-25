@@ -84,5 +84,16 @@ _Last updated: 2026-11-25_
   right of the plate), media #346 `m6-specs-m6-silver.webp` (1462 × 554, alpha). `specs_tabs_4_image` 333 -> 346;
   the profile keeps #333. Checked at 1440 / 390: 0 FAIL.
 
+## Phones polished (2026-11-25, user: "the hero picture does not fit, the hotspots are too big")
+- Hero on portrait phones: the landscape shot is no longer cropped to the rear panel — it is a band `min(212vw, 96svh)`
+  wide (the whole car fills the screen width) between the name and the lead, top and bottom masked into the night;
+  `sizes` tells the browser the real width (no blurry 768 file). A `hero_image_mobile`, if set, keeps the old cover
+  (`.has-portrait`).
+- Design hotspots on phones: 24px dot in a 44px tap area, label visually hidden (still the button name); the design
+  photo is 100vw wide with a top/bottom fade instead of the radial mask.
+- Header at 360px: no wrapping (nowrap on the wordmark and buttons; under 400px the menu shows only its bars).
+- Checks: check.mjs 1440/768/390/360 + reduced motion 0 FAIL (phones 0 WARN); motion.mjs mobile 60 fps, no long tasks;
+  scan-theme clean; PHPCS clean.
+
 ## Open questions
 - None.

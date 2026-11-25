@@ -16,7 +16,7 @@ $msport_mobile = (int) msport_front( 'hero_image_mobile', 0 );
 <section id="<?php echo esc_attr( $msport_c['anchor'] ); ?>" class="ch ch--night hero scene" data-chapter data-scene="hero" aria-labelledby="hero-title">
 	<div class="scene__sticky hero__stage">
 		<?php if ( $msport_img ) : ?>
-			<div class="hero__media">
+			<div class="hero__media<?php echo $msport_mobile ? ' has-portrait' : ''; ?>">
 				<picture>
 					<?php if ( $msport_mobile ) : ?>
 						<source media="(max-width: 47.99em) and (orientation: portrait)" srcset="<?php echo esc_attr( (string) wp_get_attachment_image_srcset( $msport_mobile, 'msport-wide' ) ); ?>" sizes="100vw">
@@ -28,7 +28,8 @@ $msport_mobile = (int) msport_front( 'hero_image_mobile', 0 );
 						array(
 							'class'   => 'hero__img',
 							'loading' => 'eager',
-							'sizes'   => '100vw',
+							// Portrait phones show the shot as a band about twice the screen width (main.css, 9 Hero).
+							'sizes'   => $msport_mobile ? '100vw' : '(max-width: 47.99em) and (orientation: portrait) 212vw, 100vw',
 						)
 					);
 					?>

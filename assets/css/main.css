@@ -244,6 +244,15 @@ p:last-child { margin-bottom: 0; }
 }
 .menu-toggle__bars { position: relative; width: 18px; height: 10px; border-block: 1.5px solid currentColor; }
 
+/* Narrow phones: wordmark, menu and the button must stay on one line; the menu word is kept for screen readers. */
+.wordmark,
+.btn { white-space: nowrap; }
+@media (max-width: 24.99em) {
+	.site-header { gap: var(--s-2); }
+	.menu-toggle { min-width: 44px; justify-content: center; }
+	.menu-toggle [data-menu-label] { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+}
+
 .rail { display: none; }
 
 .is-menu-open .rail {
@@ -401,7 +410,25 @@ p:last-child { margin-bottom: 0; }
 	pointer-events: none;
 }
 
-@media (max-width: 47.99em) {
+/* Portrait phones: a full-bleed cover would crop the landscape shot to the rear panel. Instead the photo becomes a
+   band wide enough for the whole car to fill the screen width, set between the name and the lead; its top and bottom
+   melt into the night (the sides run off the screen, the shot's own edges are dark studio). */
+@media (max-width: 47.99em) and (orientation: portrait) {
+	.hero__media:not(.has-portrait) { overflow: clip; }
+	.hero__media:not(.has-portrait) picture { display: contents; }
+	.hero__media:not(.has-portrait) .hero__img {
+		position: absolute;
+		left: 50%;
+		top: 53%;
+		width: min(212vw, 96svh);
+		max-width: none;
+		height: auto;
+		translate: -50% -50%;
+		-webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 22%, #000 74%, transparent 100%);
+		mask-image: linear-gradient(to bottom, transparent 0%, #000 22%, #000 74%, transparent 100%);
+	}
+}
+@media (max-width: 47.99em) and (orientation: landscape) {
 	.hero__img { object-position: 50% 62%; }
 }
 
@@ -591,6 +618,21 @@ p:last-child { margin-bottom: 0; }
 	}
 }
 @keyframes pulse { from { transform: scale(1); opacity: 0.7; } to { transform: scale(1.7); opacity: 0; } }
+
+/* Phones: the car is a third of the desktop size, so the point is too — a 24 px dot in a 44 px tap area (labels are
+   off here, the panel names the detail). The car takes the full screen width; a studio photo melts into the chapter
+   at the top and bottom (the side edges are the screen edges). */
+@media (max-width: 47.99em) {
+	.design__frame { width: 100vw; margin-inline: calc(50% - 50vw); }
+	.design__frame.is-photo > .design__img {
+		-webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 18%, #000 80%, transparent 100%);
+		mask-image: linear-gradient(to bottom, transparent 0%, #000 18%, #000 80%, transparent 100%);
+	}
+	.hotspot { justify-content: center; min-width: 44px; height: 44px; transform: translate(-50%, -50%); }
+	.hotspot__dot { width: 24px; height: 24px; border-width: 1.5px; }
+	.hotspot__dot::after { inset: 7px; }
+	.hotspot__label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; padding: 0; }
+}
 
 /* Details without JS: a grid of cards under the car. */
 .details {

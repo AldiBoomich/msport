@@ -95,5 +95,12 @@ _Last updated: 2026-11-25_
 - Checks: check.mjs 1440/768/390/360 + reduced motion 0 FAIL (phones 0 WARN); motion.mjs mobile 60 fps, no long tasks;
   scan-theme clean; PHPCS clean.
 
+## All chapters checked on phones (2026-11-25)
+- Shot every chapter at 393x852 and 360x640 (profile scene, V10, drive, spec sheet, heritage, outro, menu).
+- Spec sheet on phones: the five tabs are one sideways strip (edge to edge, right end fades, no scrollbar); the chosen
+  tab is brought to the middle of the strip (tabs.js, page does not move); under 480px the rows stack the label over
+  the value (long values no longer broke mid-figure, e.g. "7,750 / rpm").
+- Checks: check.mjs 1440/768/390/360 + reduced motion 0 FAIL, phones 0 WARN; JS 13.5 KB.
+
 ## Open questions
 - None.

@@ -60,7 +60,6 @@ _Last updated: 2026-11-25_
   pause, an amber ring runs with the recording, the photo lights up while it plays. Fields removed from the admin:
   `power_from/to/unit/mode_off/mode_on/idle/redline/scale_max`, `opt_rpm_curve`, `hero_wordmark` (their old values stay
   in the database, unused). `power_button_label` = "Hear the V10", `power_hint` = the note; lead rewritten.
-  `tools/audio/rpm-curve.py` is no longer used (kept until the user decides).
 - Stage 5 fixes: the header "Hear the V10" hides while the hero shows the same button; hotspot labels on phones hidden
   (the car is too small, they overlapped and ran off the screen; dots stay, the panel names the detail); profile car on
   phones centred and no longer cut at the edges; the left padding of all containers at 1200–1416 px (rail clearance
@@ -73,7 +72,11 @@ _Last updated: 2026-11-25_
 ## Next step
 - Project complete. Possible extras: a Gemini front three-quarter shot; og:image / SEO plugin.
 
+## Cleanup (2026-11-25, user's go-ahead)
+- Deleted 134 orphan files (13 MB) in uploads/2026/11: earlier versions of the four car photos with no media record.
+- Deleted the `sample-*` duplicates in `press-m6/gemini/` (byte-identical to 01 / 02) and `tools/audio/rpm-curve.py`.
+- The user sent three more photos, saved in `press-m6/raw/user/`; the only real M6 among them:
+  `m6-silver-front34-wet-track.jpg` (1395 × 635).
+
 ## Open questions
-- Delete the unused old uploads in uploads/2026/11 (earlier versions of the four car photos, the old engine shots)?
-- Delete the `sample-*` duplicates in `press-m6/gemini/`?
-- Delete `tools/audio/rpm-curve.py` (the rev curve is no longer used)?
+- Where the new M6 photo goes (see the reply in chat).

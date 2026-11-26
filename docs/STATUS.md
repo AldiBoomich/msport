@@ -140,8 +140,13 @@ _Last updated: 2026-11-25_
   - SMG knob: the doubled N in the shift pattern (Gemini edit);
   - steering: the speedometer read 220, 260, 260 -> 220, 240, 260 (hand retouch, `press-m6/retouch-r2.py`);
   - tailpipes: the smeared badge on the boot lid painted out (hand retouch, same script).
-- Still open: `r2-03-engine` (the "BMW M Power" lettering upside down on the left plenum, a malformed M logo, a "V10"
-  badge, gibberish on the warning label). The Gemini daily image limit was reached; resets 2026-11-26 00:06.
+- Engine (2026-11-26): compared with the BMW press photos of the real S85 (`press-m6/final/power-engine*.webp`): the
+  real intake covers are plain, with the M badge on the left and a V10 badge on the right. So the badges stay and the
+  invented "BMW M Power" lettering with stripes (one line upside down) is gone. Gemini made the covers plain on a crop
+  (`gemini/r2-03-engine-covers-gemini.jpg`) but redrew the M badge, so only the lettering bands are taken from it,
+  with the original shading and grain (`press-m6/retouch-engine.py`, recipe `recipe-round2-engine-fix.json`); media
+  #350 rebuilt in place. A full-frame Gemini edit was rejected (carbon covers, blank glowing label). The fine print on
+  the bay labels stays: real cars have it too.
 
 ## Open questions
 - Optional: a short video loop for the hero; og:image / SEO plugin.

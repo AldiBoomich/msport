@@ -182,5 +182,14 @@ _Last updated: 2026-11-26_
 - How to redeploy theme changes: upload the changed theme files with the Plesk File Manager (or WP Toolkit) into
   `/m6.aqua-drop.shop/wp-content/themes/msport/`; make sure files are 644 and folders 755.
 
+## Upwork portfolio materials (2026-11-26)
+- Folder `C:\Users\aaldi\Local Sites\upwork-portfolio\` (outside the theme): `msport/` and `aqua/`, each with `listing.md`
+  (title, role, description under 600 characters, 5 skills, a caption per item, a Situation-Task-Action-Result text block),
+  4:3 slides 2400x1800 (`00-cover.jpg` = thumbnail) and MP4 videos under 10 MB. Upwork's own guide: 1000x750 images,
+  up to 10 MB, 5 skills, short captions; the form showed 600 characters for the description.
+- Built with `_work/shots-msport.mjs`, `shots-extra.mjs` (English admin screens through a one-off mu-plugin, removed),
+  `rec-msport.mjs` (screencast to H.264) and `compose.py` (device frames on the site's own colours, the site's fonts).
+- The GitHub repo `AldiBoomich/msport` is private and its description still mentions the removed Three.js film.
+
 ## Open questions
 - Old unused uploads in uploads/2026/11 stay (the user said not to delete anything on the site).

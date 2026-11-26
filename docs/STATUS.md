@@ -171,9 +171,14 @@ _Last updated: 2026-11-26_
   ACF PRO, uploads, database with URLs replaced serialization-safely. Admin login = the local one.
 - Let's Encrypt certificate (valid to 2027-02-24, auto-renew), HTTP → HTTPS redirect on.
 - Checks on the live site: check.mjs 768/390 0 FAIL; film plays/pauses, phone file used; OG tags and 404 OK.
-- Known: on a cold start the hosting is slow and sometimes answers 500 ("End of script output before headers",
-  mod_fcgid). The main site aqua-drop.shop shows the same cold delay (101 s once), so it is the hosting plan's
-  limits, not the theme.
+- On a cold start the hosting is slow and sometimes answered 500 ("End of script output before headers",
+  mod_fcgid); the main site aqua-drop.shop shows the same cold delay (101 s once), so it is the hosting plan's
+  limits, not the theme. Fixed for visitors with nginx caching (Plesk → Apache & nginx settings: cache 1 hour,
+  stale cache served on 5xx). After editing content, press "Clear cache" there (logged-in users bypass the cache).
+- WP Toolkit created no `.htaccess`: pretty permalinks, wp-json, the sitemap, robots.txt and the theme 404 failed
+  until the standard WordPress `.htaccess` was uploaded to the docroot.
+- PageSpeed Insights (Google, 2026-11-26): mobile 98 / 100 / 100 / 100, desktop 95 / 100 / 100 / 100
+  (performance / accessibility / best practices / SEO).
 - How to redeploy theme changes: upload the changed theme files with the Plesk File Manager (or WP Toolkit) into
   `/m6.aqua-drop.shop/wp-content/themes/msport/`; make sure files are 644 and folders 755.
 

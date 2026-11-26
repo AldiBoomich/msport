@@ -1187,6 +1187,229 @@
             ]
         },
         {
+            "key": "field_msport_tab_film",
+            "label": "Film",
+            "name": "",
+            "aria_label": "",
+            "type": "tab",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placement": "left",
+            "endpoint": 0,
+            "selected": 0
+        },
+        {
+            "key": "field_msport_film_show",
+            "label": "Show chapter",
+            "name": "film_show",
+            "aria_label": "",
+            "type": "true_false",
+            "instructions": "Turn off to hide this chapter (the chapter rail skips it too).",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "33",
+                "class": "",
+                "id": ""
+            },
+            "message": "",
+            "default_value": 1,
+            "ui": 1,
+            "ui_on_text": "Shown",
+            "ui_off_text": "Hidden"
+        },
+        {
+            "key": "field_msport_film_nav",
+            "label": "Name in the chapter rail",
+            "name": "film_nav",
+            "aria_label": "",
+            "type": "text",
+            "instructions": "One or two words.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "33",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "Film",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_msport_film_anchor",
+            "label": "Anchor ID",
+            "name": "film_anchor",
+            "aria_label": "",
+            "type": "text",
+            "instructions": "A link \"#film\" scrolls here. Lowercase letters, numbers and dashes only.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "33",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "film",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_msport_film_title",
+            "label": "Heading",
+            "name": "film_title",
+            "aria_label": "",
+            "type": "textarea",
+            "instructions": "One line per line of the heading (press Enter for a new line). Short: 2–4 words per line.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "rows": 3,
+            "placeholder": "",
+            "new_lines": ""
+        },
+        {
+            "key": "field_msport_film_lead",
+            "label": "Lead",
+            "name": "film_lead",
+            "aria_label": "",
+            "type": "textarea",
+            "instructions": "Optional. One or two sentences next to the heading.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "rows": 3,
+            "placeholder": "",
+            "new_lines": ""
+        },
+        {
+            "key": "field_msport_film_video",
+            "label": "Film, desktop",
+            "name": "film_video",
+            "aria_label": "",
+            "type": "file",
+            "instructions": "A short muted loop (10–20 s), MP4 (H.264), panoramic 20:9, 1920 px wide, under 6 MB. It plays only while on screen. The chapter is skipped while this is empty.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "id",
+            "library": "all",
+            "min_size": "",
+            "max_size": "",
+            "mime_types": "mp4"
+        },
+        {
+            "key": "field_msport_film_video_mobile",
+            "label": "Film, phone",
+            "name": "film_video_mobile",
+            "aria_label": "",
+            "type": "file",
+            "instructions": "Optional. The same loop at 960 px wide for phones.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "id",
+            "library": "all",
+            "min_size": "",
+            "max_size": "",
+            "mime_types": "mp4"
+        },
+        {
+            "key": "field_msport_film_poster",
+            "label": "Poster",
+            "name": "film_poster",
+            "aria_label": "",
+            "type": "image",
+            "instructions": "A still from the film, the same frame (20:9). Shown before the film loads.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "id",
+            "library": "all",
+            "min_width": "",
+            "min_height": "",
+            "min_size": "",
+            "max_width": "",
+            "max_height": "",
+            "max_size": "",
+            "mime_types": "jpg,jpeg,png,webp,avif",
+            "preview_size": "medium"
+        },
+        {
+            "key": "field_msport_film_label",
+            "label": "Film description",
+            "name": "film_label",
+            "aria_label": "",
+            "type": "text",
+            "instructions": "Read by screen readers, for example \"The M6 driving on a motorway at dusk\".",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "Driving film",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_msport_film_caption",
+            "label": "Caption",
+            "name": "film_caption",
+            "aria_label": "",
+            "type": "text",
+            "instructions": "Optional. Small line under the film, for example the credit for the footage.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
             "key": "field_msport_tab_specs",
             "label": "Spec sheet",
             "name": "",
@@ -1824,5 +2047,5 @@
     "active": true,
     "description": "Every chapter of the M6 page (docs/CONTENT-MODEL.md).",
     "show_in_rest": 0,
-    "modified": 1795625294
+    "modified": 1795699543
 }

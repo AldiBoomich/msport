@@ -110,6 +110,16 @@ const front = {
       f.text('caption', 'Caption', 'Short, for example "SMG III lever".'),
     ], { button: 'Add photo', max: 4 }),
 
+    f.tab('film', 'Film'),
+    ...common('film', 'film', 'Film'),
+    title('film'),
+    f.area('film_lead', 'Lead', 'Optional. One or two sentences next to the heading.'),
+    half(f.file('film_video', 'Film, desktop', 'A short muted loop (10–20 s), MP4 (H.264), panoramic 20:9, 1920 px wide, under 6 MB. It plays only while on screen. The chapter is skipped while this is empty.', 'mp4')),
+    half(f.file('film_video_mobile', 'Film, phone', 'Optional. The same loop at 960 px wide for phones.', 'mp4')),
+    half(f.image('film_poster', 'Poster', 'A still from the film, the same frame (20:9). Shown before the film loads.')),
+    half(f.text('film_label', 'Film description', 'Read by screen readers, for example "The M6 driving on a motorway at dusk".', 'Driving film')),
+    f.text('film_caption', 'Caption', 'Optional. Small line under the film, for example the credit for the footage.'),
+
     f.tab('specs', 'Spec sheet'),
     ...common('specs', 'specs', 'Spec sheet'),
     title('specs'),
@@ -172,7 +182,9 @@ const settings = {
     f.file('opt_sound_file', 'V10 recording', 'MP3. If empty, the recording shipped with the theme is used.', 'mp3'),
 
     f.tab('opt_meta', 'Search and 404'),
-    f.area('opt_meta_description', 'Meta description', 'One sentence for search engines.', '', 2),
+    f.area('opt_meta_description', 'Meta description', 'One sentence for search engines and link previews.', '', 2),
+    half(f.text('opt_share_title', 'Page title', 'The title of the M6 page in the browser tab, in search results and in link previews. If empty, the site name is used.')),
+    half(f.image('opt_share_image', 'Link preview image', 'Exactly 1200 × 630 px, JPG. Shown when the page is shared. Fill its alt text in the media library.')),
     f.text('opt_404_title', '404 heading', '', 'You hit the limiter.'),
     f.area('opt_404_text', '404 text', '', 'This page does not exist.', 2),
     f.text('opt_404_button', '404 button', '', 'Back to the M6'),

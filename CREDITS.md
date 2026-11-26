@@ -25,6 +25,12 @@ outside the theme: `C:\Users\aaldi\Local Sites\msport\press-m6\`.
 
 The same list (short form) is in M6 Settings → Developer and credits, shown in the footer.
 
+## Film
+- Driving film (Film chapter, media m6-e63-film-*): four shots from "BMW M6 E63 V10 | 4K" by OK Films (YouTube
+  b8S0aFLR6KI), cut to an 18 s muted loop, letterbox cropped to 20:9, 1920 and 960 px H.264
+  (`C:\Users\aaldi\Local Sites\msport\press-m6\film\`).
+- Link preview image m6-share-1200x630: crop of the Gemini studio shot r2-02-front34-dark.
+
 ## Sound
 - V10 recording: from "Bmw e63 m6 tunnel exhaust sound" (YouTube 1cBZ7SzsyX0), trimmed and cleaned with
   `tools/audio/process-v10.sh`.

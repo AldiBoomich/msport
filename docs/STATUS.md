@@ -1,6 +1,6 @@
 # Status
 
-_Last updated: 2026-11-25_
+_Last updated: 2026-11-26_
 
 ## Where we are
 - Stages 1–4 done. Photos approved, content imported (front page #9 "BMW M6"), motion checked frame by frame:
@@ -148,5 +148,21 @@ _Last updated: 2026-11-25_
   #350 rebuilt in place. A full-frame Gemini edit was rejected (carbon covers, blank glowing label). The fine print on
   the bay labels stays: real cars have it too.
 
+## Film chapter, SEO, screenshot, case (2026-11-26)
+- New chapter "Film" after Drive (`template-parts/sections/film.php`, `assets/js/film.js`, CSS 13b, ACF tab Film,
+  `inc/chapters.php`); nothing on the page was replaced. Footage: OK Films "BMW M6 E63 V10 | 4K" (YouTube), four
+  driving shots cut to an 18 s muted loop, letterbox cropped to 20:9: `press-m6/film/m6-e63-film-1920.mp4` (5.2 MB),
+  `-960.mp4` (1.7 MB, phones via `<source media>`), `-poster.jpg`; media #359–361. Tools in the venv: yt-dlp and
+  imageio-ffmpeg (ffmpeg binary at `.venv/Lib/site-packages/imageio_ffmpeg/binaries/`).
+  Behaviour checked in headless Chrome: plays on screen, pauses off screen, a visitor's pause sticks, reduced motion
+  never autoplays, no-JS shows native controls.
+- `inc/seo.php`: front page title from M6 Settings → Page title ("BMW M6 E63, the V10 coupé"), meta description
+  updated (it still mentioned the removed POWER button), Open Graph + Twitter card with the 1200×630 preview (media
+  #362, from r2-02-front34-dark), JSON-LD WebPage/Car; everything off when an SEO plugin is active. Footer credits got
+  the film line.
+- `screenshot.png` retaken (1200×900). Portfolio case `docs/CASE.md`, shots in `docs/case/`.
+- Checks: check.mjs 1440/768/390 + reduced motion 0 FAIL (1 known WARN: hotspot labels until hover); motion.mjs gpu
+  and nogpu 60 fps in every chapter incl. film; PHPCS 0 errors (1 old naming warning); JS 17 KB (5 KB gzip).
+
 ## Open questions
-- Optional: a short video loop for the hero; og:image / SEO plugin.
+- Old unused uploads in uploads/2026/11 stay (the user said not to delete anything on the site).

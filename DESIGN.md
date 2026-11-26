@@ -161,9 +161,12 @@ grounds), not amber. `::selection` = amber on night.
    engine facts under it.
 5. **Drive** (day): the cockpit fills the screen; the title and text in one row; SMG III and the M wheel as a large
    editorial pair (tall + wide).
-6. **Spec sheet** (night): engine, gearbox, chassis, dimensions in tabs.
-7. **Heritage** (day): M635CSi (1983) to M6 (2005), the pair edge to edge with the years on the photos.
-8. **Outro** (night): a big stepped headline, the developer link, credits.
+6. **Film** (night, added 2026-11-26), Ferrari-like: a panoramic 20:9 driving film edge to edge, a muted loop that
+   loads and plays only on screen, with a pause button; it opens from an inset card like the full-bleed photos.
+   Reduced motion: it waits for the play button; phones get a 4:3 crop and a 960 px file.
+7. **Spec sheet** (night): engine, gearbox, chassis, dimensions in tabs.
+8. **Heritage** (day): M635CSi (1983) to M6 (2005), the pair edge to edge with the years on the photos.
+9. **Outro** (night): a big stepped headline, the developer link, credits.
 
 ## Copy rules
 - Voice: a calm press kit written by an enthusiast. Short sentences, real numbers, sentence case in UI.

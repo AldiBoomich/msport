@@ -7,6 +7,7 @@ import { initNav } from './nav.js';
 import { initHotspots } from './hotspots.js';
 import { initPower } from './power.js';
 import { initTabs } from './tabs.js';
+import { initFilm } from './film.js';
 
 const reduced = window.matchMedia( '(prefers-reduced-motion: reduce)' );
 
@@ -14,6 +15,7 @@ initNav();
 initHotspots( reduced );
 initPower();
 initTabs();
+initFilm( reduced );
 initScenes( reduced );
 
 // The outro heading lines rise once when the chapter comes into view.

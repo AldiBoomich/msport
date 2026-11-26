@@ -19,6 +19,7 @@ function msport_chapter_defaults() {
 		array( 'design', 'design', 'day', __( 'Design', 'msport' ) ),
 		array( 'power', 'power', 'night', __( 'V10', 'msport' ) ),
 		array( 'drive', 'drive', 'day', __( 'Drive', 'msport' ) ),
+		array( 'film', 'film', 'night', __( 'Film', 'msport' ) ),
 		array( 'specs', 'specs', 'night', __( 'Spec sheet', 'msport' ) ),
 		array( 'heritage', 'heritage', 'day', __( 'Heritage', 'msport' ) ),
 		array( 'outro', 'contact', 'night', __( 'Contact', 'msport' ) ),

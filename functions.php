@@ -18,3 +18,4 @@ require MSPORT_DIR . '/inc/assets.php';
 require MSPORT_DIR . '/inc/acf.php';
 require MSPORT_DIR . '/inc/template-tags.php';
 require MSPORT_DIR . '/inc/chapters.php';
+require MSPORT_DIR . '/inc/seo.php';

@@ -317,7 +317,7 @@
             "name": "opt_meta_description",
             "aria_label": "",
             "type": "textarea",
-            "instructions": "One sentence for search engines.",
+            "instructions": "One sentence for search engines and link previews.",
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
@@ -330,6 +330,51 @@
             "rows": 2,
             "placeholder": "",
             "new_lines": ""
+        },
+        {
+            "key": "field_msport_opt_share_title",
+            "label": "Page title",
+            "name": "opt_share_title",
+            "aria_label": "",
+            "type": "text",
+            "instructions": "The title of the M6 page in the browser tab, in search results and in link previews. If empty, the site name is used.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_msport_opt_share_image",
+            "label": "Link preview image",
+            "name": "opt_share_image",
+            "aria_label": "",
+            "type": "image",
+            "instructions": "Exactly 1200 × 630 px, JPG. Shown when the page is shared. Fill its alt text in the media library.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "id",
+            "library": "all",
+            "min_width": "",
+            "min_height": "",
+            "min_size": "",
+            "max_width": "",
+            "max_height": "",
+            "max_size": "",
+            "mime_types": "jpg,jpeg,png,webp,avif",
+            "preview_size": "medium"
         },
         {
             "key": "field_msport_opt_404_title",
@@ -410,5 +455,5 @@
     "active": true,
     "description": "Site-wide texts and files.",
     "show_in_rest": 0,
-    "modified": 1795625294
+    "modified": 1795699543
 }

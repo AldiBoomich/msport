@@ -975,6 +975,59 @@ p:last-child { margin-bottom: 0; }
 	.collage__item:nth-child(even) { margin-bottom: var(--s-10); }
 }
 
+/* 13b Film ---------------------------------------------------------------------------------------------------- */
+/* Ferrari-like: a panoramic driving film edge to edge (the footage is 20:9); the band opens from an inset card like
+   the full-bleed photos (--rv). Phones get a taller crop so the car is not a sliver. */
+.film { padding-block: var(--s-10) var(--s-5); } /* the spec sheet below brings its own top space */
+.film__head { display: grid; gap: var(--s-5); margin-bottom: var(--s-8); }
+.film__lead { margin: 0; color: var(--c-muted-night); }
+@media (min-width: 62em) {
+	.film__head { grid-template-columns: 7fr 5fr; gap: var(--s-8); align-items: end; }
+}
+.film__band { --rv: 1; margin: 0; }
+.js .film__band { --rv: 0; }
+.film__frame {
+	position: relative;
+	overflow: hidden;
+	aspect-ratio: 20 / 9;
+	background: var(--c-night-2);
+	clip-path: inset(calc((1 - var(--rv)) * 4vw) calc((1 - var(--rv)) * 5vw) round calc((1 - var(--rv)) * 24px));
+}
+@media (max-width: 47.99em) { .film__frame { aspect-ratio: 4 / 3; } }
+.film__video {
+	display: block;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	transform: scale(calc(1.08 - var(--rv) * 0.08));
+}
+.film__toggle {
+	position: absolute;
+	right: var(--gutter);
+	bottom: var(--s-5);
+	z-index: 1;
+	display: grid;
+	place-items: center;
+	width: 48px;
+	height: 48px;
+	padding: 0;
+	border: 1px solid rgb(240 240 238 / 0.6);
+	border-radius: 50%;
+	background: rgb(13 14 16 / 0.32);
+	color: var(--c-ink-inverse);
+	cursor: pointer;
+	transition: background-color var(--dur-hover) ease, transform var(--dur-press) var(--ease-out);
+}
+.film__icon { width: 20px; height: 20px; fill: currentColor; }
+.film__icon--pause,
+.film__band.is-playing .film__icon--play { display: none; }
+.film__band.is-playing .film__icon--pause { display: block; }
+.film__toggle:active { transform: scale(0.96); }
+@media (hover: hover) and (pointer: fine) {
+	.film__toggle:hover { background: rgb(13 14 16 / 0.6); }
+}
+.film__caption { margin-top: var(--s-4); font-size: var(--fs-small); color: var(--c-muted-night); }
+
 /* 14 Spec sheet ----------------------------------------------------------------------------------------------- */
 .specs { padding-block: var(--s-10); }
 .tabs { margin-top: var(--s-7); }
@@ -1183,5 +1236,6 @@ body:not(.home) main { max-width: calc(var(--measure) + 2 * var(--gutter)); marg
 	.profile { --p: 1 !important; --in: 1 !important; }
 	.collage__item { transform: none; }
 	.is-zoomed .design__frame { transform: none; }
-	.bleed { --rv: 1 !important; }
+	.bleed,
+	.film__band { --rv: 1 !important; }
 }

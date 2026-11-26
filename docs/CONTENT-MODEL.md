@@ -15,6 +15,7 @@ the chapter rail; default = prefix).
 | Design `design_` | `title` (textarea), `lead` (textarea), `image` (image: 3/4 cut-out), `hotspots` (repeater: `x` and `y` in % of the image, `label` (short, shown on hover), `title`, `text` (textarea), `image` (detail photo, 3:2)) |
 | V10 `power_` | `title` (textarea), `lead` (textarea), `image` (engine photo, the sound button sits on it), `specs` (repeater: `label`, `value`, `unit`), `button_label` (text, "Hear the V10"), `hint` (text, the note under the label) |
 | Drive `drive_` | `title` (textarea), `text` (textarea), `photos` (repeater: `image`, `caption`) — 3 or 4 rows |
+| Film `film_` | `title` (textarea), `lead` (textarea, optional), `video` (file: MP4 H.264, 20:9, 1920 px, muted loop; the chapter is skipped while empty), `video_mobile` (file: the same at 960 px, optional), `poster` (image: a still, 20:9), `label` (text, read by screen readers), `caption` (text, e.g. the footage credit) |
 | Spec sheet `specs_` | `title` (textarea), `tabs` (repeater: `label`, `image`, `rows` (repeater: `label`, `value`)) |
 | Heritage `heritage_` | `title` (textarea), `text` (textarea), `then_image`, `then_caption`, `now_image`, `now_caption` |
 | Outro `outro_` | `title` (textarea, one line per stepped line), `text` (textarea), `image` (image: closing studio shot, 16:9, optional), `cta_label` (text; the link goes to the developer URL from M6 Settings) |
@@ -28,7 +29,9 @@ the chapter rail; default = prefix).
 | `opt_dev_name`, `opt_dev_url` | developer credit and the outro link |
 | `opt_sound_file` | V10 recording (file; falls back to `assets/audio/m6-v10.mp3`) |
 | `opt_credits` | textarea, photo and sound credits shown in the footer dialog |
-| `opt_meta_description` | meta description |
+| `opt_meta_description` | meta description, also the link preview description |
+| `opt_share_title` | the front page title (browser tab, search, link previews) |
+| `opt_share_image` | link preview image, 1200 × 630 (Open Graph / Twitter card; `inc/seo.php`, off when an SEO plugin is active) |
 | `opt_404_title`, `opt_404_text`, `opt_404_button` | 404 page |
 
 ## Image sizes

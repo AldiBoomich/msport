@@ -164,5 +164,18 @@ _Last updated: 2026-11-26_
 - Checks: check.mjs 1440/768/390 + reduced motion 0 FAIL (1 known WARN: hotspot labels until hover); motion.mjs gpu
   and nogpu 60 fps in every chapter incl. film; PHPCS 0 errors (1 old naming warning); JS 17 KB (5 KB gzip).
 
+## Live site (2026-11-26)
+- https://m6.aqua-drop.shop/ — subdomain of aqua-drop.shop on ps.kz shared hosting (Plesk, srv-plesk09.ps.kz,
+  CloudLinux, PHP 8.4 FastCGI, docroot `/m6.aqua-drop.shop`). The main site aqua-drop.shop was not touched.
+- WordPress installed with WP Toolkit (table prefix `ZyDEJ_`), then the local site moved in: theme (git archive),
+  ACF PRO, uploads, database with URLs replaced serialization-safely. Admin login = the local one.
+- Let's Encrypt certificate (valid to 2027-02-24, auto-renew), HTTP → HTTPS redirect on.
+- Checks on the live site: check.mjs 768/390 0 FAIL; film plays/pauses, phone file used; OG tags and 404 OK.
+- Known: on a cold start the hosting is slow and sometimes answers 500 ("End of script output before headers",
+  mod_fcgid). The main site aqua-drop.shop shows the same cold delay (101 s once), so it is the hosting plan's
+  limits, not the theme.
+- How to redeploy theme changes: upload the changed theme files with the Plesk File Manager (or WP Toolkit) into
+  `/m6.aqua-drop.shop/wp-content/themes/msport/`; make sure files are 644 and folders 755.
+
 ## Open questions
 - Old unused uploads in uploads/2026/11 stay (the user said not to delete anything on the site).

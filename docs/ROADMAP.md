@@ -51,4 +51,5 @@ Plan approved 2026-11-24. References: Porsche 911 Turbo S, Ferrari 812 GTS, Koen
 - [x] Engine shot: invented lettering removed (the real S85 covers are plain)
 - [x] Page title, meta description, Open Graph / Twitter card with a 1200×630 preview, JSON-LD (`inc/seo.php`)
 - [x] Theme screenshot.png refreshed (transparent header, ring button)
+- [x] Live at https://m6.aqua-drop.shop (ps.kz Plesk, Let's Encrypt)
 - [x] Portfolio case `docs/CASE.md` with shots in `docs/case/`
